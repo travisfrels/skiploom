@@ -10,6 +10,10 @@ export function setError(error: string | null): void {
   store.dispatch(slice.setError(error));
 }
 
+export function setSuccess(success: string | null): void {
+  store.dispatch(slice.setSuccess(success));
+}
+
 export function setRecipes(recipes: Recipe[]): void {
   store.dispatch(slice.setRecipes(recipes));
 }

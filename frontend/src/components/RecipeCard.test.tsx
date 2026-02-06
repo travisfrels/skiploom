@@ -9,12 +9,12 @@ const mockRecipe: Recipe = {
   title: 'Test Recipe',
   description: 'A delicious test recipe',
   ingredients: [
-    { id: 'i1', amount: 1, unit: 'cup', name: 'flour' },
-    { id: 'i2', amount: 2, unit: 'tsp', name: 'sugar' },
+    { orderIndex: 1, amount: 1, unit: 'cup', name: 'flour' },
+    { orderIndex: 2, amount: 2, unit: 'tsp', name: 'sugar' },
   ],
   steps: [
-    { id: 's1', orderIndex: 1, instruction: 'Mix' },
-    { id: 's2', orderIndex: 2, instruction: 'Bake' },
+    { orderIndex: 1, instruction: 'Mix' },
+    { orderIndex: 2, instruction: 'Bake' },
   ],
 };
 

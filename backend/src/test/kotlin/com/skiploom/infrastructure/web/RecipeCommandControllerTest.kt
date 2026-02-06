@@ -8,8 +8,11 @@ import com.skiploom.application.dtos.IngredientDto
 import com.skiploom.application.dtos.RecipeDto
 import com.skiploom.application.dtos.StepDto
 import com.skiploom.application.exceptions.RecipeNotFoundException
+import com.skiploom.domain.entities.Recipe
 import io.mockk.every
 import io.mockk.mockk
+import org.hamcrest.Matchers.hasItem
+import org.hamcrest.Matchers.hasSize
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -75,6 +78,22 @@ class RecipeCommandControllerTest {
             .andExpect(status().isOk)
             .andExpect(jsonPath("$.recipe.id").value("generated-id"))
             .andExpect(jsonPath("$.message").value(CreateRecipe.Response.SUCCESS_MESSAGE))
+    }
+
+    @Test
+    fun `POST create_recipe returns 400 with field errors for invalid recipe`() {
+        val command = CreateRecipe.Command(recipeDto(title = ""))
+
+        mockMvc.perform(
+            post("/api/commands/create_recipe")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(command))
+        )
+            .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.errors").isArray)
+            .andExpect(jsonPath("$.errors", hasSize<Any>(1)))
+            .andExpect(jsonPath("$.errors[*].field", hasItem("title")))
+            .andExpect(jsonPath("$.errors[*].message", hasItem(Recipe.TITLE_REQUIRED_MESSAGE)))
     }
 
     @Test

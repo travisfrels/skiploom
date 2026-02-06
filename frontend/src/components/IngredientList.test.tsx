@@ -4,9 +4,9 @@ import IngredientList from './IngredientList';
 import type { Ingredient } from '../types';
 
 const mockIngredients: Ingredient[] = [
-  { id: '1', amount: 2, unit: 'cups', name: 'flour' },
-  { id: '2', amount: 1, unit: 'tsp', name: 'salt' },
-  { id: '3', amount: 0.5, unit: 'cup', name: 'sugar' },
+  { orderIndex: 1, amount: 2, unit: 'cups', name: 'flour' },
+  { orderIndex: 2, amount: 1, unit: 'tsp', name: 'salt' },
+  { orderIndex: 3, amount: 0.5, unit: 'cup', name: 'sugar' },
 ];
 
 describe('IngredientList', () => {

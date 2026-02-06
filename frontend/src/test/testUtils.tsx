@@ -12,6 +12,7 @@ interface RecipeState {
   currentRecipeId: string | null;
   loading: boolean;
   error: string | null;
+  success: string | null;
   validationErrors: ValidationError[];
   submitting: boolean;
 }
@@ -29,6 +30,7 @@ function resetStore() {
   store.dispatch(slice.setCurrentRecipeId(null));
   store.dispatch(slice.setLoading(false));
   store.dispatch(slice.setError(null));
+  store.dispatch(slice.setSuccess(null));
   store.dispatch(slice.setValidationErrors([]));
   store.dispatch(slice.setSubmitting(false));
 }
@@ -60,6 +62,9 @@ export function renderWithProviders(
     }
     if (state.error !== undefined) {
       store.dispatch(slice.setError(state.error));
+    }
+    if (state.success !== undefined) {
+      store.dispatch(slice.setSuccess(state.success));
     }
     if (state.validationErrors) {
       store.dispatch(slice.setValidationErrors(state.validationErrors));

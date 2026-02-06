@@ -1,12 +1,11 @@
 export interface Ingredient {
-  id: string;
+  orderIndex: number;
   amount: number;
   unit: string;
   name: string;
 }
 
 export interface Step {
-  id: string;
   orderIndex: number;
   instruction: string;
 }

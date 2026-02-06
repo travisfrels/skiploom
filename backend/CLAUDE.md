@@ -1,31 +1,27 @@
 # Backend (Kotlin + Spring Boot)
 
-- Location: `/backend`
-- Pattern: CQRS + Clean Architecture
-- Structure:
-  - `/src/main/kotlin/com/skiploom/application`: Commands, queries, DTOs, and application exceptions
-  - `/src/main/kotlin/com/skiploom/domain`: Entities, repository interfaces, validators, and domain exceptions
-  - `/src/main/kotlin/com/skiploom/infrastructure`: Controllers and repository implementations
+REST API implementing CQRS with Clean Architecture.
+
+## Structure
+
+- `application/`: Commands, queries, DTOs, validators, and application exceptions
+- `domain/`: Entities and domain operation interfaces
+- `infrastructure/`: Controllers, repository implementations, and configuration
 
 ## Coding Standards
-
-### Kotlin/Spring
 
 - Use data classes for DTOs and entities
 - Validate DTOs at the controller boundary using Jakarta Bean Validation annotations (`@Valid`, `@NotBlank`, `@Size`, etc.)
 - Use `const val` in entity companion objects so constants can be referenced in annotation attributes
 - Handle exceptions in application layer
 - Use dependency injection via constructor
-
-## API Conventions
-
-- REST endpoints under `/api`
-- Query endpoints: `GET`
-- Command endpoints: `POST`
-- Validation errors: 400 Bad Request with RFC 7807 ProblemDetail
-- Not found: 404
+- REST endpoints under `/api`; queries use `GET`, commands use `POST`
+- Validation errors: 400 Bad Request with RFC 7807 ProblemDetail; not found: 404
 
 ## Testing
 
-- Backend: `./gradlew test` in `/backend`
+- `./gradlew test` in `/backend`
 - All tests must pass before merging
+- Unit tests run without Spring context unless noted otherwise (e.g., controller tests use `@WebMvcTest`)
+- Use case tests verify orchestration (delegation, preconditions, response shape), not dependency behaviors
+- Mock variables named after the dependency they replace (e.g., `recipeReader`, `createRecipe`)

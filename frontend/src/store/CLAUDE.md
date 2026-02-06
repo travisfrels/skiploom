@@ -4,32 +4,23 @@ Redux Toolkit state management.
 
 ## Contents
 
-- **index.ts**: Store configuration, RootState and AppDispatch types
+- **index.ts**: Store configuration, `RootState` and `AppDispatch` types
 - **hooks.ts**: Typed `useAppSelector` and `useAppDispatch` hooks
-- **recipeSlice.ts**: Recipe state and reducers
+- **recipeSlice.ts**: Recipe state with reducers for loading, errors, recipe CRUD, selection, and form submission
 - **actions.ts**: Dispatch wrappers for simple action calls
 
-## State Shape
+## Conventions
 
-- **recipes**: `Record<string, Recipe>` Map of recipes indexed by ID
-- **recipesLoaded**: `boolean` Have the recipes been loaded from the backend?
-- **currentRecipeId**: `string | null` ID of the currently selected recipe
-- **loading**: `boolean` Is an async operation in progress?
-- **error**: `string | null` Error message from failed operations
-- **validationErrors**: `ValidationError[]` Validation errors from backend commands
-- **submitting**: `boolean` Is a form submission in progress?
+- **recipes**: `Record<string, Recipe>` — recipes indexed by ID
+- **recipesLoaded**: `boolean` — whether recipes have been loaded
+- **currentRecipeId**: `string | null` — currently selected recipe
+- **loading**: `boolean` — async operation in progress
+- **error**: `string | null` — operation-level error message
+- **success**: `string | null` — success message (auto-dismisses after 4 seconds in Layout)
+- **validationErrors**: `ValidationError[]` — field-level validation errors
+- **submitting**: `boolean` — form submission in progress
 
-## Reducers
-
-- `setLoading`, `setError`: Async operation state
-- `setRecipes`, `setRecipesLoaded`: Recipe list state
-- `setCurrentRecipeId`, `clearCurrentRecipeId`: Selected recipe ID
-- `addRecipe`, `updateRecipe`, `removeRecipe`: Mutate recipes map
-- `setSubmitting`, `setValidationErrors`, `clearValidationErrors`: Form state
-
-## Actions
-
-Actions wrap dispatch calls with simple methods:
+## Usage
 
 ```typescript
 import * as act from '../store/actions';

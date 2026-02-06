@@ -1,4 +1,4 @@
-import * as api from '../api/recipeApi';
+import * as api from '../api';
 import * as act from '../store/actions';
 
 export async function loadRecipeById(id: string): Promise<void> {

@@ -111,8 +111,8 @@ describe('RecipeForm', () => {
         id: 'test-1',
         title: 'Test Recipe',
         description: 'A test description',
-        ingredients: [{ id: 'i1', amount: 2, unit: 'cups', name: 'flour' }],
-        steps: [{ id: 's1', orderIndex: 1, instruction: 'Mix ingredients' }],
+        ingredients: [{ orderIndex: 1, amount: 2, unit: 'cups', name: 'flour' }],
+        steps: [{ orderIndex: 1, instruction: 'Mix ingredients' }],
       };
       renderWithProviders(
         <Routes>

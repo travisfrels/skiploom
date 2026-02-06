@@ -10,15 +10,15 @@ const mockRecipes: Record<string, Recipe> = {
     id: '1',
     title: "Grandma's Chocolate Chip Cookies",
     description: 'The classic family recipe passed down for generations.',
-    ingredients: [{ id: 'i1', amount: 1, unit: 'cup', name: 'flour' }],
-    steps: [{ id: 's1', orderIndex: 1, instruction: 'Mix' }],
+    ingredients: [{ orderIndex: 1, amount: 1, unit: 'cup', name: 'flour' }],
+    steps: [{ orderIndex: 1, instruction: 'Mix' }],
   },
   '2': {
     id: '2',
     title: "Mom's Chicken Noodle Soup",
     description: 'The perfect comfort food for cold days.',
-    ingredients: [{ id: 'i2', amount: 2, unit: 'cups', name: 'broth' }],
-    steps: [{ id: 's2', orderIndex: 1, instruction: 'Boil' }],
+    ingredients: [{ orderIndex: 1, amount: 2, unit: 'cups', name: 'broth' }],
+    steps: [{ orderIndex: 1, instruction: 'Boil' }],
   },
 };
 

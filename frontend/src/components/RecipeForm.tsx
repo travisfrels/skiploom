@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useAppSelector } from '../store/hooks';
 import * as ops from '../operations';
 import type { Ingredient, Step } from '../types';
+import BackLink from './BackLink';
+import Button from './Button';
+import ButtonLink from './ButtonLink';
+import Card from './Card';
 
 interface RecipeFormProps {
   mode: 'new' | 'edit';
-}
-
-function generateTempId() {
-  return crypto.randomUUID();
 }
 
 function RecipeForm({ mode }: RecipeFormProps) {
@@ -27,16 +27,16 @@ function RecipeForm({ mode }: RecipeFormProps) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [ingredients, setIngredients] = useState<Ingredient[]>([
-    { id: generateTempId(), amount: 1, unit: '', name: '' }
+    { orderIndex: 1, amount: 1, unit: '', name: '' }
   ]);
   const [steps, setSteps] = useState<Step[]>([
-    { id: generateTempId(), orderIndex: 1, instruction: '' },
+    { orderIndex: 1, instruction: '' },
   ]);
 
   const navigate = useNavigate();
 
   const getFieldError = (field: string): string | undefined => {
-    return validationErrors.find(e => e.field === field || e.field.startsWith(field + '['))?.message;
+    return validationErrors.find(e => e.field === field)?.message;
   };
 
   useEffect(() => {
@@ -57,58 +57,63 @@ function RecipeForm({ mode }: RecipeFormProps) {
   const addIngredient = () => {
     setIngredients([
       ...ingredients,
-      { id: generateTempId(), amount: 1, unit: '', name: '' },
+      { orderIndex: ingredients.length + 1, amount: 1, unit: '', name: '' },
     ]);
   };
 
-  const removeIngredient = (ingredientId: string) => {
+  const removeIngredient = (orderIndex: number) => {
     if (ingredients.length > 1) {
-      setIngredients(ingredients.filter((i) => i.id !== ingredientId));
+      setIngredients(
+        ingredients
+          .filter((i) => i.orderIndex !== orderIndex)
+          .map((i, index) => ({ ...i, orderIndex: index + 1 }))
+      );
     }
   };
 
   const updateIngredient = (
-    ingredientId: string,
+    orderIndex: number,
     field: keyof Ingredient,
     value: string | number
   ) => {
     setIngredients(
-      ingredients.map((i) => (i.id === ingredientId ? { ...i, [field]: value } : i))
+      ingredients.map((i) => (i.orderIndex === orderIndex ? { ...i, [field]: value } : i))
     );
   };
 
   const addStep = () => {
-    setSteps([...steps, { id: generateTempId(), orderIndex: steps.length + 1, instruction: '' }]);
+    setSteps([...steps, { orderIndex: steps.length + 1, instruction: '' }]);
   };
 
-  const removeStep = (stepId: string) => {
+  const removeStep = (orderIndex: number) => {
     if (steps.length > 1) {
-      setSteps(steps.filter((s) => s.id !== stepId));
+      setSteps(
+        steps
+          .filter((s) => s.orderIndex !== orderIndex)
+          .map((s, index) => ({ ...s, orderIndex: index + 1 }))
+      );
     }
   };
 
-  const updateStep = (stepId: string, instruction: string) => {
+  const updateStep = (orderIndex: number, instruction: string) => {
     setSteps(
-      steps.map((s) => (s.id === stepId ? { ...s, instruction } : s))
+      steps.map((s) => (s.orderIndex === orderIndex ? { ...s, instruction } : s))
     );
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    const validIngredients = ingredients
-      .filter((i) => i.name.trim())
-      .map((i) => ({
-        id: i.id,
+    const submittedIngredients = ingredients
+      .map((i, index) => ({
+        orderIndex: index + 1,
         amount: i.amount,
         unit: i.unit.trim(),
         name: i.name.trim(),
       }));
 
-    const validSteps = steps
-      .filter((s) => s.instruction.trim())
+    const submittedSteps = steps
       .map((s, index) => ({
-        id: s.id,
         orderIndex: index + 1,
         instruction: s.instruction.trim(),
       }));
@@ -117,8 +122,8 @@ function RecipeForm({ mode }: RecipeFormProps) {
       id: id || '',
       title: title.trim(),
       description: description.trim() || undefined,
-      ingredients: validIngredients,
-      steps: validSteps,
+      ingredients: submittedIngredients,
+      steps: submittedSteps,
     };
 
     if (mode === 'edit') {
@@ -133,32 +138,14 @@ function RecipeForm({ mode }: RecipeFormProps) {
 
   return (
     <div>
-      <Link
-        to="/recipes"
-        className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-6"
-      >
-        <svg
-          className="w-4 h-4 mr-2"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M15 19l-7-7 7-7"
-          />
-        </svg>
-        Back to Recipes
-      </Link>
+      <BackLink to="/recipes">Back to Recipes</BackLink>
 
       <h2 className="text-2xl font-semibold text-slate-800 mb-6">
         {mode === 'edit' ? 'Edit Recipe' : 'New Recipe'}
       </h2>
 
       <form onSubmit={handleSubmit} className="space-y-8">
-        <div className="bg-white rounded-lg shadow p-6 space-y-4">
+        <Card className="space-y-4">
           <div>
             <label
               htmlFor="title"
@@ -195,9 +182,9 @@ function RecipeForm({ mode }: RecipeFormProps) {
               placeholder="A brief description of the recipe"
             />
           </div>
-        </div>
+        </Card>
 
-        <div className="bg-white rounded-lg shadow p-6">
+        <Card>
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-semibold text-slate-800">
               Ingredients *
@@ -216,67 +203,78 @@ function RecipeForm({ mode }: RecipeFormProps) {
           )}
 
           <div className="space-y-3">
-            {ingredients.map((ingredient) => (
-              <div key={ingredient.id} className="flex gap-3 items-start">
-                <input
-                  type="number"
-                  value={ingredient.amount}
-                  onChange={(e) =>
-                    updateIngredient(
-                      ingredient.id,
-                      'amount',
-                      parseFloat(e.target.value) || 0
-                    )
-                  }
-                  className="w-20 px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Amt"
-                  min="0"
-                  step="0.25"
-                />
-                <input
-                  type="text"
-                  value={ingredient.unit}
-                  onChange={(e) =>
-                    updateIngredient(ingredient.id, 'unit', e.target.value)
-                  }
-                  className="w-24 px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Unit"
-                />
-                <input
-                  type="text"
-                  value={ingredient.name}
-                  onChange={(e) =>
-                    updateIngredient(ingredient.id, 'name', e.target.value)
-                  }
-                  className="flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Ingredient name"
-                />
-                <button
-                  type="button"
-                  onClick={() => removeIngredient(ingredient.id)}
-                  className="p-2 text-slate-400 hover:text-red-600"
-                  disabled={ingredients.length === 1}
-                >
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+            {ingredients.map((ingredient, index) => (
+              <div key={ingredient.orderIndex}>
+                <div className="flex gap-3 items-start">
+                  <input
+                    type="number"
+                    value={ingredient.amount}
+                    onChange={(e) =>
+                      updateIngredient(
+                        ingredient.orderIndex,
+                        'amount',
+                        parseFloat(e.target.value) || 0
+                      )
+                    }
+                    className={`w-20 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${getFieldError(`ingredients[${index}].amount`) ? 'border-red-500' : 'border-slate-300'}`}
+                    placeholder="Amt"
+                    min="0"
+                    step="0.25"
+                  />
+                  <input
+                    type="text"
+                    value={ingredient.unit}
+                    onChange={(e) =>
+                      updateIngredient(ingredient.orderIndex, 'unit', e.target.value)
+                    }
+                    className={`w-24 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${getFieldError(`ingredients[${index}].unit`) ? 'border-red-500' : 'border-slate-300'}`}
+                    placeholder="Unit"
+                  />
+                  <input
+                    type="text"
+                    value={ingredient.name}
+                    onChange={(e) =>
+                      updateIngredient(ingredient.orderIndex, 'name', e.target.value)
+                    }
+                    className={`flex-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${getFieldError(`ingredients[${index}].name`) ? 'border-red-500' : 'border-slate-300'}`}
+                    placeholder="Ingredient name"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeIngredient(ingredient.orderIndex)}
+                    className="p-2 text-slate-400 hover:text-red-600"
+                    disabled={ingredients.length === 1}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                {getFieldError(`ingredients[${index}].amount`) && (
+                  <p className="mt-1 text-sm text-red-600">{getFieldError(`ingredients[${index}].amount`)}</p>
+                )}
+                {getFieldError(`ingredients[${index}].unit`) && (
+                  <p className="mt-1 text-sm text-red-600">{getFieldError(`ingredients[${index}].unit`)}</p>
+                )}
+                {getFieldError(`ingredients[${index}].name`) && (
+                  <p className="mt-1 text-sm text-red-600">{getFieldError(`ingredients[${index}].name`)}</p>
+                )}
               </div>
             ))}
           </div>
-        </div>
+        </Card>
 
-        <div className="bg-white rounded-lg shadow p-6">
+        <Card>
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-semibold text-slate-800">
               Instructions *
@@ -296,56 +294,58 @@ function RecipeForm({ mode }: RecipeFormProps) {
 
           <div className="space-y-3">
             {steps.map((step, index) => (
-              <div key={step.id} className="flex gap-3 items-start">
-                <span className="flex-shrink-0 w-8 h-8 bg-slate-800 text-white rounded-full flex items-center justify-center font-medium text-sm">
-                  {index + 1}
-                </span>
-                <textarea
-                  value={step.instruction}
-                  onChange={(e) => updateStep(step.id, e.target.value)}
-                  rows={2}
-                  className="flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Describe this step"
-                />
-                <button
-                  type="button"
-                  onClick={() => removeStep(step.id)}
-                  className="p-2 text-slate-400 hover:text-red-600"
-                  disabled={steps.length === 1}
-                >
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+              <div key={step.orderIndex}>
+                <div className="flex gap-3 items-start">
+                  <span className="flex-shrink-0 w-8 h-8 bg-slate-800 text-white rounded-full flex items-center justify-center font-medium text-sm">
+                    {step.orderIndex}
+                  </span>
+                  <textarea
+                    value={step.instruction}
+                    onChange={(e) => updateStep(step.orderIndex, e.target.value)}
+                    rows={2}
+                    className={`flex-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${getFieldError(`steps[${index}].instruction`) ? 'border-red-500' : 'border-slate-300'}`}
+                    placeholder="Describe this step"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeStep(step.orderIndex)}
+                    className="p-2 text-slate-400 hover:text-red-600"
+                    disabled={steps.length === 1}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                {getFieldError(`steps[${index}].instruction`) && (
+                  <p className="mt-1 text-sm text-red-600">{getFieldError(`steps[${index}].instruction`)}</p>
+                )}
               </div>
             ))}
           </div>
-        </div>
+        </Card>
 
         <div className="flex gap-4">
-          <button
+          <Button
             type="submit"
+            variant="primary"
             disabled={submitting}
-            className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-6 py-2 rounded-lg font-medium transition-colors"
           >
             {submitting ? 'Saving...' : (mode === 'edit' ? 'Save Changes' : 'Create Recipe')}
-          </button>
-          <Link
-            to="/recipes"
-            className="bg-slate-200 hover:bg-slate-300 text-slate-800 px-6 py-2 rounded-lg font-medium transition-colors"
-          >
+          </Button>
+          <ButtonLink variant="secondary" to="/recipes">
             Cancel
-          </Link>
+          </ButtonLink>
         </div>
       </form>
     </div>

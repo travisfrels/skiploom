@@ -4,9 +4,9 @@ import StepList from './StepList';
 import type { Step } from '../types';
 
 const mockSteps: Step[] = [
-  { id: '1', orderIndex: 1, instruction: 'Preheat oven to 350°F' },
-  { id: '2', orderIndex: 2, instruction: 'Mix dry ingredients' },
-  { id: '3', orderIndex: 3, instruction: 'Bake for 30 minutes' },
+  { orderIndex: 1, instruction: 'Preheat oven to 350°F' },
+  { orderIndex: 2, instruction: 'Mix dry ingredients' },
+  { orderIndex: 3, instruction: 'Bake for 30 minutes' },
 ];
 
 describe('StepList', () => {
@@ -31,9 +31,9 @@ describe('StepList', () => {
 
   it('renders steps in order by orderIndex', () => {
     const unorderedSteps: Step[] = [
-      { id: '3', orderIndex: 3, instruction: 'Third step' },
-      { id: '1', orderIndex: 1, instruction: 'First step' },
-      { id: '2', orderIndex: 2, instruction: 'Second step' },
+      { orderIndex: 3, instruction: 'Third step' },
+      { orderIndex: 1, instruction: 'First step' },
+      { orderIndex: 2, instruction: 'Second step' },
     ];
     render(<StepList steps={unorderedSteps} />);
 

@@ -2,6 +2,9 @@ import { useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../store/hooks';
 import * as ops from '../operations';
+import BackLink from './BackLink';
+import Button from './Button';
+import ButtonLink from './ButtonLink';
 import IngredientList from './IngredientList';
 import StepList from './StepList';
 
@@ -12,7 +15,6 @@ function RecipeDetail() {
     ? state.recipes.recipes[state.recipes.currentRecipeId]
     : null
   );
-
   useEffect(() => {
     if (id) { ops.setCurrentRecipeId(id); }
     return () => { ops.clearCurrentRecipeId(); };
@@ -46,25 +48,7 @@ function RecipeDetail() {
 
   return (
     <div>
-      <Link
-        to="/recipes"
-        className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-6"
-      >
-        <svg
-          className="w-4 h-4 mr-2"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M15 19l-7-7 7-7"
-          />
-        </svg>
-        Back to Recipes
-      </Link>
+      <BackLink to="/recipes">Back to Recipes</BackLink>
 
       <div className="mb-8">
         <div className="flex justify-between items-start">
@@ -77,18 +61,12 @@ function RecipeDetail() {
             )}
           </div>
           <div className="flex gap-2">
-            <Link
-              to={`/recipes/${id}/edit`}
-              className="bg-slate-200 hover:bg-slate-300 text-slate-800 px-4 py-2 rounded-lg font-medium transition-colors"
-            >
+            <ButtonLink variant="secondary" to={`/recipes/${id}/edit`}>
               Edit
-            </Link>
-            <button
-              onClick={handleDelete}
-              className="bg-red-100 hover:bg-red-200 text-red-700 px-4 py-2 rounded-lg font-medium transition-colors"
-            >
+            </ButtonLink>
+            <Button variant="danger" onClick={handleDelete}>
               Delete
-            </button>
+            </Button>
           </div>
         </div>
       </div>

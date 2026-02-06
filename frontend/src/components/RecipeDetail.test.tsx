@@ -10,12 +10,12 @@ const testRecipe: Recipe = {
   title: "Grandma's Chocolate Chip Cookies",
   description: 'The classic family recipe passed down for generations.',
   ingredients: [
-    { id: '1-1', amount: 2.25, unit: 'cups', name: 'all-purpose flour' },
-    { id: '1-2', amount: 1, unit: 'tsp', name: 'baking soda' },
+    { orderIndex: 1, amount: 2.25, unit: 'cups', name: 'all-purpose flour' },
+    { orderIndex: 2, amount: 1, unit: 'tsp', name: 'baking soda' },
   ],
   steps: [
-    { id: '1-s1', orderIndex: 1, instruction: 'Preheat oven to 375°F.' },
-    { id: '1-s2', orderIndex: 2, instruction: 'Mix dry ingredients.' },
+    { orderIndex: 1, instruction: 'Preheat oven to 375°F.' },
+    { orderIndex: 2, instruction: 'Mix dry ingredients.' },
   ],
 };
 
@@ -107,7 +107,7 @@ describe('RecipeDetail', () => {
       </Routes>,
       {
         initialEntries: ['/recipes/invalid-id'],
-        preloadedState: { recipes: { recipes: {}, currentRecipeId: 'invalid-id', error: 'Recipe not found', loading: false, recipesLoaded: true } },
+        preloadedState: { recipes: { recipes: {}, currentRecipeId: 'invalid-id', recipesLoaded: true } },
       }
     );
     await waitFor(() => {
@@ -122,7 +122,7 @@ describe('RecipeDetail', () => {
       </Routes>,
       {
         initialEntries: ['/recipes/invalid-id'],
-        preloadedState: { recipes: { recipes: {}, currentRecipeId: 'invalid-id', error: 'Recipe not found', loading: false, recipesLoaded: true } },
+        preloadedState: { recipes: { recipes: {}, currentRecipeId: 'invalid-id', recipesLoaded: true } },
       }
     );
     await waitFor(() => {

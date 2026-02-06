@@ -1,6 +1,6 @@
 # Operations
 
-State mutation orchestration functions that bridge API and store.
+Orchestration functions bridging API calls and store mutations.
 
 ## Contents
 
@@ -12,14 +12,17 @@ State mutation orchestration functions that bridge API and store.
 - **deleteRecipe.ts**: Delete a recipe
 - **index.ts**: Re-exports all operations
 
-## Pattern
+## Conventions
 
-1. Clear validation errors (for create/update)
+1. Clear validation errors and error state (for commands)
 2. Set loading/submitting state to true
 3. Call backend API via the API client
 4. On success: mutate the entity state within the store and return a success indicator
-5. On validation error: mutate the validation state within the store and return a failure indicator
-6. Finally: Set loading/submitting state to false
+5. On validation error: set validation errors in the store and return a failure indicator
+6. On non-validation error: set error message in the store and return a failure indicator
+7. Finally: Set loading/submitting state to false
+
+Components call operations, operations handle exceptions and mutate state.
 
 ## Usage
 
@@ -35,5 +38,3 @@ ops.setCurrentRecipeId(id);
 const id = await ops.createRecipe({ recipe });
 if (id) navigate(`/recipes/${id}`);
 ```
-
-Components call operations, operations handle exceptions and mutate state.

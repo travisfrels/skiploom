@@ -1,4 +1,4 @@
-# Skiploom Project Context
+# Skiploom
 
 ## Project Overview
 
@@ -6,12 +6,11 @@ Skiploom is a recipe tracker that can be used by multiple users to track and sha
 
 ## Architecture
 
-Skiploom is a 3-tier application with a user experience (UX), API, and persistence. The user experience (UX) is a
-browser hosted single-page application (SPA) written in TypeScript, implementing the FLUX pattern using the React
-framework, and using the Tailwind design framework for consistent look and feel. The back-end API (API) is a REST API
-written in Kotlin, implementing the CQRS pattern using the Spring framework while following the Clean Architecture
-pattern for separation of concerns. Persistence is an relational database management system (RDBMS) implemented in
-MySQL. Logging is file based and implemented using a logging framework.
+- 3-tier application: UX, API, and persistence
+- **UX**: Browser-hosted SPA in TypeScript using React (FLUX pattern) and Tailwind CSS
+- **API**: REST API in Kotlin using Spring Boot (CQRS + Clean Architecture)
+- **Persistence**: To-Be-Determined
+- **Logging**: File-based using a logging framework
 
 ## Domain Model
 

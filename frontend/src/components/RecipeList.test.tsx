@@ -8,14 +8,14 @@ const mockRecipes: Record<string, Recipe> = {
   '1': {
     id: '1',
     title: 'Recipe One',
-    ingredients: [{ id: 'i1', amount: 1, unit: 'cup', name: 'flour' }],
-    steps: [{ id: 's1', orderIndex: 1, instruction: 'Mix' }],
+    ingredients: [{ orderIndex: 1, amount: 1, unit: 'cup', name: 'flour' }],
+    steps: [{ orderIndex: 1, instruction: 'Mix' }],
   },
   '2': {
     id: '2',
     title: 'Recipe Two',
-    ingredients: [{ id: 'i2', amount: 2, unit: 'cups', name: 'sugar' }],
-    steps: [{ id: 's2', orderIndex: 1, instruction: 'Stir' }],
+    ingredients: [{ orderIndex: 1, amount: 2, unit: 'cups', name: 'sugar' }],
+    steps: [{ orderIndex: 1, instruction: 'Stir' }],
   },
 };
 
