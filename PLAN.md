@@ -9,7 +9,7 @@ Skiploom is a family recipe tracker with:
 - **Database**: MySQL in Docker
 - **Security**: Authentication required for all access
 
-## Current Status: Phase 4 (Complete)
+## Current Status: Phase 7 (Complete)
 
 ## Phases
 
@@ -52,33 +52,35 @@ Skiploom is a family recipe tracker with:
 - [x] Implement dynamic ingredient/step forms
 - [x] Add form validation
 - [x] Write tests
+- [x] Commit and merge
 
-### Phase 5: Backend - Project Foundation
+### Phase 5: Backend - Project Foundation (Complete)
 
-- [ ] Create Spring Boot Kotlin project
-- [ ] Setup Clean Architecture structure
-- [ ] Configure logging
-- [ ] Create health check endpoint
-- [ ] Write tests
+- [x] Create Spring Boot Kotlin project
+- [x] Setup Clean Architecture structure
+- [x] Configure logging
+- [x] Create health check endpoint
+- [x] Write tests
+- [x] Commit and merge
 
 ### Phase 6: Backend - Query Side (CQRS Read)
 
-- [ ] Define domain entities
-- [ ] Create query DTOs and use cases
-- [ ] Create controllers with exception handling
-- [ ] Setup CORS
-- [ ] Create in-memory repository with seed data
-- [ ] Connect frontend to backend
-- [ ] Write tests
+- [x] Define domain entities
+- [x] Create query DTOs and use cases
+- [x] Create controllers with exception handling
+- [x] Setup CORS
+- [x] Create in-memory repository with seed data
+- [x] Connect frontend to backend
+- [x] Write tests
 
 ### Phase 7: Backend - Command Side (CQRS Write)
 
-- [ ] Create command DTOs
-- [ ] Implement domain validation
-- [ ] Implement command use cases
-- [ ] Create command controllers
-- [ ] Update frontend to use command endpoints
-- [ ] Write tests
+- [x] Create command DTOs
+- [x] Implement domain validation
+- [x] Implement command use cases
+- [x] Create command controllers
+- [x] Update frontend to use command endpoints
+- [x] Write tests
 
 ### Phase 8: Database Integration
 

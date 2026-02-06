@@ -2,20 +2,14 @@ import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import RecipeCard from './RecipeCard';
-import type { Recipe } from '../types';
+import type { RecipeSummary } from '../types';
 
-const mockRecipe: Recipe = {
+const mockRecipe: RecipeSummary = {
   id: '1',
   title: 'Test Recipe',
   description: 'A delicious test recipe',
-  ingredients: [
-    { id: '1', amount: 1, unit: 'cup', name: 'flour' },
-    { id: '2', amount: 2, unit: 'tbsp', name: 'sugar' },
-  ],
-  steps: [
-    { id: 's1', orderIndex: 1, instruction: 'Mix ingredients' },
-    { id: 's2', orderIndex: 2, instruction: 'Bake at 350F' },
-  ],
+  ingredientCount: 2,
+  stepCount: 2,
 };
 
 function renderWithRouter(ui: React.ReactElement) {

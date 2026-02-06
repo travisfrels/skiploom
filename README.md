@@ -29,7 +29,12 @@ skiploom/
 │   │   ├── types/        # TypeScript interfaces
 │   │   └── api/          # API client
 │   └── package.json
-├── backend/           # Spring Boot API (coming soon)
+├── backend/           # Spring Boot API
+│   ├── src/main/kotlin/com/skiploom/
+│   │   ├── domain/          # Core business logic
+│   │   ├── application/     # Application services
+│   │   └── infrastructure/  # Controllers, repositories
+│   └── build.gradle.kts
 ├── PLAN.md           # Implementation plan
 ├── CLAUDE.md         # AI assistant context
 └── README.md
@@ -41,6 +46,7 @@ skiploom/
 
 - Node.js 18+
 - npm
+- JDK 17+ (tested with JDK 24)
 
 ### Running the Frontend
 
@@ -52,11 +58,33 @@ npm run dev
 
 Open http://localhost:5173 in your browser.
 
+### Running the Backend
+
+```bash
+cd backend
+
+# On Windows (PowerShell or CMD)
+.\gradlew.bat bootRun
+
+# On Windows (Git Bash) or Unix
+./gradlew bootRun
+```
+
+The API will be available at http://localhost:8080.
+
+**Note**: Ensure `JAVA_HOME` is set correctly to your JDK installation directory.
+
 ### Running Tests
 
 ```bash
+# Frontend tests
 cd frontend
 npm test
+
+# Backend tests
+cd backend
+.\gradlew.bat test   # Windows
+./gradlew test       # Unix/Git Bash
 ```
 
 ## Development

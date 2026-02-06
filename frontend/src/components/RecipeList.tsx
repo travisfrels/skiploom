@@ -1,8 +1,8 @@
-import type { Recipe } from '../types';
+import type { RecipeSummary } from '../types';
 import RecipeCard from './RecipeCard';
 
 interface RecipeListProps {
-  recipes: Recipe[];
+  recipes: RecipeSummary[];
 }
 
 function RecipeList({ recipes }: RecipeListProps) {

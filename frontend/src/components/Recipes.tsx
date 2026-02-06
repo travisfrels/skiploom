@@ -1,9 +1,20 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useAppSelector } from '../store/hooks';
+import { useAppSelector, useAppDispatch } from '../store/hooks';
+import { loadRecipes } from '../store/recipeSlice';
 import RecipeList from './RecipeList';
 
 function Recipes() {
-  const recipes = useAppSelector((state) => state.recipes.recipes);
+  const dispatch = useAppDispatch();
+  const { recipeSummaries, recipesLoaded, loading, error } = useAppSelector(
+    (state) => state.recipes
+  );
+
+  useEffect(() => {
+    if (!recipesLoaded) {
+      dispatch(loadRecipes());
+    }
+  }, [dispatch, recipesLoaded]);
 
   return (
     <div>
@@ -16,7 +27,13 @@ function Recipes() {
           Add Recipe
         </Link>
       </div>
-      <RecipeList recipes={recipes} />
+      {loading && recipeSummaries.length === 0 && (
+        <p className="text-slate-600">Loading recipes...</p>
+      )}
+      {error && <p className="text-red-600">Error: {error}</p>}
+      {(!loading || recipeSummaries.length > 0) && (
+        <RecipeList recipes={recipeSummaries} />
+      )}
     </div>
   );
 }

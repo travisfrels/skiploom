@@ -1,6 +1,7 @@
+import { useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../store/hooks';
-import { deleteRecipe } from '../store/recipeSlice';
+import { loadRecipeById, clearCurrentRecipe, deleteExistingRecipe } from '../store/recipeSlice';
 import IngredientList from './IngredientList';
 import StepList from './StepList';
 
@@ -8,16 +9,35 @@ function RecipeDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const recipe = useAppSelector((state) =>
-    state.recipes.recipes.find((r) => r.id === id)
+
+  const { currentRecipe: recipe, loading, error } = useAppSelector(
+    (state) => state.recipes
   );
 
-  const handleDelete = () => {
+  useEffect(() => {
+    if (id) {
+      dispatch(loadRecipeById(id));
+    }
+    return () => {
+      dispatch(clearCurrentRecipe());
+    };
+  }, [dispatch, id]);
+
+  const handleDelete = async () => {
+    if (!id) return;
     if (window.confirm('Are you sure you want to delete this recipe?')) {
-      dispatch(deleteRecipe(id!));
+      await dispatch(deleteExistingRecipe(id));
       navigate('/recipes');
     }
   };
+
+  if (loading && !recipe && !error) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-slate-600">Loading recipe...</p>
+      </div>
+    );
+  }
 
   if (!recipe) {
     return (
@@ -26,7 +46,7 @@ function RecipeDetail() {
           Recipe Not Found
         </h2>
         <p className="text-slate-600 mb-6">
-          The recipe you're looking for doesn't exist.
+          {error || "The recipe you're looking for doesn't exist."}
         </p>
         <Link
           to="/recipes"

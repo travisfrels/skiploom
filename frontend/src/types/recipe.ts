@@ -18,3 +18,11 @@ export interface Recipe {
   ingredients: Ingredient[];
   steps: Step[];
 }
+
+export interface RecipeSummary {
+  id: string;
+  title: string;
+  description?: string;
+  ingredientCount: number;
+  stepCount: number;
+}
