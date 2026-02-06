@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
-import type { RecipeSummary } from '../types';
+import type { Recipe } from '../types';
 
 interface RecipeCardProps {
-  recipe: RecipeSummary;
+  recipe: Recipe;
 }
 
 function RecipeCard({ recipe }: RecipeCardProps) {
@@ -18,8 +18,8 @@ function RecipeCard({ recipe }: RecipeCardProps) {
         <p className="text-slate-600 mb-4 line-clamp-2">{recipe.description}</p>
       )}
       <div className="flex gap-4 text-sm text-slate-500">
-        <span>{recipe.ingredientCount} ingredients</span>
-        <span>{recipe.stepCount} steps</span>
+        <span>{recipe.ingredients.length} ingredients</span>
+        <span>{recipe.steps.length} steps</span>
       </div>
     </Link>
   );

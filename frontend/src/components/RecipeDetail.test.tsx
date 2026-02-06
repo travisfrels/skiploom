@@ -27,7 +27,7 @@ describe('RecipeDetail', () => {
       </Routes>,
       {
         initialEntries: ['/recipes/1'],
-        preloadedState: { recipes: { currentRecipe: testRecipe, recipesLoaded: true } },
+        preloadedState: { recipes: { recipes: { '1': testRecipe }, currentRecipeId: '1', recipesLoaded: true } },
       }
     );
     await waitFor(() => {
@@ -42,7 +42,7 @@ describe('RecipeDetail', () => {
       </Routes>,
       {
         initialEntries: ['/recipes/1'],
-        preloadedState: { recipes: { currentRecipe: testRecipe, recipesLoaded: true } },
+        preloadedState: { recipes: { recipes: { '1': testRecipe }, currentRecipeId: '1', recipesLoaded: true } },
       }
     );
     await waitFor(() => {
@@ -59,7 +59,7 @@ describe('RecipeDetail', () => {
       </Routes>,
       {
         initialEntries: ['/recipes/1'],
-        preloadedState: { recipes: { currentRecipe: testRecipe, recipesLoaded: true } },
+        preloadedState: { recipes: { recipes: { '1': testRecipe }, currentRecipeId: '1', recipesLoaded: true } },
       }
     );
     await waitFor(() => {
@@ -75,7 +75,7 @@ describe('RecipeDetail', () => {
       </Routes>,
       {
         initialEntries: ['/recipes/1'],
-        preloadedState: { recipes: { currentRecipe: testRecipe, recipesLoaded: true } },
+        preloadedState: { recipes: { recipes: { '1': testRecipe }, currentRecipeId: '1', recipesLoaded: true } },
       }
     );
     await waitFor(() => {
@@ -91,7 +91,7 @@ describe('RecipeDetail', () => {
       </Routes>,
       {
         initialEntries: ['/recipes/1'],
-        preloadedState: { recipes: { currentRecipe: testRecipe, recipesLoaded: true } },
+        preloadedState: { recipes: { recipes: { '1': testRecipe }, currentRecipeId: '1', recipesLoaded: true } },
       }
     );
     await waitFor(() => {
@@ -107,7 +107,7 @@ describe('RecipeDetail', () => {
       </Routes>,
       {
         initialEntries: ['/recipes/invalid-id'],
-        preloadedState: { recipes: { currentRecipe: null, error: 'Recipe not found', loading: false, recipesLoaded: true } },
+        preloadedState: { recipes: { recipes: {}, currentRecipeId: 'invalid-id', error: 'Recipe not found', loading: false, recipesLoaded: true } },
       }
     );
     await waitFor(() => {
@@ -122,7 +122,7 @@ describe('RecipeDetail', () => {
       </Routes>,
       {
         initialEntries: ['/recipes/invalid-id'],
-        preloadedState: { recipes: { currentRecipe: null, error: 'Recipe not found', loading: false, recipesLoaded: true } },
+        preloadedState: { recipes: { recipes: {}, currentRecipeId: 'invalid-id', error: 'Recipe not found', loading: false, recipesLoaded: true } },
       }
     );
     await waitFor(() => {

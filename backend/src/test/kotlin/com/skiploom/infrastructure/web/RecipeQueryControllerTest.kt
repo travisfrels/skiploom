@@ -1,9 +1,10 @@
 package com.skiploom.infrastructure.web
 
-import com.skiploom.application.RecipeDto
-import com.skiploom.application.RecipeSummaryDto
-import com.skiploom.application.query.GetAllRecipes
-import com.skiploom.application.query.GetRecipeById
+import com.skiploom.application.dtos.IngredientDto
+import com.skiploom.application.dtos.RecipeDto
+import com.skiploom.application.dtos.StepDto
+import com.skiploom.application.queries.FetchAllRecipes
+import com.skiploom.application.queries.FetchRecipeById
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Test
@@ -15,7 +16,6 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import java.util.UUID
 
 @WebMvcTest(RecipeQueryController::class)
 class RecipeQueryControllerTest {
@@ -23,73 +23,68 @@ class RecipeQueryControllerTest {
     @TestConfiguration
     class TestConfig {
         @Bean
-        fun getAllRecipes(): GetAllRecipes = mockk()
+        fun fetchAllRecipes(): FetchAllRecipes = mockk()
 
         @Bean
-        fun getRecipeById(): GetRecipeById = mockk()
+        fun fetchRecipeById(): FetchRecipeById = mockk()
     }
 
     @Autowired
     private lateinit var mockMvc: MockMvc
 
     @Autowired
-    private lateinit var getAllRecipes: GetAllRecipes
+    private lateinit var fetchAllRecipes: FetchAllRecipes
 
     @Autowired
-    private lateinit var getRecipeById: GetRecipeById
+    private lateinit var fetchRecipeById: FetchRecipeById
+
+    private fun recipeDto(
+        id: String = "00000000-0000-0000-0000-000000000001",
+        title: String = "Test Recipe",
+        description: String? = "A test recipe"
+    ) = RecipeDto(
+        id,
+        title,
+        description,
+        listOf(IngredientDto(1, 1.0, "cup", "flour")),
+        listOf(StepDto(1, "Mix"))
+    )
 
     @Test
-    fun `GET recipes returns list of recipe summaries`() {
-        val recipes = listOf(
-            RecipeSummaryDto(
-                id = "00000000-0000-0000-0000-000000000001",
-                title = "Test Recipe",
-                description = "A test recipe",
-                ingredientCount = 3,
-                stepCount = 2
-            )
+    fun `GET fetch_all_recipes returns list of recipes`() {
+        val response = FetchAllRecipes.Response(
+            listOf(recipeDto()),
+            "1 recipes found."
         )
-        every { getAllRecipes.execute() } returns recipes
+        every { fetchAllRecipes.execute(FetchAllRecipes.Query) } returns response
 
-        mockMvc.perform(get("/api/recipes"))
+        mockMvc.perform(get("/api/queries/fetch_all_recipes"))
             .andExpect(status().isOk)
-            .andExpect(jsonPath("$[0].id").value("00000000-0000-0000-0000-000000000001"))
-            .andExpect(jsonPath("$[0].title").value("Test Recipe"))
-            .andExpect(jsonPath("$[0].ingredientCount").value(3))
+            .andExpect(jsonPath("$.recipes[0].id").value("00000000-0000-0000-0000-000000000001"))
+            .andExpect(jsonPath("$.recipes[0].title").value("Test Recipe"))
+            .andExpect(jsonPath("$.message").value("1 recipes found."))
     }
 
     @Test
-    fun `GET recipe by id returns full recipe`() {
-        val recipeId = UUID.fromString("00000000-0000-0000-0000-000000000001")
-        val recipe = RecipeDto(
-            id = recipeId.toString(),
-            title = "Test Recipe",
-            description = "A test recipe",
-            ingredients = emptyList(),
-            steps = emptyList()
-        )
-        every { getRecipeById.execute(recipeId) } returns recipe
+    fun `GET fetch_all_recipes returns empty list when no recipes`() {
+        val response = FetchAllRecipes.Response(emptyList(), "0 recipes found.")
+        every { fetchAllRecipes.execute(FetchAllRecipes.Query) } returns response
 
-        mockMvc.perform(get("/api/recipes/$recipeId"))
+        mockMvc.perform(get("/api/queries/fetch_all_recipes"))
             .andExpect(status().isOk)
-            .andExpect(jsonPath("$.id").value(recipeId.toString()))
-            .andExpect(jsonPath("$.title").value("Test Recipe"))
+            .andExpect(jsonPath("$.recipes").isEmpty)
+            .andExpect(jsonPath("$.message").value("0 recipes found."))
     }
 
     @Test
-    fun `GET recipe with invalid id returns 404`() {
-        val recipeId = UUID.fromString("00000000-0000-0000-0000-000000000099")
-        every { getRecipeById.execute(recipeId) } returns null
+    fun `GET fetch_recipe_by_id returns full recipe`() {
+        val response = FetchRecipeById.Response(recipeDto(), FetchRecipeById.Response.SUCCESS_MESSAGE)
+        every { fetchRecipeById.execute(FetchRecipeById.Query("00000000-0000-0000-0000-000000000001")) } returns response
 
-        mockMvc.perform(get("/api/recipes/$recipeId"))
-            .andExpect(status().isNotFound)
-            .andExpect(jsonPath("$.error").value("NOT_FOUND"))
-    }
-
-    @Test
-    fun `GET recipe with malformed id returns 404`() {
-        mockMvc.perform(get("/api/recipes/not-a-uuid"))
-            .andExpect(status().isNotFound)
-            .andExpect(jsonPath("$.error").value("NOT_FOUND"))
+        mockMvc.perform(get("/api/queries/fetch_recipe_by_id/00000000-0000-0000-0000-000000000001"))
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.recipe.id").value("00000000-0000-0000-0000-000000000001"))
+            .andExpect(jsonPath("$.recipe.title").value("Test Recipe"))
+            .andExpect(jsonPath("$.message").value(FetchRecipeById.Response.SUCCESS_MESSAGE))
     }
 }

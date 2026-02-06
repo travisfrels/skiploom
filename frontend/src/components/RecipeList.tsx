@@ -1,11 +1,21 @@
-import type { RecipeSummary } from '../types';
+import { useAppSelector } from '../store/hooks';
+import type { Recipe } from '../types';
 import RecipeCard from './RecipeCard';
 
-interface RecipeListProps {
-  recipes: RecipeSummary[];
-}
+function RecipeList() {
+  const recipesMap = useAppSelector((state) => state.recipes.recipes);
+  const loading = useAppSelector((state) => state.recipes.loading);
 
-function RecipeList({ recipes }: RecipeListProps) {
+  const recipes = Object.values(recipesMap).sort((a, b) => a.title.localeCompare(b.title));
+
+  if (loading) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-slate-500 text-lg">Loading...</p>
+      </div>
+    );
+      }
+
   if (recipes.length === 0) {
     return (
       <div className="text-center py-12">

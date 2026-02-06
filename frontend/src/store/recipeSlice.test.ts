@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import recipeReducer, { clearCurrentRecipe } from './recipeSlice';
+import recipeReducer, { clearCurrentRecipeId, setRecipes, addRecipe } from './recipeSlice';
 import type { Recipe } from '../types';
 
 const mockRecipe: Recipe = {
@@ -11,28 +11,64 @@ const mockRecipe: Recipe = {
 };
 
 describe('recipeSlice', () => {
-  describe('clearCurrentRecipe', () => {
-    it('clears the current recipe', () => {
+  describe('clearCurrentRecipeId', () => {
+    it('clears the current recipe id', () => {
       const initialState = {
-        recipeSummaries: [],
+        recipes: { 'test-1': mockRecipe },
         recipesLoaded: false,
-        currentRecipe: mockRecipe,
+        currentRecipeId: 'test-1',
         loading: false,
         error: null,
+        validationErrors: [],
+        submitting: false,
       };
-      const state = recipeReducer(initialState, clearCurrentRecipe());
-      expect(state.currentRecipe).toBeNull();
+      const state = recipeReducer(initialState, clearCurrentRecipeId());
+      expect(state.currentRecipeId).toBeNull();
+    });
+  });
+
+  describe('setRecipes', () => {
+    it('converts array to map indexed by id', () => {
+      const initialState = {
+        recipes: {},
+        recipesLoaded: false,
+        currentRecipeId: null,
+        loading: false,
+        error: null,
+        validationErrors: [],
+        submitting: false,
+      };
+      const state = recipeReducer(initialState, setRecipes([mockRecipe]));
+      expect(state.recipes['test-1']).toEqual(mockRecipe);
+    });
+  });
+
+  describe('addRecipe', () => {
+    it('adds recipe to map', () => {
+      const initialState = {
+        recipes: {},
+        recipesLoaded: false,
+        currentRecipeId: null,
+        loading: false,
+        error: null,
+        validationErrors: [],
+        submitting: false,
+      };
+      const state = recipeReducer(initialState, addRecipe(mockRecipe));
+      expect(state.recipes['test-1']).toEqual(mockRecipe);
     });
   });
 
   describe('initial state', () => {
     it('has correct initial values', () => {
       const state = recipeReducer(undefined, { type: 'unknown' });
-      expect(state.recipeSummaries).toEqual([]);
+      expect(state.recipes).toEqual({});
       expect(state.recipesLoaded).toBe(false);
-      expect(state.currentRecipe).toBeNull();
+      expect(state.currentRecipeId).toBeNull();
       expect(state.loading).toBe(false);
       expect(state.error).toBeNull();
+      expect(state.validationErrors).toEqual([]);
+      expect(state.submitting).toBe(false);
     });
   });
 });

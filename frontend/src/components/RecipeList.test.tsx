@@ -1,42 +1,44 @@
 import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import { screen } from '@testing-library/react';
 import RecipeList from './RecipeList';
-import type { RecipeSummary } from '../types';
+import { renderWithProviders } from '../test/testUtils';
+import type { Recipe } from '../types';
 
-const mockRecipes: RecipeSummary[] = [
-  {
+const mockRecipes: Record<string, Recipe> = {
+  '1': {
     id: '1',
     title: 'Recipe One',
-    ingredientCount: 1,
-    stepCount: 1,
+    ingredients: [{ id: 'i1', amount: 1, unit: 'cup', name: 'flour' }],
+    steps: [{ id: 's1', orderIndex: 1, instruction: 'Mix' }],
   },
-  {
+  '2': {
     id: '2',
     title: 'Recipe Two',
-    ingredientCount: 1,
-    stepCount: 1,
+    ingredients: [{ id: 'i2', amount: 2, unit: 'cups', name: 'sugar' }],
+    steps: [{ id: 's2', orderIndex: 1, instruction: 'Stir' }],
   },
-];
-
-function renderWithRouter(ui: React.ReactElement) {
-  return render(<BrowserRouter>{ui}</BrowserRouter>);
-}
+};
 
 describe('RecipeList', () => {
   it('renders all recipes', () => {
-    renderWithRouter(<RecipeList recipes={mockRecipes} />);
+    renderWithProviders(<RecipeList />, {
+      preloadedState: { recipes: { recipes: mockRecipes, recipesLoaded: true } },
+    });
     expect(screen.getByText('Recipe One')).toBeInTheDocument();
     expect(screen.getByText('Recipe Two')).toBeInTheDocument();
   });
 
   it('renders empty state when no recipes', () => {
-    renderWithRouter(<RecipeList recipes={[]} />);
+    renderWithProviders(<RecipeList />, {
+      preloadedState: { recipes: { recipes: {}, recipesLoaded: true } },
+    });
     expect(screen.getByText('No recipes found.')).toBeInTheDocument();
   });
 
   it('renders correct number of recipe cards', () => {
-    renderWithRouter(<RecipeList recipes={mockRecipes} />);
+    renderWithProviders(<RecipeList />, {
+      preloadedState: { recipes: { recipes: mockRecipes, recipesLoaded: true } },
+    });
     const links = screen.getAllByRole('link');
     expect(links).toHaveLength(2);
   });

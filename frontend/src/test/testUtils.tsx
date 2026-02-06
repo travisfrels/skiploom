@@ -1,17 +1,19 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
 import { MemoryRouter } from 'react-router-dom';
-import recipeReducer from '../store/recipeSlice';
-import type { Recipe, RecipeSummary } from '../types';
+import { store } from '../store';
+import * as slice from '../store/recipeSlice';
+import type { Recipe, ValidationError } from '../types';
 
 interface RecipeState {
-  recipeSummaries: RecipeSummary[];
+  recipes: Record<string, Recipe>;
   recipesLoaded: boolean;
-  currentRecipe: Recipe | null;
+  currentRecipeId: string | null;
   loading: boolean;
   error: string | null;
+  validationErrors: ValidationError[];
+  submitting: boolean;
 }
 
 interface RenderOptions {
@@ -21,13 +23,15 @@ interface RenderOptions {
   initialEntries?: string[];
 }
 
-const defaultRecipeState: RecipeState = {
-  recipeSummaries: [],
-  recipesLoaded: false,
-  currentRecipe: null,
-  loading: false,
-  error: null,
-};
+function resetStore() {
+  store.dispatch(slice.setRecipes([]));
+  store.dispatch(slice.setRecipesLoaded(false));
+  store.dispatch(slice.setCurrentRecipeId(null));
+  store.dispatch(slice.setLoading(false));
+  store.dispatch(slice.setError(null));
+  store.dispatch(slice.setValidationErrors([]));
+  store.dispatch(slice.setSubmitting(false));
+}
 
 export function renderWithProviders(
   ui: React.ReactElement,
@@ -36,18 +40,34 @@ export function renderWithProviders(
     initialEntries = ['/'],
   }: RenderOptions = {}
 ) {
-  const mergedState = preloadedState
-    ? {
-        recipes: { ...defaultRecipeState, ...preloadedState.recipes },
-      }
-    : undefined;
+  // Reset and populate the global store
+  resetStore();
 
-  const store = configureStore({
-    reducer: {
-      recipes: recipeReducer,
-    },
-    preloadedState: mergedState,
-  });
+  if (preloadedState?.recipes) {
+    const state = preloadedState.recipes;
+    if (state.recipes) {
+      const recipesArray = Object.values(state.recipes);
+      store.dispatch(slice.setRecipes(recipesArray));
+    }
+    if (state.recipesLoaded !== undefined) {
+      store.dispatch(slice.setRecipesLoaded(state.recipesLoaded));
+    }
+    if (state.currentRecipeId !== undefined) {
+      store.dispatch(slice.setCurrentRecipeId(state.currentRecipeId));
+    }
+    if (state.loading !== undefined) {
+      store.dispatch(slice.setLoading(state.loading));
+    }
+    if (state.error !== undefined) {
+      store.dispatch(slice.setError(state.error));
+    }
+    if (state.validationErrors) {
+      store.dispatch(slice.setValidationErrors(state.validationErrors));
+    }
+    if (state.submitting !== undefined) {
+      store.dispatch(slice.setSubmitting(state.submitting));
+    }
+  }
 
   function Wrapper({ children }: { children: React.ReactNode }) {
     return (

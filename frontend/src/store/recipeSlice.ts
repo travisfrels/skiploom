@@ -1,122 +1,87 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import type { Recipe, RecipeSummary } from '../types';
-import {
-  fetchRecipes,
-  fetchRecipeById,
-  createRecipe,
-  updateRecipe,
-  deleteRecipe,
-  type CreateRecipeRequest,
-  type UpdateRecipeRequest,
-} from '../api/recipeApi';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import type { Recipe, ValidationError } from '../types';
 
 interface RecipeState {
-  recipeSummaries: RecipeSummary[];
+  recipes: Record<string, Recipe>;
   recipesLoaded: boolean;
-  currentRecipe: Recipe | null;
+  currentRecipeId: string | null;
   loading: boolean;
   error: string | null;
+  validationErrors: ValidationError[];
+  submitting: boolean;
 }
 
 const initialState: RecipeState = {
-  recipeSummaries: [],
+  recipes: {},
   recipesLoaded: false,
-  currentRecipe: null,
+  currentRecipeId: null,
   loading: false,
   error: null,
+  validationErrors: [],
+  submitting: false,
 };
-
-export const loadRecipes = createAsyncThunk('recipes/loadRecipes', async () => {
-  return await fetchRecipes();
-});
-
-export const loadRecipeById = createAsyncThunk(
-  'recipes/loadRecipeById',
-  async (id: string) => {
-    return await fetchRecipeById(id);
-  }
-);
-
-export const createNewRecipe = createAsyncThunk(
-  'recipes/createRecipe',
-  async (request: CreateRecipeRequest) => {
-    return await createRecipe(request);
-  }
-);
-
-export const updateExistingRecipe = createAsyncThunk(
-  'recipes/updateRecipe',
-  async ({ id, request }: { id: string; request: UpdateRecipeRequest }) => {
-    await updateRecipe(id, request);
-    return id;
-  }
-);
-
-export const deleteExistingRecipe = createAsyncThunk(
-  'recipes/deleteRecipe',
-  async (id: string) => {
-    await deleteRecipe(id);
-    return id;
-  }
-);
 
 const recipeSlice = createSlice({
   name: 'recipes',
   initialState,
   reducers: {
-    clearCurrentRecipe: (state) => {
-      state.currentRecipe = null;
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
     },
-    invalidateRecipes: (state) => {
-      state.recipesLoaded = false;
+    setError: (state, action: PayloadAction<string | null>) => {
+      state.error = action.payload;
     },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(loadRecipes.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(loadRecipes.fulfilled, (state, action) => {
-        state.loading = false;
-        state.recipeSummaries = action.payload;
-        state.recipesLoaded = true;
-      })
-      .addCase(loadRecipes.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || 'Failed to load recipes';
-      })
-      .addCase(loadRecipeById.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(loadRecipeById.fulfilled, (state, action) => {
-        state.loading = false;
-        state.currentRecipe = action.payload;
-      })
-      .addCase(loadRecipeById.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || 'Failed to load recipe';
-        state.currentRecipe = null;
-      })
-      .addCase(createNewRecipe.fulfilled, (state) => {
-        state.recipesLoaded = false;
-      })
-      .addCase(updateExistingRecipe.fulfilled, (state) => {
-        state.recipesLoaded = false;
-        state.currentRecipe = null;
-      })
-      .addCase(deleteExistingRecipe.fulfilled, (state, action) => {
-        state.recipesLoaded = false;
-        state.recipeSummaries = state.recipeSummaries.filter(
-          (r) => r.id !== action.payload
-        );
-        if (state.currentRecipe?.id === action.payload) {
-          state.currentRecipe = null;
-        }
-      });
+    setRecipes: (state, action: PayloadAction<Recipe[]>) => {
+      state.recipes = {};
+      for (const recipe of action.payload) {
+        state.recipes[recipe.id] = recipe;
+      }
+    },
+    setRecipesLoaded: (state, action: PayloadAction<boolean>) => {
+      state.recipesLoaded = action.payload;
+    },
+    setCurrentRecipeId: (state, action: PayloadAction<string | null>) => {
+      state.currentRecipeId = action.payload;
+    },
+    clearCurrentRecipeId: (state) => {
+      state.currentRecipeId = null;
+    },
+    addRecipe: (state, action: PayloadAction<Recipe>) => {
+      state.recipes[action.payload.id] = action.payload;
+    },
+    updateRecipe: (state, action: PayloadAction<Recipe>) => {
+      state.recipes[action.payload.id] = action.payload;
+    },
+    removeRecipe: (state, action: PayloadAction<string>) => {
+      delete state.recipes[action.payload];
+      if (state.currentRecipeId === action.payload) {
+        state.currentRecipeId = null;
+      }
+    },
+    setSubmitting: (state, action: PayloadAction<boolean>) => {
+      state.submitting = action.payload;
+    },
+    setValidationErrors: (state, action: PayloadAction<ValidationError[]>) => {
+      state.validationErrors = action.payload;
+    },
+    clearValidationErrors: (state) => {
+      state.validationErrors = [];
+    },
   },
 });
 
-export const { clearCurrentRecipe, invalidateRecipes } = recipeSlice.actions;
+export const {
+  setLoading,
+  setError,
+  setRecipes,
+  setRecipesLoaded,
+  setCurrentRecipeId,
+  clearCurrentRecipeId,
+  addRecipe,
+  updateRecipe,
+  removeRecipe,
+  setSubmitting,
+  setValidationErrors,
+  clearValidationErrors,
+} = recipeSlice.actions;
 export default recipeSlice.reducer;

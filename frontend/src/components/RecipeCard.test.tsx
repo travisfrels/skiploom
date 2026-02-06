@@ -2,14 +2,20 @@ import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import RecipeCard from './RecipeCard';
-import type { RecipeSummary } from '../types';
+import type { Recipe } from '../types';
 
-const mockRecipe: RecipeSummary = {
+const mockRecipe: Recipe = {
   id: '1',
   title: 'Test Recipe',
   description: 'A delicious test recipe',
-  ingredientCount: 2,
-  stepCount: 2,
+  ingredients: [
+    { id: 'i1', amount: 1, unit: 'cup', name: 'flour' },
+    { id: 'i2', amount: 2, unit: 'tsp', name: 'sugar' },
+  ],
+  steps: [
+    { id: 's1', orderIndex: 1, instruction: 'Mix' },
+    { id: 's2', orderIndex: 2, instruction: 'Bake' },
+  ],
 };
 
 function renderWithRouter(ui: React.ReactElement) {
@@ -44,7 +50,7 @@ describe('RecipeCard', () => {
   });
 
   it('handles recipe without description', () => {
-    const recipeNoDesc = { ...mockRecipe, description: undefined };
+    const recipeNoDesc: Recipe = { ...mockRecipe, description: undefined };
     renderWithRouter(<RecipeCard recipe={recipeNoDesc} />);
     expect(screen.getByText('Test Recipe')).toBeInTheDocument();
     expect(screen.queryByText('A delicious test recipe')).not.toBeInTheDocument();

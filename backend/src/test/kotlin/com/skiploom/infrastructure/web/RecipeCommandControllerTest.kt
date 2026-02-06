@@ -1,136 +1,137 @@
 package com.skiploom.infrastructure.web
 
-import com.skiploom.application.CreateRecipeCommand
-import com.skiploom.application.IngredientCommand
-import com.skiploom.application.RecipeNotFoundException
-import com.skiploom.application.StepCommand
-import com.skiploom.application.UpdateRecipeCommand
-import com.skiploom.application.command.CreateRecipe
-import com.skiploom.application.command.DeleteRecipe
-import com.skiploom.application.command.UpdateRecipe
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.skiploom.application.commands.CreateRecipe
+import com.skiploom.application.commands.DeleteRecipe
+import com.skiploom.application.commands.UpdateRecipe
+import com.skiploom.application.dtos.IngredientDto
+import com.skiploom.application.dtos.RecipeDto
+import com.skiploom.application.dtos.StepDto
+import com.skiploom.application.exceptions.RecipeNotFoundException
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
-import org.springframework.http.HttpStatus
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.boot.test.context.TestConfiguration
+import org.springframework.context.annotation.Bean
+import org.springframework.http.MediaType
+import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import java.util.UUID
 
+@WebMvcTest(RecipeCommandController::class)
 class RecipeCommandControllerTest {
 
-    private val createRecipe: CreateRecipe = mockk()
-    private val updateRecipe: UpdateRecipe = mockk()
-    private val deleteRecipe: DeleteRecipe = mockk()
-    private val controller = RecipeCommandController(createRecipe, updateRecipe, deleteRecipe)
+    @TestConfiguration
+    class TestConfig {
+        @Bean
+        fun createRecipe(): CreateRecipe = mockk()
+
+        @Bean
+        fun updateRecipe(): UpdateRecipe = mockk()
+
+        @Bean
+        fun deleteRecipe(): DeleteRecipe = mockk()
+    }
+
+    @Autowired
+    private lateinit var mockMvc: MockMvc
+
+    @Autowired
+    private lateinit var objectMapper: ObjectMapper
+
+    @Autowired
+    private lateinit var createRecipe: CreateRecipe
+
+    @Autowired
+    private lateinit var updateRecipe: UpdateRecipe
+
+    @Autowired
+    private lateinit var deleteRecipe: DeleteRecipe
+
+    private fun recipeDto(
+        id: String = "",
+        title: String = "Test Recipe",
+        description: String? = "Description",
+        ingredients: List<IngredientDto> = listOf(IngredientDto(1, 1.0, "cup", "flour")),
+        steps: List<StepDto> = listOf(StepDto(1, "Mix"))
+    ) = RecipeDto(id, title, description, ingredients, steps)
 
     @Test
-    fun `create returns 201 with recipe id`() {
-        val command = CreateRecipeCommand(
-            title = "Test Recipe",
-            description = "Description",
-            ingredients = listOf(IngredientCommand(1.0, "cup", "flour")),
-            steps = listOf(StepCommand(1, "Mix"))
+    fun `POST create_recipe returns 200 with response`() {
+        val command = CreateRecipe.Command(recipeDto())
+        val createdRecipe = recipeDto(id = "generated-id")
+        val expectedResponse = CreateRecipe.Response(createdRecipe, CreateRecipe.Response.SUCCESS_MESSAGE)
+        every { createRecipe.execute(command) } returns expectedResponse
+
+        mockMvc.perform(
+            post("/api/commands/create_recipe")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(command))
         )
-        every { createRecipe.execute(command) } returns "generated-id"
-
-        val response = controller.create(command)
-
-        assertEquals(HttpStatus.CREATED, response.statusCode)
-        assertEquals("generated-id", response.body?.id)
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.recipe.id").value("generated-id"))
+            .andExpect(jsonPath("$.message").value(CreateRecipe.Response.SUCCESS_MESSAGE))
     }
 
     @Test
-    fun `create calls createRecipe with command`() {
-        val command = CreateRecipeCommand(
-            title = "Test Recipe",
-            description = null,
-            ingredients = listOf(IngredientCommand(1.0, "cup", "flour")),
-            steps = listOf(StepCommand(1, "Mix"))
+    fun `POST update_recipe returns 200 with response`() {
+        val updatedRecipe = recipeDto(id = "00000000-0000-0000-0000-000000000001")
+        val command = UpdateRecipe.Command(updatedRecipe)
+        val expectedResponse = UpdateRecipe.Response(updatedRecipe, UpdateRecipe.Response.SUCCESS_MESSAGE)
+        every { updateRecipe.execute(command) } returns expectedResponse
+
+        mockMvc.perform(
+            post("/api/commands/update_recipe")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(command))
         )
-        every { createRecipe.execute(command) } returns "id"
-
-        controller.create(command)
-
-        verify { createRecipe.execute(command) }
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.recipe.id").value("00000000-0000-0000-0000-000000000001"))
+            .andExpect(jsonPath("$.message").value(UpdateRecipe.Response.SUCCESS_MESSAGE))
     }
 
     @Test
-    fun `update returns 204 no content`() {
-        val id = "00000000-0000-0000-0000-000000000001"
-        val command = UpdateRecipeCommand(
-            title = "Updated Title",
-            description = null,
-            ingredients = listOf(IngredientCommand(1.0, "cup", "flour")),
-            steps = listOf(StepCommand(1, "Mix"))
+    fun `POST update_recipe returns 404 for non-existent recipe`() {
+        val command = UpdateRecipe.Command(recipeDto(id = "non-existent"))
+        every { updateRecipe.execute(command) } throws RecipeNotFoundException(UUID.randomUUID())
+
+        mockMvc.perform(
+            post("/api/commands/update_recipe")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(command))
         )
-        every { updateRecipe.execute(id, command) } returns Unit
-
-        val response = controller.update(id, command)
-
-        assertEquals(HttpStatus.NO_CONTENT, response.statusCode)
-        assertNull(response.body)
+            .andExpect(status().isNotFound)
     }
 
     @Test
-    fun `update calls updateRecipe with id and command`() {
-        val id = "recipe-id"
-        val command = UpdateRecipeCommand(
-            title = "Title",
-            description = null,
-            ingredients = listOf(IngredientCommand(1.0, "cup", "flour")),
-            steps = listOf(StepCommand(1, "Mix"))
+    fun `POST delete_recipe returns 200 with response`() {
+        val command = DeleteRecipe.Command("00000000-0000-0000-0000-000000000001")
+        val expectedResponse = DeleteRecipe.Response(DeleteRecipe.Response.SUCCESS_MESSAGE)
+        every { deleteRecipe.execute(command) } returns expectedResponse
+
+        mockMvc.perform(
+            post("/api/commands/delete_recipe")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(command))
         )
-        every { updateRecipe.execute(id, command) } returns Unit
-
-        controller.update(id, command)
-
-        verify { updateRecipe.execute(id, command) }
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.message").value(DeleteRecipe.Response.SUCCESS_MESSAGE))
     }
 
     @Test
-    fun `update propagates RecipeNotFoundException`() {
-        val id = "non-existent"
-        val command = UpdateRecipeCommand(
-            title = "Title",
-            description = null,
-            ingredients = listOf(IngredientCommand(1.0, "cup", "flour")),
-            steps = listOf(StepCommand(1, "Mix"))
+    fun `POST delete_recipe returns 404 for non-existent recipe`() {
+        val command = DeleteRecipe.Command("non-existent")
+        every { deleteRecipe.execute(command) } throws RecipeNotFoundException(UUID.randomUUID())
+
+        mockMvc.perform(
+            post("/api/commands/delete_recipe")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(command))
         )
-        every { updateRecipe.execute(id, command) } throws RecipeNotFoundException(id)
-
-        assertThrows<RecipeNotFoundException> {
-            controller.update(id, command)
-        }
-    }
-
-    @Test
-    fun `delete returns 204 no content`() {
-        val id = "00000000-0000-0000-0000-000000000001"
-        every { deleteRecipe.execute(id) } returns Unit
-
-        val response = controller.delete(id)
-
-        assertEquals(HttpStatus.NO_CONTENT, response.statusCode)
-        assertNull(response.body)
-    }
-
-    @Test
-    fun `delete calls deleteRecipe with id`() {
-        val id = "recipe-id"
-        every { deleteRecipe.execute(id) } returns Unit
-
-        controller.delete(id)
-
-        verify { deleteRecipe.execute(id) }
-    }
-
-    @Test
-    fun `delete propagates RecipeNotFoundException`() {
-        val id = "non-existent"
-        every { deleteRecipe.execute(id) } throws RecipeNotFoundException(id)
-
-        assertThrows<RecipeNotFoundException> {
-            controller.delete(id)
-        }
+            .andExpect(status().isNotFound)
     }
 }

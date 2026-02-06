@@ -2,83 +2,45 @@
 
 ## Project Overview
 
-Family recipe tracker application with React frontend and Kotlin Spring backend.
+Skiploom is a recipe tracker that can be used by multiple users to track and share their recipes with other users.
 
 ## Architecture
 
-### Frontend (React + TypeScript)
-
-- Location: `/frontend`
-- Pattern: FLUX (Redux Toolkit)
-- Styling: Tailwind CSS
-- Testing: Vitest + React Testing Library
-- Structure:
-    - `/src/components` - React components
-    - `/src/store` - Redux store, actions, reducers
-    - `/src/types` - TypeScript interfaces
-    - `/src/api` - API client
-
-### Backend (Kotlin + Spring Boot)
-
-- Location: `/backend`
-- Pattern: CQRS + Clean Architecture
-- Structure:
-    - `/domain` - Core business logic, entities, use cases
-    - `/application` - Application services, DTOs, exception handling
-    - `/infrastructure` - Controllers, repositories, config
-
-## Coding Standards
-
-### TypeScript/React
-
-- Use functional components with hooks
-- Define explicit TypeScript interfaces for all data structures
-- Use Tailwind utility classes for styling
-- Write tests for all components
-
-### Kotlin/Spring
-
-- Use data classes for DTOs and entities
-- Throw ValidationException with all validation errors (not fail-fast)
-- Handle exceptions in application layer
-- Use dependency injection via constructor
+Skiploom is a 3-tier application with a user experience (UX), API, and persistence. The user experience (UX) is a
+browser hosted single-page application (SPA) written in TypeScript, implementing the FLUX pattern using the React
+framework, and using the Tailwind design framework for consistent look and feel. The back-end API (API) is a REST API
+written in Kotlin, implementing the CQRS pattern using the Spring framework while following the Clean Architecture
+pattern for separation of concerns. Persistence is an relational database management system (RDBMS) implemented in
+MySQL. Logging is file based and implemented using a logging framework.
 
 ## Domain Model
 
-### Recipe
-
-- id: UUID
-- title: string (required)
-- description: string (optional)
-- ingredients: Ingredient[]
-- steps: Step[]
-
 ### Ingredient
 
-- id: UUID
-- amount: number
-- unit: string
-- name: string
+An ingredient used within a recipe. 
+
+- **id**: `UUID` unique identifier
+- **amount**: `number` amount of the ingredient to use
+- **unit**: `string` unit of measurement associated with the amount
+- **name**: `string` name of the ingredient
 
 ### Step
 
-- id: UUID
-- orderIndex: number (unique, contiguous starting at 1)
-- instruction: string
+An action to take to prepare the recipe.
 
-## API Conventions
+- **id**: `UUID` unique identifier
+- **orderIndex**: `number` (unique, contiguous starting at 1) the order in which to perform the step
+- **instruction**: `string` a description of how to perform the step
 
-- REST endpoints under `/api`
-- Query endpoints: GET
-- Command endpoints: POST, PUT, DELETE
-- Validation errors: 400 Bad Request with error details
-- Not found: 404
+### Recipe
 
-## Testing
+A group of ingredients and steps that, when put together, constitute a recipe.
 
-- Frontend: `npm test` in `/frontend`
-- Backend: `./gradlew test` in `/backend`
-- All tests must pass before merging
+- **id**: `UUID` unique identifier
+- **title (required)**: `string` representing the title
+- **description (optional)**: `string` describing the recipe
+- **ingredients**: `Ingredient[]` ingredients associated with the recipe
+- **steps**: `Step[]` steps associated with this recipe
 
 ## Git Workflow
 

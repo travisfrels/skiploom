@@ -22,18 +22,20 @@ Skiploom helps families organize, share, and preserve their favorite recipes. Fe
 
 ```
 skiploom/
-├── frontend/          # React SPA
+├── frontend/          # React SPA (FLUX pattern)
 │   ├── src/
+│   │   ├── api/          # Backend API client
 │   │   ├── components/   # React components
-│   │   ├── store/        # Redux state management
-│   │   ├── types/        # TypeScript interfaces
-│   │   └── api/          # API client
+│   │   ├── operations/   # Actions orchestrating API + state
+│   │   ├── store/        # Redux store, actions, reducers
+│   │   ├── test/         # Test configuration and utilities
+│   │   └── types/        # TypeScript interfaces
 │   └── package.json
-├── backend/           # Spring Boot API
+├── backend/           # Spring Boot API (CQRS + Clean Architecture)
 │   ├── src/main/kotlin/com/skiploom/
-│   │   ├── domain/          # Core business logic
-│   │   ├── application/     # Application services
-│   │   └── infrastructure/  # Controllers, repositories
+│   │   ├── application/     # Commands, queries, DTOs, validators, exceptions
+│   │   ├── domain/          # Entities, operation interfaces
+│   │   └── infrastructure/  # Controllers, operation implementations, config
 │   └── build.gradle.kts
 ├── PLAN.md           # Implementation plan
 ├── CLAUDE.md         # AI assistant context

@@ -3,24 +3,24 @@ import { screen, waitFor } from '@testing-library/react';
 import { Routes, Route } from 'react-router-dom';
 import Recipes from './Recipes';
 import { renderWithProviders } from '../test/testUtils';
-import type { RecipeSummary } from '../types';
+import type { Recipe } from '../types';
 
-const mockSummaries: RecipeSummary[] = [
-  {
+const mockRecipes: Record<string, Recipe> = {
+  '1': {
     id: '1',
     title: "Grandma's Chocolate Chip Cookies",
     description: 'The classic family recipe passed down for generations.',
-    ingredientCount: 9,
-    stepCount: 7,
+    ingredients: [{ id: 'i1', amount: 1, unit: 'cup', name: 'flour' }],
+    steps: [{ id: 's1', orderIndex: 1, instruction: 'Mix' }],
   },
-  {
+  '2': {
     id: '2',
     title: "Mom's Chicken Noodle Soup",
     description: 'The perfect comfort food for cold days.',
-    ingredientCount: 10,
-    stepCount: 7,
+    ingredients: [{ id: 'i2', amount: 2, unit: 'cups', name: 'broth' }],
+    steps: [{ id: 's2', orderIndex: 1, instruction: 'Boil' }],
   },
-];
+};
 
 describe('Recipes', () => {
   it('renders page title', async () => {
@@ -30,7 +30,7 @@ describe('Recipes', () => {
       </Routes>,
       {
         initialEntries: ['/recipes'],
-        preloadedState: { recipes: { recipeSummaries: mockSummaries, recipesLoaded: true } },
+        preloadedState: { recipes: { recipes: mockRecipes, recipesLoaded: true } },
       }
     );
     await waitFor(() => {
@@ -45,7 +45,7 @@ describe('Recipes', () => {
       </Routes>,
       {
         initialEntries: ['/recipes'],
-        preloadedState: { recipes: { recipeSummaries: mockSummaries, recipesLoaded: true } },
+        preloadedState: { recipes: { recipes: mockRecipes, recipesLoaded: true } },
       }
     );
     await waitFor(() => {
@@ -61,7 +61,7 @@ describe('Recipes', () => {
       </Routes>,
       {
         initialEntries: ['/recipes'],
-        preloadedState: { recipes: { recipeSummaries: [], recipesLoaded: true } },
+        preloadedState: { recipes: { recipes: {}, recipesLoaded: true } },
       }
     );
     await waitFor(() => {

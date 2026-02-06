@@ -1,10 +1,7 @@
 package com.skiploom.infrastructure.web
 
-import com.skiploom.application.RecipeDto
-import com.skiploom.application.RecipeNotFoundException
-import com.skiploom.application.RecipeSummaryDto
-import com.skiploom.application.query.GetAllRecipes
-import com.skiploom.application.query.GetRecipeById
+import com.skiploom.application.queries.FetchAllRecipes
+import com.skiploom.application.queries.FetchRecipeById
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -13,29 +10,18 @@ import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
 
 @RestController
-@RequestMapping("/api/recipes")
+@RequestMapping("/api/queries")
 class RecipeQueryController(
-    private val getAllRecipes: GetAllRecipes,
-    private val getRecipeById: GetRecipeById
+    private val fetchAllRecipes: FetchAllRecipes,
+    private val fetchRecipeById: FetchRecipeById
 ) {
-
-    @GetMapping
-    fun getAllRecipes(): ResponseEntity<List<RecipeSummaryDto>> {
-        val recipes = getAllRecipes.execute()
-        return ResponseEntity.ok(recipes)
+    @GetMapping("/fetch_all_recipes")
+    fun getAllRecipes(): ResponseEntity<FetchAllRecipes.Response> {
+        return ResponseEntity.ok(fetchAllRecipes.execute(FetchAllRecipes.Query))
     }
 
-    @GetMapping("/{id}")
-    fun getRecipeById(@PathVariable id: String): ResponseEntity<RecipeDto> {
-        val uuid = try {
-            UUID.fromString(id)
-        } catch (e: IllegalArgumentException) {
-            throw RecipeNotFoundException(id)
-        }
-
-        val recipe = getRecipeById.execute(uuid)
-            ?: throw RecipeNotFoundException(id)
-
-        return ResponseEntity.ok(recipe)
+    @GetMapping("/fetch_recipe_by_id/{id}")
+    fun getRecipeById(@PathVariable id: String): ResponseEntity<FetchRecipeById.Response> {
+        return ResponseEntity.ok(fetchRecipeById.execute(FetchRecipeById.Query(id)))
     }
 }
