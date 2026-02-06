@@ -2,24 +2,11 @@
 
 | Status | Last Updated | Author |
 |--------|--------------|--------|
-| Draft | 2026-02-05 | Engineering |
+| Draft | 2026-02-06 | Engineering |
 
 ## Overview
 
-### Background
-
 Skiploom is a digital recipe management system enabling a community to share and collaborate on recipes. It replaces manual tracking methods (paper, cards) with a searchable, editable digital repository accessible to all community members.
-
-### Goals
-
-- Enable open recipe sharing across the user community
-- Allow all community members to contribute recipes
-
-### Non-Goals
-
-- Per-user access restrictions on recipes
-- Recipe versioning or history tracking
-- Meal planning or shopping list generation
 
 ### Glossary
 
@@ -137,3 +124,29 @@ JPA entities (`RecipeEntity`, `IngredientEntity`, `StepEntity`) are defined in t
 - **Spring profile-based switching**: Retain `InMemoryRecipeRepository` behind a Spring profile (e.g., `dev`) for local development without Docker. This avoids a Docker dependency for quick iteration but creates two persistence paths — divergent behavior between environments undermines confidence in testing and contradicts the goal of a single, consistent persistence layer.
 
 Infrastructure, search, and backup/restore details are covered in the ADR.
+
+## Local Development
+
+All services run via Docker Compose, defined in `compose.yml` at the repository root. Services are organized into two groups: the application stack and the development platform.
+
+### Application Stack
+
+| Service | Image | Port | Purpose |
+|---------|-------|------|---------|
+| `backend` | Skiploom Spring Boot | 8080 | REST API |
+| `frontend` | Skiploom React | 5173 | SPA dev server |
+| `postgres` | PostgreSQL | 5432 | Shared database instance |
+
+PostgreSQL hosts two databases on the same instance:
+
+- `skiploom`: Application data (see [Operational Persistence](#operational-persistence))
+- `forgejo`: Development platform data (see below)
+
+### Development Platform
+
+| Service | Image | Port | Purpose |
+|---------|-------|------|---------|
+| `forgejo` | Forgejo | 3000, 2222 | Git hosting, issues, PRs, web UI |
+| `runner` | Forgejo Runner | — | CI/CD job execution via Forgejo Actions |
+
+The runner mounts the host's Docker socket to execute CI jobs in isolated containers. See [ADR-DEV-DEVPLATFORM-20260206](adrs/ADR-DEV-DEVPLATFORM-20260206.md) for design rationale.

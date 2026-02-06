@@ -23,6 +23,7 @@ Build a three-tier application (React SPA, Kotlin/Spring API, PostgreSQL) deploy
 - Enable open recipe sharing across the user community
 - Allow all community members to contribute recipes
 - Run the system locally via Docker Compose
+- Authentication
 
 ## Non-Goals
 
@@ -30,7 +31,7 @@ Build a three-tier application (React SPA, Kotlin/Spring API, PostgreSQL) deploy
 - Recipe versioning or history tracking
 - Meal planning or shopping list generation
 - Production cloud hosting
-- Authentication or authorization
+- Authorization
 
 ## Exit Criteria
 
