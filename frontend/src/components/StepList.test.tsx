@@ -1,0 +1,50 @@
+import { describe, it, expect } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import StepList from './StepList';
+import type { Step } from '../types';
+
+const mockSteps: Step[] = [
+  { id: '1', orderIndex: 1, instruction: 'Preheat oven to 350°F' },
+  { id: '2', orderIndex: 2, instruction: 'Mix dry ingredients' },
+  { id: '3', orderIndex: 3, instruction: 'Bake for 30 minutes' },
+];
+
+describe('StepList', () => {
+  it('renders section title', () => {
+    render(<StepList steps={mockSteps} />);
+    expect(screen.getByText('Instructions')).toBeInTheDocument();
+  });
+
+  it('renders all steps', () => {
+    render(<StepList steps={mockSteps} />);
+    expect(screen.getByText('Preheat oven to 350°F')).toBeInTheDocument();
+    expect(screen.getByText('Mix dry ingredients')).toBeInTheDocument();
+    expect(screen.getByText('Bake for 30 minutes')).toBeInTheDocument();
+  });
+
+  it('renders step numbers', () => {
+    render(<StepList steps={mockSteps} />);
+    expect(screen.getByText('1')).toBeInTheDocument();
+    expect(screen.getByText('2')).toBeInTheDocument();
+    expect(screen.getByText('3')).toBeInTheDocument();
+  });
+
+  it('renders steps in order by orderIndex', () => {
+    const unorderedSteps: Step[] = [
+      { id: '3', orderIndex: 3, instruction: 'Third step' },
+      { id: '1', orderIndex: 1, instruction: 'First step' },
+      { id: '2', orderIndex: 2, instruction: 'Second step' },
+    ];
+    render(<StepList steps={unorderedSteps} />);
+
+    const listItems = screen.getAllByRole('listitem');
+    expect(listItems[0]).toHaveTextContent('First step');
+    expect(listItems[1]).toHaveTextContent('Second step');
+    expect(listItems[2]).toHaveTextContent('Third step');
+  });
+
+  it('renders empty list without errors', () => {
+    render(<StepList steps={[]} />);
+    expect(screen.getByText('Instructions')).toBeInTheDocument();
+  });
+});
