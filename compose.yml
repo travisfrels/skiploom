@@ -1,0 +1,101 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: skiploom
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./infra/postgres/init-databases.sql:/docker-entrypoint-initdb.d/init-databases.sql:ro
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  forgejo:
+    image: codeberg.org/forgejo/forgejo:14
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: >-
+      bash -c '
+      /usr/bin/s6-svscan /etc/s6 &
+      sleep 10 ;
+      su -c "forgejo forgejo-cli actions register --keep-labels --secret $${FORGEJO_RUNNER_SECRET}" git ;
+      su -c "forgejo admin user create --admin --username root --password $${FORGEJO_ADMIN_PASSWORD} --email root@localhost --must-change-password=false" git ;
+      sleep infinity
+      '
+    environment:
+      FORGEJO__database__DB_TYPE: postgres
+      FORGEJO__database__HOST: postgres:5432
+      FORGEJO__database__NAME: forgejo
+      FORGEJO__database__USER: postgres
+      FORGEJO__database__PASSWD: postgres
+      FORGEJO__server__ROOT_URL: http://localhost:3000
+      FORGEJO__server__HTTP_PORT: "3000"
+      FORGEJO__server__SSH_DOMAIN: localhost
+      FORGEJO__server__SSH_PORT: "2222"
+      FORGEJO__security__INSTALL_LOCK: "true"
+      FORGEJO__service__DISABLE_REGISTRATION: "true"
+      FORGEJO__actions__ENABLED: "true"
+      FORGEJO__repository__ENABLE_PUSH_CREATE_USER: "true"
+      FORGEJO__repository__DEFAULT_PUSH_CREATE_PRIVATE: "false"
+      FORGEJO__repository__DEFAULT_REPO_UNITS: "repo.code,repo.issues,repo.pulls,repo.actions"
+      FORGEJO_RUNNER_SECRET: ${FORGEJO_RUNNER_SECRET}
+      FORGEJO_ADMIN_PASSWORD: ${FORGEJO_ADMIN_PASSWORD}
+    volumes:
+      - forgejo-data:/data
+    ports:
+      - "3000:3000"
+      - "2222:22"
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:3000/api/v1/version"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  runner-register:
+    image: data.forgejo.org/forgejo/runner:12.6.3
+    depends_on:
+      forgejo:
+        condition: service_healthy
+    environment:
+      FORGEJO_RUNNER_SECRET: ${FORGEJO_RUNNER_SECRET}
+    volumes:
+      - runner-data:/data
+    user: "0:0"
+    command: >-
+      bash -ec '
+      while : ; do
+        forgejo-runner create-runner-file --connect --instance http://forgejo:3000 --name runner --secret $${FORGEJO_RUNNER_SECRET} && break ;
+        sleep 1 ;
+      done ;
+      sed -i -e "s|\"labels\": null|\"labels\": [\"jdk-17:docker://eclipse-temurin:17-jdk-jammy\",\"node-20:docker://node:20-bookworm\"]|" .runner ;
+      forgejo-runner generate-config > config.yml ;
+      sed -i -e "s|network: .*|network: host|" config.yml ;
+      chown -R 1000:1000 /data
+      '
+
+  runner:
+    image: data.forgejo.org/forgejo/runner:12.6.3
+    depends_on:
+      runner-register:
+        condition: service_completed_successfully
+    user: "0:0"
+    volumes:
+      - runner-data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: >-
+      bash -c '
+      while : ; do test -w .runner && forgejo-runner --config config.yml daemon ; sleep 1 ; done
+      '
+
+volumes:
+  postgres-data:
+  forgejo-data:
+  runner-data:
