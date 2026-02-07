@@ -77,7 +77,7 @@ services:
       done ;
       sed -i -e "s|\"labels\": null|\"labels\": [\"ubuntu:docker://node:20-bookworm\"]|" .runner ;
       forgejo-runner generate-config > config.yml ;
-      sed -i -e "s|network: .*|network: host|" config.yml ;
+      sed -i -e "s|network: .*|network: skiploom|" config.yml ;
       chown -R 1000:1000 /data
       '
 
@@ -94,6 +94,10 @@ services:
       bash -c '
       while : ; do test -w .runner && forgejo-runner --config config.yml daemon ; sleep 1 ; done
       '
+
+networks:
+  default:
+    name: skiploom
 
 volumes:
   postgres-data:
