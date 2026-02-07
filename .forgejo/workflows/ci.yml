@@ -8,9 +8,14 @@ on:
 jobs:
   backend-tests:
     name: Backend Tests
-    runs-on: jdk-17
+    runs-on: ubuntu
     steps:
       - uses: actions/checkout@v4
+
+      - name: Install JDK 17
+        run: |
+          apt-get update -qq && apt-get install -y -qq openjdk-17-jdk > /dev/null 2>&1
+          echo "JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> $GITHUB_ENV
 
       - name: Run backend tests
         working-directory: src/backend
@@ -18,7 +23,7 @@ jobs:
 
   frontend-tests:
     name: Frontend Tests
-    runs-on: node-20
+    runs-on: ubuntu
     steps:
       - uses: actions/checkout@v4
 
