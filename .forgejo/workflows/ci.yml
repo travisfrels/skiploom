@@ -19,7 +19,9 @@ jobs:
 
       - name: Run backend tests
         working-directory: src/backend
-        run: ./gradlew test
+        run: |
+          chmod +x gradlew
+          ./gradlew test
 
   frontend-tests:
     name: Frontend Tests
