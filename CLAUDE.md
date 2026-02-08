@@ -6,7 +6,16 @@ Skiploom is a recipe management system.
 
 - `src/`: Source Code
 - `docs/`: Documentation
+- `infra/`: Infrastructure Initialization Files
+- `scripts/`: Scripts for automation and tooling
+- `.env`: Environment Specific Variables
+
+## Source Control Standards
+
+- **Working Branches**: All source controlled resource changes must take place in the context of a working branch.
+  - `main` is the primary branch. No changes are allowed against main.
+- **Issue References**: A commits must reference a Forgejo issue and all PRs must close a Forgejo issue.
 
 ## Testing
 
-Code changes follow TDD (Test-Driven Development): write a failing test, implement the minimum code to pass, then refactor. This applies to all backend and frontend code changes. Configuration, documentation, and infrastructure changes that have no testable behavior are exempt.
+- **Test-Driven Development**: Code changes follow TDD.

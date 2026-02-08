@@ -6,6 +6,5 @@ Document repository to support design, implementation, QA, deployment, and suppo
 
 - `adrs/`: Architecture Decision Records
 - `projects/`: Project definitions for product initiatives
-- `tasks/`: Task definitions for implementation work
 - `ENG-DESIGN.md`: Skiploom engineering design document
 - `README.md`: Read-me file for the documents directory

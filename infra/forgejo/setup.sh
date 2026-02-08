@@ -102,13 +102,14 @@ echo "Configuring branch protection on 'main'..."
 curl -sf -X POST "${FORGEJO_URL}/api/v1/repos/${REPO_OWNER}/${REPO_NAME}/branch_protections" \
   -H "${AGENT_TOKEN_AUTH}" \
   -H "Content-Type: application/json" \
-  -d '{
-    "branch_name": "main",
-    "enable_push": false,
-    "enable_merge_whitelist": true,
-    "enable_status_check": true,
-    "status_check_contexts": ["ci"]
-  }' > /dev/null 2>&1 || echo "  (branch protection may already exist)"
+  -d "{
+    \"branch_name\": \"main\",
+    \"enable_push\": false,
+    \"enable_merge_whitelist\": true,
+    \"merge_whitelist_usernames\": [\"${AGENT_USER}\", \"${ADMIN_USER}\"],
+    \"enable_status_check\": true,
+    \"status_check_contexts\": [\"ci\"]
+  }" > /dev/null 2>&1 || echo "  (branch protection may already exist)"
 
 # --- Create issue labels ---
 echo "Creating issue labels..."
@@ -134,7 +135,7 @@ curl -sf -X POST "${FORGEJO_URL}/api/v1/repos/${REPO_OWNER}/${REPO_NAME}/issues"
   -H "Content-Type: application/json" \
   -d '{
     "title": "Implement Operational Persistence",
-    "body": "Migrated from docs/tasks/TASK-20260205.md\n\n## Objective\n\nReplace InMemoryRecipeRepository with PostgreSQL-backed persistence, enabling recipes to survive application restarts.\n\n## References\n\n- ADR-OP-PERSISTENCE-20260205\n- Engineering Design: Operational Persistence\n\n## Acceptance Criteria\n\n- [ ] Application starts and connects to PostgreSQL running in Docker\n- [ ] All CRUD operations persist to PostgreSQL\n- [ ] Recipes survive application restarts\n- [ ] Flyway migrations run on startup and create the schema\n- [ ] JPA entities are in the infrastructure layer; domain entities are unchanged\n- [ ] Existing unit tests pass without modification\n- [ ] Integration tests verify repository operations against a real database\n- [ ] docker compose up starts both the application and PostgreSQL"
+    "body": "Migrated from `docs/tasks/TASK-20260205.md`\n\n## Objective\n\nReplace `InMemoryRecipeRepository` with PostgreSQL-backed persistence, enabling recipes to survive application restarts.\n\n## References\n\n- ADR-OP-PERSISTENCE-20260205\n- Engineering Design: Operational Persistence\n\n## Scope\n\n### In Scope\n\n- Add Spring Data JPA, PostgreSQL driver, and Flyway dependencies to `build.gradle.kts`\n- Configure PostgreSQL datasource and JPA properties in `application.yml`\n- Create JPA entities (`RecipeEntity`, `IngredientEntity`, `StepEntity`) in `infrastructure/persistence/`\n- Create mapping layer between domain entities and JPA entities\n- Implement `RecipeReader` and `RecipeWriter` using Spring Data JPA repositories\n- Write Flyway migration scripts for `recipe`, `ingredient`, and `step` tables\n- Add `postgres` service to Docker Compose with a volume mount for data persistence\n- Seed initial data via Flyway migration or Spring profile-conditional mechanism\n- Configure test infrastructure (H2 or Testcontainers) so existing tests continue to pass\n- Add integration tests for the JPA repository implementation\n\n### Out of Scope\n\n- Full-text search beyond `ILIKE` queries\n- Backup/restore automation (`pg_dump`/`pg_restore` workflows)\n- Production deployment configuration\n- Database connection pooling tuning\n- Schema changes beyond the three tables defined in the engineering design\n\n## Acceptance Criteria\n\n- [ ] Application starts and connects to PostgreSQL running in Docker\n- [ ] All CRUD operations (create, read, update, delete) persist to PostgreSQL\n- [ ] Recipes survive application restarts\n- [ ] Flyway migrations run on startup and create the schema\n- [ ] JPA entities are in the infrastructure layer; domain entities are unchanged\n- [ ] Existing unit tests pass without modification\n- [ ] Integration tests verify repository operations against a real (or embedded) database\n- [ ] `docker compose up` starts both the application and PostgreSQL\n\n## Implementation Notes\n\n- The existing `RecipeReader`/`RecipeWriter` interfaces in `domain/operations/` define the repository contract. The new JPA implementation should implement both, mirroring the pattern established by `InMemoryRecipeRepository`.\n- `InMemoryRecipeRepository` is removed — see Engineering Design: Repository Activation.\n- Flyway migration scripts go in `src/backend/src/main/resources/db/migration/` following the naming convention `V{number}__{description}.sql`."
   }' > /dev/null 2>&1 || echo "  (issue may already exist)"
 
 # TASK-20260206: Implement Development Platform
@@ -143,7 +144,7 @@ curl -sf -X POST "${FORGEJO_URL}/api/v1/repos/${REPO_OWNER}/${REPO_NAME}/issues"
   -H "Content-Type: application/json" \
   -d '{
     "title": "Implement Development Platform",
-    "body": "Migrated from docs/tasks/TASK-20260206.md\n\n## Objective\n\nStand up Forgejo as the local development hub, replacing the file-based task system with issue-based task management and providing git hosting, pull request workflow, and CI/CD via Forgejo Actions.\n\n## References\n\n- ADR-DEV-DEVPLATFORM-20260206\n\n## Acceptance Criteria\n\n- [ ] docker compose up starts Forgejo, PostgreSQL, and the Actions runner\n- [ ] Forgejo web UI is accessible on port 3000\n- [ ] Skiploom repository is hosted in Forgejo with full commit history\n- [ ] Shared service account exists with an API token\n- [ ] Agents can create, query, assign, comment on, and close issues via the REST API\n- [ ] Agents can push branches and open pull requests via git + API\n- [ ] Forgejo Actions runs the test suite on pull requests\n- [ ] Existing tasks from docs/tasks/ are represented as Forgejo issues"
+    "body": "Migrated from `docs/tasks/TASK-20260206.md`\n\n## Objective\n\nStand up Forgejo as the local development hub, replacing the file-based task system with issue-based task management and providing git hosting, pull request workflow, and CI/CD via Forgejo Actions.\n\n## References\n\n- ADR-DEV-DEVPLATFORM-20260206\n\n## Scope\n\n### In Scope\n\n- Add Forgejo service to Docker Compose, configured to use the shared PostgreSQL instance (`forgejo` database)\n- Add Forgejo Actions runner service to Docker Compose with Docker socket access\n- Configure Forgejo (admin account, shared service account, API token)\n- Create the Skiploom repository in Forgejo and push the existing codebase\n- Configure branch protection rules on `main`\n- Define Forgejo Actions workflow for running tests on pull requests\n- Define issue labels for task workflow (`in-progress`, `blocked`, and any others needed)\n- Migrate existing tasks from `docs/tasks/` to Forgejo issues\n- Document agent interaction patterns (API calls for issue management, branch naming, PR creation)\n\n### Out of Scope\n\n- Per-agent Forgejo accounts\n- Project board configuration (can be added later per ADR)\n- Forgejo wiki setup\n- Backup/restore automation for Forgejo data\n- Removing the file-based task system from the repository (separate cleanup task)\n\n## Acceptance Criteria\n\n- [x] `docker compose up` starts Forgejo, PostgreSQL, and the Actions runner\n- [x] Forgejo web UI is accessible on port 3000\n- [x] Skiploom repository is hosted in Forgejo with full commit history\n- [x] Shared service account exists with an API token\n- [x] Agents can create, query, assign, comment on, and close issues via the REST API\n- [x] Agents can push branches and open pull requests via git + API\n- [x] Forgejo Actions runs the test suite on pull requests\n- [x] Existing tasks from `docs/tasks/` are represented as Forgejo issues\n\n## Implementation Notes\n\n- Forgejo uses a dedicated `forgejo` database on the shared PostgreSQL instance.\n- The runner registers with Forgejo via a shared secret and runs CI jobs in Docker containers on the Compose network.\n- The Actions workflow runs the full test suite and fails the PR if any test fails.\n- HTTP clone via port 3000 is used for agent workflows."
   }' > /dev/null 2>&1 || echo "  (issue may already exist)"
 
 echo "  Tasks migrated."
