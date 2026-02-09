@@ -3,23 +3,20 @@ name: work-issue
 description: Start working on a Forgejo issue
 ---
 
-Start working on Forgejo issue `$ARGUMENTS`.
+Start working on Forgejo issue $ARGUMENTS.
 
 1. Fetch issue details.
-
-```bash
-source scripts/forgejo.sh
-get_issue $ARGUMENTS
-```
-
 2. Assign the issue to yourself.
+3. Checkout a working branch.
 
 ```bash
 source scripts/forgejo.sh
-assign_issue_to_me $ARGUMENTS
+get_issue $ARGUMENTS | jq '{id: .id, title: .title, body: .body, state: .state, comments: .comments}'
+get_issue_comments $ARGUMENTS | jq '[.[] | {id: .id, author: .user.login, body: .body}]'
+patch_issue_assign_to_me $ARGUMENTS
+git checkout -b issue-$ARGUMENTS-{slugified_issue_title}
+git push
 ```
-
-3. Checkout a working branch using `git checkout -b issue-{issue_number}-{slugified_issue_title}` format.
 
 4. Confirm
 

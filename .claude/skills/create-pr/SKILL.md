@@ -12,5 +12,5 @@ Create a pull request for the current branch.
 
 ```bash
 source scripts/forgejo.sh
-create_pull_request "PR_TITLE" "PR_BODY" "HEAD_BRANCH"
+post_pr "{Title}" "{Body}" "{Current Branch}"
 ```

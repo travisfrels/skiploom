@@ -7,5 +7,5 @@ Fetch open Forgejo issues.
 
 ```bash
 source scripts/forgejo.sh
-search_open_issues
+get_open_issues | jq '[.[] | {id: .id, title: .title}]'
 ```
