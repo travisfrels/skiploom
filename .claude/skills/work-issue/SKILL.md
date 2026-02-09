@@ -27,5 +27,5 @@ Tell the user:
 - They can begin working on the implementation
 
 5. /design an implementation plan for issue $ARGUMENTS
-
-If you have clarifying questions, then post them in the issue comments (`post_issue_comment`) and wait for a response before proceeding.
+  - If you have clarifying questions, then post them to the issue comments (`post_issue_comment`) and wait for a response before proceeding.
+  - Otherwise, create a step-by-step implementation plan and post the plan as a comment to the issue.
