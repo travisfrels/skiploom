@@ -3,3 +3,5 @@ spring:
     url: jdbc:postgresql://localhost:5432/skiploom-development
     username: postgres
     password: postgres
+  flyway:
+    locations: classpath:db/migration,classpath:db/seed
