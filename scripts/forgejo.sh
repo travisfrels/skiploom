@@ -84,3 +84,12 @@ post_pr_review_comment() {
   # $1 = pr id, $2 = review id, $3 = path to file, $4 = body
   _forgejo_curl -X POST -d "{\"path\":\"$3\",\"body\":\"$4\"}" "$FORGEJO_API/repos/$FORGEJO_OWNER/$FORGEJO_REPO/pulls/$1/reviews/$2/comments"
 }
+
+#
+# Pull Request Diff
+#
+
+get_pr_diff() {
+  # $1 = pr id
+  _forgejo_curl "$FORGEJO_API/repos/$FORGEJO_OWNER/$FORGEJO_REPO/pulls/$1.diff"
+}

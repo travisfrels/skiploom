@@ -9,6 +9,12 @@ spring:
   mvc:
     problemdetails:
       enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  flyway:
+    enabled: true
 
 logging:
   level:
