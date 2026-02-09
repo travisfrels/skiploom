@@ -22,9 +22,7 @@ git push --set-upstream forgejo issue-$ARGUMENTS-{slugified_issue_title}
 
 Tell the user:
 - The issue title and number
-- The branch name you created
-- That the issue is now assigned and labeled `in-progress`
-- They can begin working on the implementation
+- The branch name
 
 5. /design an implementation plan for issue $ARGUMENTS
   - If you have clarifying questions, then post them to the issue comments (`post_issue_comment`) and wait for a response before proceeding.

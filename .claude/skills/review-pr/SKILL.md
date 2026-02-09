@@ -22,9 +22,16 @@ get_issue_comments {related-issue} | jq '[.[] | {id: .id, author: .user.login, b
 
 0. Maintain an independent, critical stance. Avoid agreement-seeking, performative professionalism, or unnecessary hedging.
 1. Determine whether the current implementation stays true to the intent of issue's requirements and follows best practices.
-   * If yes, clearly state in a pr comment that the pull request is acceptable and explain why.
-   * If no, explain the specific deficiencies in a pr comment calling out anti-patterns by name if applicable.
+   * If yes, clearly state in a pr review that the pull request is acceptable and explain why.
+   * If no, explain the specific deficiencies in a pr review calling out anti-patterns by name if applicable.
       - If there are viable alternatives:
          a. List concrete pros and cons in table format.
          b. Evaluate using three criteria, in order: impact, least astonishment, idiomaticity.
          c. Clearly identify the highest scoring alternative.
+
+```bash
+source scripts/forgejo.sh
+post_pr_review $ARGUMENTS {ReviewStateType} <<'EOF'
+{Body}
+EOF
+```

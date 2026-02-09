@@ -4,7 +4,7 @@ Unit tests for infrastructure operation implementations.
 
 ## Contents
 
-- **InMemoryRecipeRepositoryTest.kt**: Tests for `InMemoryRecipeRepository` (seed data, fetch, exists, save, delete)
+- **PostgresRecipeRepositoryTest.kt**: Integration tests for `PostgresRecipeRepository` (fetch, exists, save, delete)
 
 ## Conventions
 

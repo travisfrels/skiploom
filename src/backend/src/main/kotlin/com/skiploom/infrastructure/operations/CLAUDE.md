@@ -4,4 +4,4 @@ Concrete implementations of domain operation interfaces using specific persisten
 
 ## Contents
 
-- **InMemoryRecipeRepository.kt**: In-memory implementation of `RecipeReader` and `RecipeWriter` using `ConcurrentHashMap`
+- **PostgresRecipeRepository.kt**: JPA-backed implementation of `RecipeReader` and `RecipeWriter` using Spring Data JPA

@@ -11,6 +11,10 @@ _forgejo_curl() {
   curl -s -H "Authorization: token $FORGEJO_AUTH_TOKEN" -H "Content-Type: application/json" "$@"
 }
 
+_forgejo_pr_agent_curl() {
+  curl -s -H "Authorization: token $FORGEJO_PR_AGENT_AUTH_TOKEN" -H "Content-Type: application/json" "$@"
+}
+
 #
 # Issues
 #
@@ -30,8 +34,8 @@ patch_issue_assign_to_me() {
 }
 
 post_issue() {
-  # $1 = title, $2 = body
-  _forgejo_curl -X POST -d "{\"title\":\"$1\",\"body\":\"$2\"}" "$FORGEJO_API/repos/$FORGEJO_OWNER/$FORGEJO_REPO/issues"
+  # $1 = title, body from stdin (forgejo-swagger.json#L9161-L9216)
+  _forgejo_curl -X POST -d "$(jq -Rns --arg title "$1" '{title: $title, body: input}' <&0)" "$FORGEJO_API/repos/$FORGEJO_OWNER/$FORGEJO_REPO/issues"
 }
 
 #
@@ -44,7 +48,7 @@ get_issue_comments() {
 }
 
 post_issue_comment() {
-  # $1 = issue id, body from stdin
+  # $1 = issue id, body from stdin (forgejo-swagger.json#L10592-L10652)
   _forgejo_curl -X POST -d "$(jq -Rns '{body: input}' <&0)" "$FORGEJO_API/repos/$FORGEJO_OWNER/$FORGEJO_REPO/issues/$1/comments"
 }
 
@@ -58,7 +62,7 @@ get_pr() {
 }
 
 post_pr() {
-  # $1 = title, $2 = head branch, body from stdin
+  # $1 = title, $2 = head branch, body from stdin (forgejo-swagger.json#L13382-L13437)
   _forgejo_curl -X POST -d "$(jq -Rns --arg title "$1" --arg head "$2" '{title: $title, body: input, head: $head, base: "main"}')" "$FORGEJO_API/repos/$FORGEJO_OWNER/$FORGEJO_REPO/pulls"
 }
 
@@ -71,6 +75,11 @@ get_pr_reviews() {
   _forgejo_curl "$FORGEJO_API/repos/$FORGEJO_OWNER/$FORGEJO_REPO/pulls/$1/reviews"
 }
 
+post_pr_review() {
+  # $1 = pr id, $2 = review state type, body from stdin (forgejo-swagger.json#L14155-L14208)
+  _forgejo_pr_agent_curl -X POST -d "$(jq -Rns --arg event "$2" '{body: input, event: $event}' <&0)" "$FORGEJO_API/repos/$FORGEJO_OWNER/$FORGEJO_REPO/pulls/$1/reviews"
+}
+
 #
 # Pull Request Review Comments
 #
@@ -81,8 +90,8 @@ get_pr_review_comments() {
 }
 
 post_pr_review_comment() {
-  # $1 = pr id, $2 = review id, $3 = path to file, $4 = body
-  _forgejo_curl -X POST -d "{\"path\":\"$3\",\"body\":\"$4\"}" "$FORGEJO_API/repos/$FORGEJO_OWNER/$FORGEJO_REPO/pulls/$1/reviews/$2/comments"
+  # $1 = pr id, $2 = review id, $3 = path to file, $4 = new line number, body from stdin (forgejo-swagger.json#L14426-L14486)
+  _forgejo_pr_agent_curl -X POST -d "$(jq -Rns --arg path "$3" --argjson new_position "$4" '{path: $path, new_position: $new_position, body: input}' <&0)" "$FORGEJO_API/repos/$FORGEJO_OWNER/$FORGEJO_REPO/pulls/$1/reviews/$2/comments"
 }
 
 #
