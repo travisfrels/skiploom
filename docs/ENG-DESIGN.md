@@ -66,6 +66,16 @@ Three-tier application with clear separation of concerns.
 
 PostgreSQL running as a Docker container provides the operational persistence layer (see [ADR-OP-PERSISTENCE-20260205](adrs/ADR-OP-PERSISTENCE-20260205.md)).
 
+#### Environment Configuration
+
+Spring profiles control datasource configuration per environment. Each profile has a corresponding `application-{profile}.yml` file:
+
+- `application-development.yml` — hardcoded connection to local PostgreSQL (`skiploom-development`)
+- `application-staging.yml` — datasource resolved from environment variables (`DATABASE_URL`, `DATABASE_USERNAME`, `DATABASE_PASSWORD`)
+- `application-production.yml` — datasource resolved from environment variables (`DATABASE_URL`, `DATABASE_USERNAME`, `DATABASE_PASSWORD`)
+
+Shared settings (server port, logging, application name) remain in the base `application.yml`.
+
 #### Schema
 
 Tables map directly to the domain model.
@@ -137,10 +147,12 @@ All services run via Docker Compose, defined in `compose.yml` at the repository 
 | `frontend` | Skiploom React | 5173 | SPA dev server |
 | `postgres` | PostgreSQL | 5432 | Shared database instance |
 
-PostgreSQL hosts two databases on the same instance:
+PostgreSQL hosts multiple databases on the same instance:
 
-- `skiploom`: Application data (see [Operational Persistence](#operational-persistence))
+- `skiploom-[development|staging|production]`: Application data (see [Operational Persistence](#operational-persistence))
 - `forgejo`: Development platform data (see below)
+
+The base `application.yml` sets `spring.profiles.default=development`, so the application connects to `skiploom-development` with no additional configuration required for local runs.
 
 ### Development Platform
 

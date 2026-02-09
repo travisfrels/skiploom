@@ -16,6 +16,7 @@ Skiploom is a recipe management system.
   - `main` is the primary branch. No changes are allowed against main.
 - **Issue References**: A commits must reference a Forgejo issue and all PRs must close a Forgejo issue.
 
-## Testing
+## Working Issues
 
-- **Test-Driven Development**: Code changes follow TDD.
+- **Read the ENG-DESIGN**: `docs/ENG-DESIGN.md`
+- **Test-Driven Development**: Code changes follow TDD, but if no code changes, then no tests.

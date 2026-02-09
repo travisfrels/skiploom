@@ -15,7 +15,7 @@ get_issue $ARGUMENTS | jq '{id: .id, title: .title, body: .body, state: .state, 
 get_issue_comments $ARGUMENTS | jq '[.[] | {id: .id, author: .user.login, body: .body}]'
 patch_issue_assign_to_me $ARGUMENTS
 git checkout -b issue-$ARGUMENTS-{slugified_issue_title}
-git push
+git push --set-upstream forgejo issue-$ARGUMENTS-{slugified_issue_title}
 ```
 
 4. Confirm
@@ -25,3 +25,7 @@ Tell the user:
 - The branch name you created
 - That the issue is now assigned and labeled `in-progress`
 - They can begin working on the implementation
+
+5. /design an implementation plan for issue $ARGUMENTS
+
+If you have clarifying questions, then post them in the issue comments (`post_issue_comment`) and wait for a response before proceeding.

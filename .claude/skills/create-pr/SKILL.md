@@ -12,5 +12,7 @@ Create a pull request for the current branch.
 
 ```bash
 source scripts/forgejo.sh
-post_pr "{Title}" "{Body}" "{Current Branch}"
+post_pr "{Title}" "{Current Branch}" <<'EOF'
+{Body}
+EOF
 ```

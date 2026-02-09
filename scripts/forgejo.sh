@@ -44,8 +44,8 @@ get_issue_comments() {
 }
 
 post_issue_comment() {
-  # $1 = issue id, $2 = comment body
-  _forgejo_curl -X POST -d "{\"body\":\"$2\"}" "$FORGEJO_API/repos/$FORGEJO_OWNER/$FORGEJO_REPO/issues/$1/comments"
+  # $1 = issue id, body from stdin
+  _forgejo_curl -X POST -d "$(jq -Rns '{body: input}' <&0)" "$FORGEJO_API/repos/$FORGEJO_OWNER/$FORGEJO_REPO/issues/$1/comments"
 }
 
 #
@@ -58,8 +58,8 @@ get_pr() {
 }
 
 post_pr() {
-  # $1 = title, $2 = body, $3 = head branch
-  _forgejo_curl -X POST -d "{\"title\":\"$1\",\"body\":\"$2\",\"head\":\"$3\"}" "$FORGEJO_API/repos/$FORGEJO_OWNER/$FORGEJO_REPO/pulls"
+  # $1 = title, $2 = head branch, body from stdin
+  _forgejo_curl -X POST -d "$(jq -Rns --arg title "$1" --arg head "$2" '{title: $title, body: input, head: $head, base: "main"}')" "$FORGEJO_API/repos/$FORGEJO_OWNER/$FORGEJO_REPO/pulls"
 }
 
 #
