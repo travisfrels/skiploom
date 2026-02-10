@@ -1,5 +1,4 @@
 import { useAppSelector } from '../store/hooks';
-import type { Recipe } from '../types';
 import RecipeCard from './RecipeCard';
 
 function RecipeList() {

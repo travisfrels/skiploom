@@ -74,7 +74,7 @@ services:
         forgejo-runner create-runner-file --connect --instance http://forgejo:3000 --name runner --secret $${FORGEJO_RUNNER_SECRET} && break ;
         sleep 1 ;
       done ;
-      sed -i -e "s|\"labels\": null|\"labels\": [\"ubuntu:docker://node:20-bookworm\"]|" .runner ;
+      sed -i -e "s|\"labels\": null|\"labels\": [\"ubuntu:docker://node:22-bookworm\"]|" .runner ;
       forgejo-runner generate-config > config.yml ;
       sed -i -e "s|network: .*|network: skiploom|" config.yml ;
       chown -R 1000:1000 /data
