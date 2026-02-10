@@ -1,3 +1,7 @@
+skiploom:
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS}
+
 spring:
   datasource:
     url: ${DATABASE_URL}

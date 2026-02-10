@@ -25,6 +25,9 @@ source scripts/forgejo.sh
 get_issue $ARGUMENTS | jq '{id: .id, title: .title, body: .body, state: .state, comments: .comments}'
 get_issue_comments $ARGUMENTS | jq '[.[] | {id: .id, author: .user.login, body: .body}]'
 
+# Get the last 10 changes to the repository.
+git log -n 10 --pretty=format:"%h - %an, %ar : %s"
+
 # Assign the issue to yourself.
 patch_issue_assign_to_me $ARGUMENTS
 
