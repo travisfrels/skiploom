@@ -10,7 +10,10 @@ jobs:
     name: Deploy Staging
     runs-on: deploy
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        run: |
+          apk add --no-cache git
+          git clone --depth 1 $GITHUB_SERVER_URL/$GITHUB_REPOSITORY.git .
 
       - name: Build and deploy staging
         run: docker compose -p skiploom --profile staging up -d --build backend-staging frontend-staging
