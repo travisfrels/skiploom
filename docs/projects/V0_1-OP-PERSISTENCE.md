@@ -1,8 +1,8 @@
-# V1.0 Operational Persistence
+# V0.1 Operational Persistence
 
 | Status | Created | Updated |
 |--------|---------|---------|
-| Active | 2026-02-08 | 2026-02-08 |
+| Done | 2026-02-08 | 2026-02-09 |
 
 ## Context
 
@@ -53,17 +53,22 @@ Configuration uses Spring profiles with environment-specific files extending a b
 
 ## Exit Criteria
 
-- [ ] Application starts and connects to PostgreSQL running in Docker
-- [ ] All CRUD operations persist to PostgreSQL
-- [ ] Recipes survive application restarts
-- [ ] Flyway migrations run on startup and create the schema
-- [ ] JPA entities are in the infrastructure layer; domain entities are unchanged
-- [ ] Existing unit tests pass without modification
-- [ ] Integration tests verify repository operations against a real database
-- [ ] `docker compose up` starts both the application and PostgreSQL
+- [X] Application starts and connects to PostgreSQL running in Docker
+- [X] All CRUD operations persist to PostgreSQL
+- [X] Recipes survive application restarts
+- [X] Flyway migrations run on startup and create the schema
+- [X] JPA entities are in the infrastructure layer; domain entities are unchanged
+- [X] Existing unit tests pass without modification
+- [X] Integration tests verify repository operations against a real database
 
 ## References
 
 - [Issue #3: Implement Operational Persistence](http://localhost:3000/skiploom-agent/skiploom/issues/3)
+- [Issue #4: Implement Development Platform](http://localhost:3000/skiploom-agent/skiploom/issues/4)
+- [Issue #12: Set up environment configuration structure](http://localhost:3000/skiploom-agent/skiploom/issues/12)
+- [Issue #13: Add persistence dependencies and Flyway migrations](http://localhost:3000/skiploom-agent/skiploom/issues/13)
+- [Issue #14: Implement JPA entities and mapping layer](http://localhost:3000/skiploom-agent/skiploom/issues/14)
+- [Issue #15: Implement JPA-backed RecipeReader and RecipeWriter](http://localhost:3000/skiploom-agent/skiploom/issues/15)
+- [Issue #16: Seed initial recipe data](http://localhost:3000/skiploom-agent/skiploom/issues/16)
 - [ADR-OP-PERSISTENCE-20260205](../adrs/ADR-OP-PERSISTENCE-20260205.md)
 - [Engineering Design: Operational Persistence](../ENG-DESIGN.md#operational-persistence)

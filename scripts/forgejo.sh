@@ -66,6 +66,11 @@ post_pr() {
   _forgejo_curl -X POST -d "$(jq -Rns --arg title "$1" --arg head "$2" '{title: $title, body: input, head: $head, base: "main"}')" "$FORGEJO_API/repos/$FORGEJO_OWNER/$FORGEJO_REPO/pulls"
 }
 
+patch_pr() {
+  # $1 = pr id, body from stdin (forgejo-swagger.json#L13580-L13619)
+  _forgejo_curl -X PATCH -d "$(jq -Rns '{body: input}' <&0)" "$FORGEJO_API/repos/$FORGEJO_OWNER/$FORGEJO_REPO/pulls/$1"
+}
+
 #
 # Pull Request Reviews
 #
