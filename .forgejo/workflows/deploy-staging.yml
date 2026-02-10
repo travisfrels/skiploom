@@ -1,0 +1,16 @@
+name: Deploy Staging
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy Staging
+    runs-on: deploy
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build and deploy staging
+        run: docker compose -p skiploom --profile staging up -d --build backend-staging frontend-staging
