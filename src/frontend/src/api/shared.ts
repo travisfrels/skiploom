@@ -1,6 +1,6 @@
 import { ValidationFailedError, type ProblemDetailResponse } from '../types';
 
-export const API_BASE_URL = 'http://localhost:8080/api';
+export const API_BASE_URL = '/api';
 
 export async function postCommand<T>(path: string, body: unknown): Promise<T> {
   const response = await fetch(`${API_BASE_URL}${path}`, {

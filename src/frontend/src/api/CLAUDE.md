@@ -14,7 +14,7 @@ HTTP client functions for backend communication.
 - All responses routed through `handleResponse` which parses RFC 7807 ProblemDetail error bodies
 - 400 responses with field-level `errors` throw `ValidationFailedError`
 - Other error responses throw `Error` with the ProblemDetail `detail` message
-- Base URL: `http://localhost:8080/api`
+- Base URL: `/api` (relative; proxied by Vite in dev, nginx in Docker)
 
 ## Usage
 

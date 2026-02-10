@@ -23,7 +23,7 @@ describe('commands', () => {
       const result = await createRecipe({ recipe: testRecipe });
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'http://localhost:8080/api/commands/create_recipe',
+        '/api/commands/create_recipe',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -46,7 +46,7 @@ describe('commands', () => {
       const result = await updateRecipe({ recipe: testRecipe });
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'http://localhost:8080/api/commands/update_recipe',
+        '/api/commands/update_recipe',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -69,7 +69,7 @@ describe('commands', () => {
       const result = await deleteRecipe({ id: '1' });
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'http://localhost:8080/api/commands/delete_recipe',
+        '/api/commands/delete_recipe',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

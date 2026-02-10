@@ -113,7 +113,7 @@ describe('postCommand', () => {
     const result = await postCommand('/commands/test', { name: 'test' });
 
     expect(global.fetch).toHaveBeenCalledWith(
-      'http://localhost:8080/api/commands/test',
+      '/api/commands/test',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

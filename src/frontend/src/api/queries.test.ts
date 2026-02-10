@@ -23,7 +23,7 @@ describe('queries', () => {
       const result = await fetchAllRecipes();
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'http://localhost:8080/api/queries/fetch_all_recipes'
+        '/api/queries/fetch_all_recipes'
       );
       expect(result).toEqual(responseData);
     });
@@ -41,7 +41,7 @@ describe('queries', () => {
       const result = await fetchRecipeById({ id: 'abc-123' });
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'http://localhost:8080/api/queries/fetch_recipe_by_id/abc-123'
+        '/api/queries/fetch_recipe_by_id/abc-123'
       );
       expect(result).toEqual(responseData);
     });

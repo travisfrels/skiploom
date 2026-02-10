@@ -3,6 +3,10 @@ server {
     root /usr/share/nginx/html;
     index index.html;
 
+    location /api/ {
+        proxy_pass ${BACKEND_URL};
+    }
+
     location / {
         try_files $uri $uri/ /index.html;
     }

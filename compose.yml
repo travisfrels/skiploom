@@ -74,11 +74,38 @@ services:
         forgejo-runner create-runner-file --connect --instance http://forgejo:3000 --name runner --secret $${FORGEJO_RUNNER_SECRET} && break ;
         sleep 1 ;
       done ;
-      sed -i -e "s|\"labels\": null|\"labels\": [\"ubuntu:docker://node:22-bookworm\"]|" .runner ;
+      sed -i -e "s|\"labels\": null|\"labels\": [\"ubuntu:docker://node:22-bookworm\", \"deploy:docker://docker:27\"]|" .runner ;
       forgejo-runner generate-config > config.yml ;
       sed -i -e "s|network: .*|network: skiploom|" config.yml ;
+      sed -i -e "s|valid_volumes = \[\]|valid_volumes = [\"/var/run/docker.sock\"]|" config.yml ;
       chown -R 1000:1000 /data
       '
+
+  backend-staging:
+    build:
+      context: ./src/backend
+    profiles: [staging]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: staging
+      DATABASE_URL: jdbc:postgresql://postgres:5432/skiploom-staging
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: postgres
+    ports:
+      - "8081:8080"
+
+  frontend-staging:
+    build:
+      context: ./src/frontend
+    profiles: [staging]
+    depends_on:
+      - backend-staging
+    environment:
+      BACKEND_URL: http://backend-staging:8080/
+    ports:
+      - "5174:80"
 
   runner:
     image: data.forgejo.org/forgejo/runner:12.6.3
