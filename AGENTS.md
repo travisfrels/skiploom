@@ -20,3 +20,10 @@ Skiploom is a recipe management system.
 
 - **Read the ENG-DESIGN**: `docs/ENG-DESIGN.md`
 - **Test-Driven Development**: Code changes follow TDD, but if no code changes, then no tests.
+
+## Forgejo For Issues and Pull Requests
+
+- For `scripts/forgejo.sh`, always execute commands via Bash only:
+  - `bash -lc "source scripts/forgejo.sh && <command>"`
+- DO NOT USE `_forgejo_curl` or `_forgejo_pr_agent_curl` directly:
+  - if you need extra functionality look in `scripts/forgejo-swagger.json` and create a new method in `scripts/forgejo.sh`

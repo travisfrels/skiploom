@@ -87,6 +87,7 @@ get_pr_reviews() {
 
 post_pr_review() {
   # $1 = pr id, $2 = review state type, body from stdin (forgejo-swagger.json#L14155-L14208)
+  # Allowed events: (APPROVED, REQUEST_CHANGES, COMMENT)
   _forgejo_pr_agent_curl -X POST -d "$(jq -Rns --arg event "$2" '{body: input, event: $event}' <&0)" "$FORGEJO_API/repos/$FORGEJO_OWNER/$FORGEJO_REPO/pulls/$1/reviews"
 }
 
