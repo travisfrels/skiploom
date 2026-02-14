@@ -52,6 +52,11 @@ post_issue_comment() {
   _forgejo_curl -X POST -d "$(jq -Rns '{body: input}' <&0)" "$FORGEJO_API/repos/$FORGEJO_OWNER/$FORGEJO_REPO/issues/$1/comments"
 }
 
+patch_issue_comment() {
+  # $1 = comment id, body from stdin (forgejo-swagger.json#L9286-L9445)
+  _forgejo_curl -X PATCH -d "$(jq -Rns '{body: input}' <&0)" "$FORGEJO_API/repos/$FORGEJO_OWNER/$FORGEJO_REPO/issues/comments/$1"
+}
+
 #
 # Pull Requests
 #

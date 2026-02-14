@@ -26,7 +26,7 @@ skiploom/
 │   ├── adrs/                    # ADRs
 │   ├── spades/                  # SPADEs
 │   ├── eng-designs/             # Engineering Designs
-│   └── CLAUDE.md
-├── CLAUDE.md
+│   └── AGENTS.md
+├── AGENTS.md
 └── README.md
 ```
