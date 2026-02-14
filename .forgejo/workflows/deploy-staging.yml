@@ -17,3 +17,11 @@ jobs:
 
       - name: Build and deploy staging
         run: docker compose -p skiploom --profile staging up -d --build backend-staging frontend-staging
+
+      - name: Verify staging deployment
+        run: |
+          echo "Waiting for backend-staging health..."
+          timeout 60 sh -c 'until wget -q --spider http://backend-staging:8080/api/health 2>/dev/null; do sleep 2; done'
+          echo "Backend healthy. Verifying frontend proxy..."
+          wget -q --spider http://frontend-staging:80/api/health
+          echo "Staging deployment verified."
