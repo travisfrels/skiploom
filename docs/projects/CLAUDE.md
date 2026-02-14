@@ -38,6 +38,11 @@ What can we do about it?
 ## Exit Criteria
 
 - [ ] Verifiable conditions that define "done".
+
+For infrastructure or workflow projects, include at least one criterion that exercises the
+integrated system end-to-end (e.g., "Pipeline deploys to staging and serves traffic").
+Component-level criteria alone verify parts in isolation but not that the system functions
+as a whole.
 ```
 
 ADRs and tasks are created during project execution, not pre-defined.
