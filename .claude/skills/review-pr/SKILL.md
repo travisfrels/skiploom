@@ -3,7 +3,7 @@ name: review-pr
 description: Review a pull request
 ---
 
-Review Forgejo pull request $ARGUMENTS
+/review Forgejo pull request $ARGUMENTS
 
 1. Fetch PR details.
 2. Fetch PR comments.

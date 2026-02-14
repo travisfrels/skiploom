@@ -77,3 +77,36 @@ Build Docker images for the backend and frontend, define staging services in `co
 - [PR #42: #31 Add healthcheck to backend-staging and wait for readiness](http://localhost:3000/skiploom-agent/skiploom/issues/42)
 
 ## Post-Mortem
+
+### Summary
+
+5 planned issues produced 5 unplanned follow-up issues — a 1:1 ratio of planned to reactive work. The Dockerfiles, staging services, and CORS configuration landed cleanly. The deploy pipeline did not. Issues #34, #36, #38, and #40 formed a serial failure chain where each fix, once merged, unmasked the next failure. The pipeline required four merge-discover-fix cycles before it functioned.
+
+### What Went Well
+
+- **Issue decomposition was clean.** #24–#27 were well-scoped, independent, and each closed with a single PR.
+- **Dockerfiles worked first try.** The multi-stage builds for backend and frontend required no follow-up fixes.
+- **CORS was handled proactively.** Profile-based `allowed-origins` with environment variable injection worked immediately.
+- **Healthcheck was caught in review.** #31 was identified during PR #30 review — a genuine success of code review as a quality gate.
+- **Root cause analysis was thorough.** Every follow-up issue included a clear diagnosis and targeted fix.
+
+### What Went Wrong
+
+**The deploy workflow was never tested before merge.** PRs #33, #35, #37, #39, and #41 all had unchecked test plan items like "Merge to main and verify..." — the testing strategy was merge and pray. This is the untested integration anti-pattern: each component was reviewed in isolation, but the system was never validated as a whole.
+
+The four serial failures:
+
+| Issue | Root Cause | Category |
+|-------|-----------|----------|
+| #34 | sed pattern only matches fresh `.runner` state | Stale state assumption |
+| #36 | `docker:27` has no Node.js for `actions/checkout` | Unvalidated tool compatibility |
+| #38 | `valid_volumes` whitelists but doesn't mount | Misread documentation |
+| #40 | nginx `proxy_pass` trailing slash strips path prefix | Well-known gotcha, not caught |
+
+**The exit criteria treated the pipeline as components, not a system.** No criterion required end-to-end validation: merge a PR and confirm staging is serving traffic.
+
+### Improvement Issues
+
+- [Issue #46: Add deployment verification to deploy-staging workflow](http://localhost:3000/skiploom-agent/skiploom/issues/46)
+- [Issue #47: Add end-to-end validation guidance to project template exit criteria](http://localhost:3000/skiploom-agent/skiploom/issues/47)
+- [Issue #48: Validate runner configuration after registration](http://localhost:3000/skiploom-agent/skiploom/issues/48)
