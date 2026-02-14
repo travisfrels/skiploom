@@ -100,7 +100,7 @@ Issues replace the file-based task system. Agents interact via Forgejo's REST AP
 **Workflow:**
 
 1. Agent queries open, unassigned issues via API
-2. Agent assigns the issue and adds an `in-progress` label
+2. Agent assigns the issue
 3. Agent creates a branch (`issue-{n}-{slug}`), implements changes, pushes
 4. Agent opens a pull request referencing `Closes #{n}`
 5. Forgejo Actions runs tests on the PR
@@ -147,4 +147,4 @@ Forgejo uses PostgreSQL — the same instance already running for the applicatio
 **Neutral:**
 
 - Existing file-based task system in `docs/tasks/` becomes obsolete and should be removed after migration
-- Agents need API access patterns (curl or equivalent) for issue management
+- Agents need API access patterns (wrapper methods in `scripts/forgejo.sh`) for issue management
