@@ -25,10 +25,10 @@ class StepEntity(
     var recipeId: UUID = UUID(0, 0),
 
     @Id
-    @Column(name = "order_index")
+    @Column(name = "order_index", nullable = false)
     var orderIndex: Int = 0,
 
-    @Column(name = "instruction")
+    @Column(name = "instruction", nullable = false)
     var instruction: String = ""
 )
 

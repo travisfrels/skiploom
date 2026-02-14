@@ -10,7 +10,7 @@ class RecipeEntity(
     @Id
     var id: UUID = UUID(0, 0),
 
-    @Column(name = "title")
+    @Column(name = "title", nullable = false)
     var title: String = "",
 
     @Column(name = "description")

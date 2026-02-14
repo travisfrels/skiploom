@@ -28,13 +28,13 @@ class IngredientEntity(
     @Column(name = "order_index")
     var orderIndex: Int = 0,
 
-    @Column(name = "amount")
+    @Column(name = "amount", nullable = false)
     var amount: Double = 0.0,
 
-    @Column(name = "unit")
+    @Column(name = "unit", nullable = false)
     var unit: String = "",
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     var name: String = ""
 )
 
