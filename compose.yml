@@ -58,7 +58,7 @@ services:
       retries: 10
       start_period: 30s
 
-  runner-register:
+  runner:
     image: data.forgejo.org/forgejo/runner:12.6.3
     depends_on:
       forgejo:
@@ -67,6 +67,7 @@ services:
       FORGEJO_RUNNER_SECRET: ${FORGEJO_RUNNER_SECRET}
     volumes:
       - runner-data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
     user: "0:0"
     command: >-
       bash -ec '
@@ -86,7 +87,8 @@ services:
       grep -q "valid_volumes:" config.yml || { echo "ERROR: valid_volumes not configured in config.yml"; exit 1; } ;
       grep -q "docker_host: automount" config.yml || { echo "ERROR: docker_host not set to automount in config.yml"; exit 1; } ;
       echo "Runner configuration validated successfully." ;
-      chown -R 1000:1000 /data
+      chown -R 1000:1000 /data ;
+      exec forgejo-runner --config config.yml daemon
       '
 
   backend-staging:
@@ -122,20 +124,6 @@ services:
       BACKEND_URL: http://backend-staging:8080
     ports:
       - "5174:80"
-
-  runner:
-    image: data.forgejo.org/forgejo/runner:12.6.3
-    depends_on:
-      runner-register:
-        condition: service_completed_successfully
-    user: "0:0"
-    volumes:
-      - runner-data:/data
-      - /var/run/docker.sock:/var/run/docker.sock
-    command: >-
-      bash -c '
-      while : ; do test -w .runner && forgejo-runner --config config.yml daemon ; sleep 1 ; done
-      '
 
 networks:
   default:
