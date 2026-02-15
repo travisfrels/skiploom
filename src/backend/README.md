@@ -6,6 +6,34 @@ REST API written in Kotlin using the Spring framework implementing CQRS and Clea
 
 TODO: Add folder structure ASCII art.
 
+## Configuration
+
+### Google OAuth2
+
+The backend uses Google OAuth2 for authentication. The development profile has credentials preconfigured; staging and production profiles require environment variables.
+
+#### Required Environment Variables
+
+| Variable | Description |
+|----------|-------------|
+| `GOOGLE_CLIENT_ID` | Google OAuth2 client ID |
+| `GOOGLE_CLIENT_SECRET` | Google OAuth2 client secret |
+
+See [`.env.example`](../../.env.example) at the repository root for a template.
+
+#### Creating a Google Cloud OAuth2 Client
+
+1. Go to the [Google Cloud Console](https://console.cloud.google.com/).
+2. Navigate to **APIs & Services > Credentials**.
+3. Click **Create Credentials > OAuth client ID**.
+4. Select **Web application** as the application type.
+5. Under **Authorized redirect URIs**, add: `http://localhost:8080/login/oauth2/code/google`
+6. Copy the generated **Client ID** and **Client Secret** into your `.env` file.
+
+#### Startup Validation
+
+The backend validates that `client-id` and `client-secret` are non-blank at startup. If either is missing or empty, the application fails fast with an error message naming the missing variable.
+
 ## Getting Started
 
 ### Prerequisites
