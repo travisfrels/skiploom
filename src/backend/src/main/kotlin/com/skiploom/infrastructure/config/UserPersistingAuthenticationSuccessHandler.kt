@@ -8,13 +8,12 @@ import jakarta.servlet.http.HttpServletResponse
 import org.springframework.security.core.Authentication
 import org.springframework.security.oauth2.core.oidc.user.OidcUser
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
-import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler
 import java.util.UUID
 
 class UserPersistingAuthenticationSuccessHandler(
     private val userReader: UserReader,
     private val userWriter: UserWriter,
-    private val delegate: AuthenticationSuccessHandler = SavedRequestAwareAuthenticationSuccessHandler()
+    private val delegate: AuthenticationSuccessHandler
 ) : AuthenticationSuccessHandler {
 
     override fun onAuthenticationSuccess(

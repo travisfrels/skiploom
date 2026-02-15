@@ -2,6 +2,7 @@ package com.skiploom.infrastructure.config
 
 import com.skiploom.domain.operations.UserReader
 import com.skiploom.domain.operations.UserWriter
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Lazy
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.HttpStatusEntryPoint
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository
 import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher
 
@@ -21,9 +23,14 @@ class SecurityConfig {
     @Bean
     fun userPersistingAuthenticationSuccessHandler(
         @Lazy userReader: UserReader,
-        @Lazy userWriter: UserWriter
+        @Lazy userWriter: UserWriter,
+        @Value("\${skiploom.cors.allowed-origins}") frontendOrigin: String
     ): UserPersistingAuthenticationSuccessHandler {
-        return UserPersistingAuthenticationSuccessHandler(userReader, userWriter)
+        return UserPersistingAuthenticationSuccessHandler(
+            userReader,
+            userWriter,
+            SimpleUrlAuthenticationSuccessHandler(frontendOrigin)
+        )
     }
 
     @Bean

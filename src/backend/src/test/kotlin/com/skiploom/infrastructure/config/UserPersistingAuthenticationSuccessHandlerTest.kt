@@ -8,9 +8,12 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import org.springframework.mock.web.MockHttpServletRequest
+import org.springframework.mock.web.MockHttpServletResponse
 import org.springframework.security.core.Authentication
 import org.springframework.security.oauth2.core.oidc.user.OidcUser
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler
 import java.util.UUID
 
 class UserPersistingAuthenticationSuccessHandlerTest {
@@ -98,6 +101,23 @@ class UserPersistingAuthenticationSuccessHandlerTest {
         handler.onAuthenticationSuccess(request, response, authentication)
 
         assertEquals(existingId, savedUserSlot.captured.id)
+    }
+
+    @Test
+    fun `redirects to frontend origin after login`() {
+        val frontendOrigin = "http://localhost:5173"
+        val mockRequest = MockHttpServletRequest()
+        val mockResponse = MockHttpServletResponse()
+        val handlerWithRealDelegate = UserPersistingAuthenticationSuccessHandler(
+            userReader, userWriter, SimpleUrlAuthenticationSuccessHandler(frontendOrigin)
+        )
+        val authentication = mockAuthentication()
+        every { userReader.findByGoogleSubject("google-sub-123") } returns null
+        every { userWriter.save(any()) } answers { firstArg() }
+
+        handlerWithRealDelegate.onAuthenticationSuccess(mockRequest, mockResponse, authentication)
+
+        assertEquals(frontendOrigin, mockResponse.redirectedUrl)
     }
 
     @Test
