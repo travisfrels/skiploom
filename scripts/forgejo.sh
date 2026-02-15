@@ -61,6 +61,11 @@ patch_issue_comment() {
 # Pull Requests
 #
 
+get_prs() {
+  # $1 = state (open, closed, all), default: all
+  _forgejo_curl "$FORGEJO_API/repos/$FORGEJO_OWNER/$FORGEJO_REPO/pulls?state=${1:-all}&limit=50"
+}
+
 get_pr() {
   # $1 = pr id
   _forgejo_curl "$FORGEJO_API/repos/$FORGEJO_OWNER/$FORGEJO_REPO/pulls/$1"

@@ -7,6 +7,14 @@ server {
         proxy_pass ${BACKEND_URL};
     }
 
+    location /oauth2/ {
+        proxy_pass ${BACKEND_URL};
+    }
+
+    location /login/oauth2/ {
+        proxy_pass ${BACKEND_URL};
+    }
+
     location / {
         try_files $uri $uri/ /index.html;
     }

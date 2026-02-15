@@ -2,7 +2,7 @@
 
 | Status | Created | Updated |
 |--------|---------|---------|
-| Draft | 2026-02-14 | 2026-02-14 |
+| Draft | 2026-02-14 | 2026-02-15 |
 
 ## Context
 
@@ -52,6 +52,8 @@ Spring Security enables CSRF protection by default. Session-cookie authenticatio
 - [ ] Frontend displays the authenticated user's name
 - [ ] Unauthenticated request to any API endpoint returns 401
 - [ ] Authenticated user can browse, create, edit, and delete recipes end-to-end through the UI
+- [ ] Post-login redirect returns user to the frontend root, not a saved API request (#70)
+- [ ] OAuth2 configuration documented with startup validation for missing credentials (#69)
 
 ## References
 
@@ -59,3 +61,15 @@ Spring Security enables CSRF protection by default. Session-cookie authenticatio
 - [Issue #56: Add Spring Security OAuth2 and SecurityFilterChain](http://localhost:3000/skiploom-agent/skiploom/issues/56)
 - [Issue #57: Add user persistence and /api/me endpoint](http://localhost:3000/skiploom-agent/skiploom/issues/57)
 - [Issue #58: Add frontend authentication handling](http://localhost:3000/skiploom-agent/skiploom/issues/58)
+
+### Follow-Up Issues
+
+- [Issue #69: Add OAuth2 configuration documentation and startup validation](http://localhost:3000/skiploom-agent/skiploom/issues/69)
+- [Issue #70: Fix post-login redirect to frontend root](http://localhost:3000/skiploom-agent/skiploom/issues/70)
+
+### Pull Requests
+
+- [PR #55: #54 Add V0.3 Authentication project definition](http://localhost:3000/skiploom-agent/skiploom/pulls/55)
+- [PR #66: #56 Add Spring Security OAuth2 and SecurityFilterChain](http://localhost:3000/skiploom-agent/skiploom/pulls/66)
+- [PR #67: #57 Add user persistence and /api/me endpoint](http://localhost:3000/skiploom-agent/skiploom/pulls/67)
+- [PR #68: #58 Add frontend authentication handling](http://localhost:3000/skiploom-agent/skiploom/pulls/68)

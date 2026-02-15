@@ -1,3 +1,4 @@
+export { loadUser } from './loadUser';
 export { loadRecipes } from './loadRecipes';
 export { loadRecipeById } from './loadRecipeById';
 export { setCurrentRecipeId } from './setCurrentRecipeId';

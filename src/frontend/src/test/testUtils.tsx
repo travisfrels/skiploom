@@ -4,7 +4,8 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import { store } from '../store';
 import * as slice from '../store/recipeSlice';
-import type { Recipe, ValidationError } from '../types';
+import * as userSlice from '../store/userSlice';
+import type { Recipe, User, ValidationError } from '../types';
 
 interface RecipeState {
   recipes: Record<string, Recipe>;
@@ -17,9 +18,14 @@ interface RecipeState {
   submitting: boolean;
 }
 
+interface UserState {
+  user: User | null;
+}
+
 interface RenderOptions {
   preloadedState?: {
-    recipes: Partial<RecipeState>;
+    recipes?: Partial<RecipeState>;
+    user?: Partial<UserState>;
   };
   initialEntries?: string[];
 }
@@ -33,6 +39,7 @@ function resetStore() {
   store.dispatch(slice.setSuccess(null));
   store.dispatch(slice.setValidationErrors([]));
   store.dispatch(slice.setSubmitting(false));
+  store.dispatch(userSlice.setUser(null));
 }
 
 export function renderWithProviders(
@@ -71,6 +78,13 @@ export function renderWithProviders(
     }
     if (state.submitting !== undefined) {
       store.dispatch(slice.setSubmitting(state.submitting));
+    }
+  }
+
+  if (preloadedState?.user) {
+    const state = preloadedState.user;
+    if (state.user !== undefined) {
+      store.dispatch(userSlice.setUser(state.user));
     }
   }
 

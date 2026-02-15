@@ -1,3 +1,9 @@
+export interface User {
+  id: string;
+  email: string;
+  displayName: string;
+}
+
 export interface Ingredient {
   orderIndex: number;
   amount: number;

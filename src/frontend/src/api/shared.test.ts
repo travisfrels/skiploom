@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { handleResponse, postCommand } from './shared';
 import { ValidationFailedError } from '../types';
 
@@ -19,6 +19,34 @@ function mockNonJsonResponse(status: number): Response {
 }
 
 describe('handleResponse', () => {
+  const originalLocation = window.location;
+
+  beforeEach(() => {
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      value: { ...originalLocation, href: '' },
+    });
+  });
+
+  afterEach(() => {
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      value: originalLocation,
+    });
+  });
+
+  it('redirects to OAuth2 login on 401', async () => {
+    const promise = handleResponse(mockResponse(401, {}));
+
+    expect(window.location.href).toBe('/oauth2/authorization/google');
+
+    // The promise should never resolve (hangs during redirect)
+    let resolved = false;
+    promise.then(() => { resolved = true; });
+    await new Promise((r) => setTimeout(r, 10));
+    expect(resolved).toBe(false);
+  });
+
   it('returns parsed JSON for successful responses', async () => {
     const data = { recipe: { id: '1', title: 'Test' } };
     const result = await handleResponse(mockResponse(200, data));
@@ -106,6 +134,14 @@ describe('handleResponse', () => {
 });
 
 describe('postCommand', () => {
+  const originalCookie = Object.getOwnPropertyDescriptor(document, 'cookie');
+
+  afterEach(() => {
+    if (originalCookie) {
+      Object.defineProperty(document, 'cookie', originalCookie);
+    }
+  });
+
   it('sends POST with JSON content-type and stringified body', async () => {
     const responseData = { id: '1' };
     vi.mocked(global.fetch).mockResolvedValueOnce(mockResponse(200, responseData));
@@ -121,6 +157,29 @@ describe('postCommand', () => {
       }
     );
     expect(result).toEqual(responseData);
+  });
+
+  it('includes CSRF token header when XSRF-TOKEN cookie is present', async () => {
+    Object.defineProperty(document, 'cookie', {
+      get: () => 'XSRF-TOKEN=test-csrf-token',
+      configurable: true,
+    });
+    const responseData = { id: '1' };
+    vi.mocked(global.fetch).mockResolvedValueOnce(mockResponse(200, responseData));
+
+    await postCommand('/commands/test', { name: 'test' });
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      '/api/commands/test',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-XSRF-TOKEN': 'test-csrf-token',
+        },
+        body: JSON.stringify({ name: 'test' }),
+      }
+    );
   });
 
   it('delegates error handling to handleResponse', async () => {

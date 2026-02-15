@@ -67,4 +67,31 @@ describe('Layout', () => {
     );
     expect(screen.queryByText('Something went wrong')).not.toBeInTheDocument();
   });
+
+  it('displays authenticated user name in header', () => {
+    renderWithProviders(
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<div>Page</div>} />
+        </Route>
+      </Routes>,
+      {
+        preloadedState: {
+          user: { user: { id: 'user-1', email: 'test@example.com', displayName: 'Test User' } },
+        },
+      }
+    );
+    expect(screen.getByText('Test User')).toBeInTheDocument();
+  });
+
+  it('does not display user name when not authenticated', () => {
+    renderWithProviders(
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<div>Page</div>} />
+        </Route>
+      </Routes>,
+    );
+    expect(screen.queryByText('Test User')).not.toBeInTheDocument();
+  });
 });

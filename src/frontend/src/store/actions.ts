@@ -1,6 +1,7 @@
-import type { Recipe, ValidationError } from '../types';
+import type { Recipe, User, ValidationError } from '../types';
 import { store } from './index';
 import * as slice from './recipeSlice';
+import * as userSlice from './userSlice';
 
 export function setLoading(loading: boolean): void {
   store.dispatch(slice.setLoading(loading));
@@ -52,4 +53,8 @@ export function setValidationErrors(errors: ValidationError[]): void {
 
 export function clearValidationErrors(): void {
   store.dispatch(slice.clearValidationErrors());
+}
+
+export function setUser(user: User | null): void {
+  store.dispatch(userSlice.setUser(user));
 }

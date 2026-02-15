@@ -4,6 +4,7 @@ import { useAppSelector } from '../store/hooks';
 import * as act from '../store/actions';
 
 function Layout() {
+  const user = useAppSelector((state) => state.user.user);
   const error = useAppSelector((state) => state.recipes.error);
   const success = useAppSelector((state) => state.recipes.success);
 
@@ -17,7 +18,12 @@ function Layout() {
     <div className="min-h-screen flex flex-col">
       <header className="bg-slate-800 text-white shadow-md">
         <div className="px-8 py-4">
-          <h1 className="text-3xl font-bold mb-4">Skiploom</h1>
+          <div className="flex justify-between items-center mb-4">
+            <h1 className="text-3xl font-bold">Skiploom</h1>
+            {user && (
+              <span className="text-sm text-slate-300">{user.displayName}</span>
+            )}
+          </div>
           <nav className="flex gap-6">
             <Link
               to="/"

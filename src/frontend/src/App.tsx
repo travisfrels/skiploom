@@ -13,6 +13,10 @@ function App() {
   const recipesLoaded = useAppSelector((state) => state.recipes.recipesLoaded);
 
   useEffect(() => {
+    ops.loadUser();
+  }, []);
+
+  useEffect(() => {
     if (!recipesLoaded) { ops.loadRecipes(); }
   }, [recipesLoaded]);
 
