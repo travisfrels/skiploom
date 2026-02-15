@@ -18,6 +18,8 @@ import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest
 import org.springframework.context.annotation.Bean
 import org.springframework.http.MediaType
+import org.springframework.security.test.context.support.WithMockUser
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
@@ -26,6 +28,7 @@ import tools.jackson.databind.ObjectMapper
 import java.util.UUID
 
 @WebMvcTest(RecipeCommandController::class)
+@WithMockUser
 class RecipeCommandControllerTest {
 
     @TestConfiguration
@@ -72,6 +75,7 @@ class RecipeCommandControllerTest {
 
         mockMvc.perform(
             post("/api/commands/create_recipe")
+                .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(command))
         )
@@ -86,6 +90,7 @@ class RecipeCommandControllerTest {
 
         mockMvc.perform(
             post("/api/commands/create_recipe")
+                .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(command))
         )
@@ -105,6 +110,7 @@ class RecipeCommandControllerTest {
 
         mockMvc.perform(
             post("/api/commands/update_recipe")
+                .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(command))
         )
@@ -120,6 +126,7 @@ class RecipeCommandControllerTest {
 
         mockMvc.perform(
             post("/api/commands/update_recipe")
+                .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(command))
         )
@@ -134,6 +141,7 @@ class RecipeCommandControllerTest {
 
         mockMvc.perform(
             post("/api/commands/delete_recipe")
+                .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(command))
         )
@@ -148,6 +156,7 @@ class RecipeCommandControllerTest {
 
         mockMvc.perform(
             post("/api/commands/delete_recipe")
+                .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(command))
         )

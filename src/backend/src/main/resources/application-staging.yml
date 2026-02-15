@@ -3,6 +3,13 @@ skiploom:
     allowed-origins: ${CORS_ALLOWED_ORIGINS}
 
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
   datasource:
     url: ${DATABASE_URL}
     username: ${DATABASE_USERNAME}
