@@ -14,6 +14,8 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import com.skiploom.domain.operations.UserReader
+import com.skiploom.domain.operations.UserWriter
 import io.mockk.mockk
 
 @WebMvcTest(HealthController::class)
@@ -24,6 +26,12 @@ class SecurityConfigTest {
     class TestConfig {
         @Bean
         fun clientRegistrationRepository(): ClientRegistrationRepository = mockk()
+
+        @Bean
+        fun userReader(): UserReader = mockk()
+
+        @Bean
+        fun userWriter(): UserWriter = mockk()
     }
 
     @Autowired
@@ -55,6 +63,12 @@ class SecurityConfigTest {
     fun `authenticated GET to api queries is permitted`() {
         mockMvc.perform(get("/api/queries/fetch_all_recipes"))
             .andExpect(status().isNotFound)
+    }
+
+    @Test
+    fun `unauthenticated GET to api me returns 401`() {
+        mockMvc.perform(get("/api/me"))
+            .andExpect(status().isUnauthorized)
     }
 
     @Test

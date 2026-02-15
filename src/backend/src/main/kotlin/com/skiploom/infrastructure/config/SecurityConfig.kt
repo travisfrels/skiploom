@@ -1,7 +1,10 @@
 package com.skiploom.infrastructure.config
 
+import com.skiploom.domain.operations.UserReader
+import com.skiploom.domain.operations.UserWriter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Lazy
 import org.springframework.http.HttpStatus
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -16,7 +19,18 @@ import org.springframework.security.web.servlet.util.matcher.PathPatternRequestM
 class SecurityConfig {
 
     @Bean
-    fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
+    fun userPersistingAuthenticationSuccessHandler(
+        @Lazy userReader: UserReader,
+        @Lazy userWriter: UserWriter
+    ): UserPersistingAuthenticationSuccessHandler {
+        return UserPersistingAuthenticationSuccessHandler(userReader, userWriter)
+    }
+
+    @Bean
+    fun securityFilterChain(
+        http: HttpSecurity,
+        successHandler: UserPersistingAuthenticationSuccessHandler
+    ): SecurityFilterChain {
         http
             .authorizeHttpRequests { auth ->
                 auth
@@ -24,7 +38,9 @@ class SecurityConfig {
                     .requestMatchers("/api/**").authenticated()
                     .anyRequest().permitAll()
             }
-            .oauth2Login(Customizer.withDefaults())
+            .oauth2Login { oauth2 ->
+                oauth2.successHandler(successHandler)
+            }
             .exceptionHandling { exceptions ->
                 exceptions.defaultAuthenticationEntryPointFor(
                     HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
