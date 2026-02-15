@@ -56,6 +56,11 @@ as a whole.
 ### Pull Requests
 
 - Links to all PRs created during the project, in chronological order.
+
+### Design References
+
+- Links to web-based articles used in the design of the project.
+
 ```
 
 ADRs and tasks are created during project execution, not pre-defined.

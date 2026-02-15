@@ -9,7 +9,8 @@ Perform a post-mortem analysis of docs/projects $ARGUMENTS.
 2. Read the project documentation.
 3. Read the project issue(s) and pull request(s).
 4. /post-mortem the project actions.
-5. Post issues for each identified opportunity for improvement then add the implementation plan as a comment.
+5. Post issues for each identified opportunity.
+6. Add a `## Post-Mortem` section to the project documentation with the analysis and links to the improvement issues.
 
 ```bash
 source scripts/forgejo.sh
