@@ -1,6 +1,6 @@
 ---
 name: create-pr
-description: Push the current branch to Forgejo and create a pull request
+description: Push the current branch to GitHub and create a pull request
 ---
 
 Create a pull request for the current branch.
@@ -13,8 +13,5 @@ Create a pull request for the current branch.
 4. Create a pull request.
 
 ```bash
-source scripts/forgejo.sh
-post_pr "{Title}" "{Current Branch}" <<'EOF' # $1 = title, $2 = head branch, body from stdin (forgejo-swagger.json#L13382-L13437)
-{Body}
-EOF
+gh pr create --title "{Title}" --body "{Body}"
 ```

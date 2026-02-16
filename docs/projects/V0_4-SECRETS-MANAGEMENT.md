@@ -12,11 +12,11 @@ Multiple secrets are hardcoded in source-controlled files:
 
 | Secret | Location | Under Source Control |
 |--------|----------|---------------------|
-| Forgejo admin password (`***REMOVED***`) | `.env`, `setup.sh` | Yes |
+| Forgejo admin password (`admin123`) | `.env`, `setup.sh` | Yes |
 | Forgejo runner secret | `.env`, `compose.yml` | Yes |
 | Forgejo API auth token | `.env` | Yes |
 | Forgejo PR agent auth token | `.env` | Yes |
-| Forgejo agent account password (`***REMOVED***`) | `setup.sh` | Yes |
+| Forgejo agent account password (`agent123456`) | `setup.sh` | Yes |
 | Google OAuth2 client-id | `application-development.yml` | Yes |
 | Google OAuth2 client-secret | `application-development.yml` | Yes |
 | PostgreSQL superuser password (`postgres`) | `compose.yml`, `application-development.yml` | Yes |
