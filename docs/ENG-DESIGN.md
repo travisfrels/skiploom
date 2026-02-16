@@ -135,6 +135,33 @@ JPA entities (`RecipeEntity`, `IngredientEntity`, `StepEntity`) are defined in t
 
 Infrastructure, search, and backup/restore details are covered in the ADR.
 
+### Secrets Management
+
+Secrets are managed through file-based secrets, never hardcoded in source-controlled files.
+
+#### Workflow
+
+1. **Generate**: `scripts/generate-secrets.sh` creates the `secrets/` directory with one file per secret. Local-only secrets (database passwords) are randomly generated; external credentials (Google OAuth2) are written as placeholders for manual replacement.
+2. **Store**: The `secrets/` directory is gitignored. Each file contains a single secret value with no trailing newline. Filenames map directly to Spring property keys (e.g., `spring.datasource.password`).
+3. **Mount**: Docker Compose declares a top-level `secrets:` block referencing files in `secrets/`. Each service declares only the secrets it needs, mounted at `/run/secrets/<name>`.
+4. **Resolve**: Spring Boot's configtree (`spring.config.import: optional:configtree:/run/secrets/`) reads secret files and maps them to application properties by filename.
+
+#### Secret Files
+
+| File | Purpose | Generated |
+|------|---------|-----------|
+| `postgres_password` | PostgreSQL superuser password | Random |
+| `spring.datasource.password` | Spring datasource password (copied from postgres_password) | Random |
+| `spring.security.oauth2.client.registration.google.client-id` | Google OAuth2 client ID | Placeholder |
+| `spring.security.oauth2.client.registration.google.client-secret` | Google OAuth2 client secret | Placeholder |
+
+#### Environment-Specific Behavior
+
+- **Development**: Configtree reads from both `/run/secrets/` (Docker) and `../../secrets/` (local Gradle run).
+- **Staging**: Configtree reads from `/run/secrets/`. Non-secret config (`DATABASE_URL`, `DATABASE_USERNAME`) uses environment variables.
+- **Production**: Configtree reads from `/run/secrets/` with `${ENV_VAR}` fallbacks for environments not yet using file-based secrets.
+- **Test/CI**: Hardcoded test values (`postgres`, `test-client-id`) — disposable containers with well-known credentials.
+
 ## Local Development
 
 All services run via Docker Compose, defined in `compose.yml` at the repository root.
@@ -150,6 +177,13 @@ PostgreSQL hosts multiple databases on the same instance:
 - `skiploom-[development|staging|production]`: Application data (see [Operational Persistence](#operational-persistence))
 
 The base `application.yml` sets `spring.profiles.default=development`, so the application connects to `skiploom-development` with no additional configuration required for local runs.
+
+### Getting Started
+
+1. Run `bash scripts/generate-secrets.sh` to create the `secrets/` directory
+2. Replace the Google OAuth2 placeholder files with real credentials from [Google Cloud Console](https://console.cloud.google.com/apis/credentials)
+3. Run `docker compose up -d` to start PostgreSQL
+4. Start the backend via Gradle (`./gradlew bootRun` from `src/backend/`) or Docker Compose
 
 ### Development Platform
 
