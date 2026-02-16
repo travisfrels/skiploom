@@ -58,6 +58,22 @@ patch_issue_comment() {
 }
 
 #
+# Issue Assets
+#
+
+get_issue_assets() {
+  # $1 = issue id
+  _forgejo_curl "$FORGEJO_API/repos/$FORGEJO_OWNER/$FORGEJO_REPO/issues/$1/assets"
+}
+
+download_issue_asset() {
+  # $1 = issue id, $2 = asset id — downloads the actual file content
+  local url
+  url=$(_forgejo_curl "$FORGEJO_API/repos/$FORGEJO_OWNER/$FORGEJO_REPO/issues/$1/assets/$2" | jq -r '.browser_download_url')
+  curl -sL -H "Authorization: token $FORGEJO_AUTH_TOKEN" "$url"
+}
+
+#
 # Pull Requests
 #
 

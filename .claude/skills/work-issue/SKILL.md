@@ -6,7 +6,7 @@ description: Start working on a Forgejo issue
 Work Forgejo issue $ARGUMENTS.
 
 1. Read the eng-design.
-2. Read the issue.
+2. /fetch-issue $ARGUMENTS
 3. Assign the issue to yourself.
 4. Checkout a working branch.
 5. Push the branch to forgejo.
@@ -19,16 +19,11 @@ Work Forgejo issue $ARGUMENTS.
 # Read the eng-design.
 cat docs/ENG-DESIGN.md
 
-source scripts/forgejo.sh
-
-# Read the issue.
-get_issue $ARGUMENTS | jq '{id: .id, title: .title, body: .body, state: .state, comments: .comments}'
-get_issue_comments $ARGUMENTS | jq '[.[] | {id: .id, author: .user.login, body: .body}]'
-
 # Get the last 10 changes to the repository.
 git log -n 10 --pretty=format:"%h - %an, %ar : %s"
 
 # Assign the issue to yourself.
+source scripts/forgejo.sh
 patch_issue_assign_to_me $ARGUMENTS
 
 # Checkout a working branch.
