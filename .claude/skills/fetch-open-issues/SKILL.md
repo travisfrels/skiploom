@@ -1,11 +1,10 @@
 ---
 name: fetch-open-issues
-description: Fetch open Forgejo issues
+description: Fetch open GitHub issues
 ---
 
-Fetch open Forgejo issues.
+Fetch open GitHub issues.
 
 ```bash
-source scripts/forgejo.sh
-get_open_issues | jq '[.[] | {id: .id, title: .title}]'
+gh issue list --state open
 ```
