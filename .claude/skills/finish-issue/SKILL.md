@@ -12,7 +12,8 @@ Finish GitHub issue: $ARGUMENTS
     - What you implemented.
     - Any design decisions that you made and the rationale behind them.
     - Any open questions or unresolved issues that remain.
-3. /create-pr
+3. Update the project doc (docs/projects).
+4. /create-pr
 
 ```bash
 gh issue comment $ARGUMENTS --body '{Body}'

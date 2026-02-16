@@ -49,9 +49,9 @@ Replace `scripts/forgejo.sh` with direct `gh` CLI usage — the CLI already hand
 
 - [x] GitHub repository exists with full git history pushed
 - [x] Open Forgejo issues recreated as GitHub issues
-- [ ] `.github/workflows/ci.yml` runs backend and frontend tests on PRs
+- [x] `.github/workflows/ci.yml` runs backend and frontend tests on PRs
 - [ ] `.github/workflows/deploy-staging.yml` deploys locally on merge to main (self-hosted runner) OR is replaced with manual deployment documented in README
-- [ ] Agent skills updated to use `gh` CLI instead of `forgejo.sh`
+- [x] Agent skills updated to use `gh` CLI instead of `forgejo.sh`
 - [ ] Forgejo and runner services removed from `compose.yml`
 - [ ] `infra/forgejo/setup.sh` removed or reduced to application-only setup
 - [ ] `docker compose up` starts only application services (postgres, backend-staging, frontend-staging)
@@ -71,6 +71,8 @@ Replace `scripts/forgejo.sh` with direct `gh` CLI usage — the CLI already hand
 ### Follow-Up Issues
 
 ### Pull Requests
+
+- [PR #9: #4 Port CI workflow to GitHub Actions](https://github.com/travisfrels/skiploom/pull/9)
 
 ### Design References
 
