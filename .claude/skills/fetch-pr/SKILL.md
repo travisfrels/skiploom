@@ -12,7 +12,7 @@ Fetch GitHub pull request $ARGUMENTS
 ```bash
 gh pr view $ARGUMENTS
 gh pr view $ARGUMENTS --comments
-gh pr reviews $ARGUMENTS
+gh pr view $ARGUMENTS --json reviews --jq '.reviews'
 gh pr diff $ARGUMENTS
 ```
 

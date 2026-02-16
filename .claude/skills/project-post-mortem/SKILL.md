@@ -20,6 +20,6 @@ gh issue view {issue_id} --comments
 # Read the pull request(s).
 gh pr view {pr_id}
 gh pr view {pr_id} --comments
-gh pr reviews {pr_id}
+gh pr view {pr_id} --json reviews --jq '.reviews'
 gh pr diff {pr_id}
 ```
