@@ -52,9 +52,9 @@ Replace `scripts/forgejo.sh` with direct `gh` CLI usage — the CLI already hand
 - [x] `.github/workflows/ci.yml` runs backend and frontend tests on PRs
 - [ ] `.github/workflows/deploy-staging.yml` deploys locally on merge to main (self-hosted runner) OR is replaced with manual deployment documented in README
 - [x] Agent skills updated to use `gh` CLI instead of `forgejo.sh`
-- [ ] Forgejo and runner services removed from `compose.yml`
-- [ ] `infra/forgejo/setup.sh` removed or reduced to application-only setup
-- [ ] `docker compose up` starts only application services (postgres, backend-staging, frontend-staging)
+- [x] Forgejo and runner services removed from `compose.yml`
+- [x] `infra/forgejo/setup.sh` removed or reduced to application-only setup
+- [x] `docker compose up` starts only application services (postgres, backend-staging, frontend-staging)
 - [ ] A PR can be created, reviewed, and merged entirely through GitHub
 - [ ] End-to-end: push a branch, CI runs, PR is created, PR is merged
 

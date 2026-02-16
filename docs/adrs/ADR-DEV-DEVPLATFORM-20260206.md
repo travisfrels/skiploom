@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted
+Superseded by [ADR-DEV-DEVPLATFORM-20260216](ADR-DEV-DEVPLATFORM-20260216.md)
 
 ## Context
 
