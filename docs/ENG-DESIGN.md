@@ -137,28 +137,20 @@ Infrastructure, search, and backup/restore details are covered in the ADR.
 
 ## Local Development
 
-All services run via Docker Compose, defined in `compose.yml` at the repository root. Services are organized into two groups: the application stack and the development platform.
-
-### Application Stack
+All services run via Docker Compose, defined in `compose.yml` at the repository root.
 
 | Service | Image | Port | Purpose |
 |---------|-------|------|---------|
 | `backend` | Skiploom Spring Boot | 8080 | REST API |
 | `frontend` | Skiploom React | 5173 | SPA dev server |
-| `postgres` | PostgreSQL | 5432 | Shared database instance |
+| `postgres` | PostgreSQL | 5432 | Database instance |
 
 PostgreSQL hosts multiple databases on the same instance:
 
 - `skiploom-[development|staging|production]`: Application data (see [Operational Persistence](#operational-persistence))
-- `forgejo`: Development platform data (see below)
 
 The base `application.yml` sets `spring.profiles.default=development`, so the application connects to `skiploom-development` with no additional configuration required for local runs.
 
 ### Development Platform
 
-| Service | Image | Port | Purpose |
-|---------|-------|------|---------|
-| `forgejo` | Forgejo | 3000, 2222 | Git hosting, issues, PRs, web UI |
-| `runner` | Forgejo Runner | — | CI/CD job execution via Forgejo Actions |
-
-The runner mounts the host's Docker socket to execute CI jobs in isolated containers. See [ADR-DEV-DEVPLATFORM-20260206](adrs/ADR-DEV-DEVPLATFORM-20260206.md) for design rationale.
+Issue tracking, pull requests, and CI/CD are hosted on GitHub. See [ADR-DEV-DEVPLATFORM-20260216](adrs/ADR-DEV-DEVPLATFORM-20260216.md) for design rationale.
