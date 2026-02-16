@@ -2,7 +2,7 @@
 
 | Status | Created | Updated |
 |--------|---------|---------|
-| Draft | 2026-02-15 | 2026-02-15 |
+| Active | 2026-02-15 | 2026-02-16 |
 
 ## Context
 
@@ -61,27 +61,27 @@ A setup script generates local-only secrets (random passwords, runner secret) an
 ## Exit Criteria
 
 - [ ] `secrets/` directory is gitignored and contains one file per secret
-- [ ] `.env` is gitignored and removed from git tracking
+- [x] `.env` is gitignored and removed from git tracking
 - [ ] `compose.yml` declares a top-level `secrets:` block and each service references only the secrets it needs
 - [ ] PostgreSQL reads its password from `/run/secrets/postgres_password` via `POSTGRES_PASSWORD_FILE`
 - [ ] Forgejo reads database password from `/run/secrets/` via `__FILE` suffix
 - [ ] Spring Boot development profile reads secrets via `configtree:/run/secrets/`
 - [ ] `infra/forgejo/setup.sh` reads passwords from secret files, not hardcoded values
 - [ ] `scripts/forgejo.sh` reads API tokens from secret files
-- [ ] No hardcoded secrets remain in any source-controlled file
+- [x] No hardcoded secrets remain in any source-controlled file
 - [ ] All previously-committed secrets are rotated (Google OAuth2 credentials regenerated, all local passwords/tokens regenerated on next setup)
 - [ ] `docker compose up` starts all services successfully with secrets mounted from files
-- [ ] A new developer can set up the project by running a setup script and providing Google OAuth2 credentials
+- [x] A new developer can set up the project by running a setup script and providing Google OAuth2 credentials
 
 ## References
 
 - ~~Issue #71: Design Secrets Manager Project~~ (destroyed in data loss incident)
 - ~~Issue #76: Add secrets infrastructure and generate-secrets script~~ (destroyed, merged to main before incident)
 - ~~Issue #77: Migrate Docker Compose services to file-based secrets~~ (destroyed, work in PR #3)
-- [Issue #4: Migrate Spring Boot development profile to configtree secrets](http://localhost:3000/skiploom-agent/skiploom/issues/4) (recreated, was #78)
+- [Issue #1: Migrate Spring Boot development profile to configtree secrets](https://github.com/travisfrels/skiploom/issues/1) (recreated from Forgejo #4/#78)
 - ~~Issue #79: Migrate Forgejo setup and CLI scripts to secret files~~ (destroyed, completed in PR #3)
-- [Issue #5: Remove committed secrets and update documentation](http://localhost:3000/skiploom-agent/skiploom/issues/5) (recreated, was #80)
-- [Issue #6: Rotate compromised secrets](http://localhost:3000/skiploom-agent/skiploom/issues/6) (recreated, was #81)
+- [Issue #2: Remove committed secrets and update documentation](https://github.com/travisfrels/skiploom/issues/2) (recreated from Forgejo #5/#80)
+- [Issue #3: Rotate compromised secrets](https://github.com/travisfrels/skiploom/issues/3) (recreated from Forgejo #6/#81)
 
 ### Follow-Up Issues
 
