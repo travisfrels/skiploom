@@ -1,1 +1,3 @@
 .forgejo-agent-token
+.env
+secrets/
