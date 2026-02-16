@@ -11,7 +11,8 @@ Work Forgejo issue $ARGUMENTS.
 4. Checkout a working branch.
 5. Push the branch to forgejo.
 6. /design an implementation plan for issue $ARGUMENTS
-  - Work with the user asking clarifying questions and presenting options until you have all the information that you need to create an implementation plan.
+  * /assess-alternatives for each decision point in the implementation plan
+  * Present alternatives and and the assessment to the user for final decision making.
 7. Create a step-by-step implementation plan.
 8. Post the decision points and implementation plan as a comment to the issue (`post_issue_comment`).
 

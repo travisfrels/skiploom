@@ -5,19 +5,34 @@
 # branch protection, and issue labels.
 #
 # Prerequisites:
-#   - Forgejo is running and healthy on http://localhost:3000
-#   - Admin user (root) exists (created automatically by compose)
+# - Forgejo is running and healthy on http://localhost:3000
+# - Admin user (root) exists (created automatically by compose)
 #
 # Usage:
 #   bash infra/forgejo/setup.sh
 #
+# TODO Questions:
+# - Is this script only run after Forgejo has been destroyed and recreated?
+# - Are you expecting Forgejo to be destroyed and recreated regularly?
+# - Is destroying and recreating Forgejo and expected part of the development workflow?
+# - Is regularly destroying and recreating Forgejo considered an objective best practice, least astonishing, and idiomatic?
+# - Are labels even used in the development workflow?
+# - This script hard-codes specific issues to create (TASK-20260205, TASK-20260206)?
+# - Is hardcoding specific issues to regularly create considered an objective best practice, least astonishing, and idiomatic?
+# - Those task files don't exist. How do you access files that don't exist?
+# - Are issues restored from a backup?
+# - This script uses `curl` to interact with the Forgejo API. The scripts/forgejo.sh script explicitly says to not do that. Why this apparent contradiction?
+# - Does it make sense that Forgejo is part of skiploom infrastructure?
+#
+
 set -euo pipefail
 
 FORGEJO_URL="http://localhost:3000"
 ADMIN_USER="root"
-ADMIN_PASSWORD="${FORGEJO_ADMIN_PASSWORD:-***REMOVED***}"
+SECRETS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../../secrets"
+ADMIN_PASSWORD=$(cat "$SECRETS_DIR/forgejo_admin_password")
 AGENT_USER="skiploom-agent"
-AGENT_PASSWORD="***REMOVED***"
+AGENT_PASSWORD=$(cat "$SECRETS_DIR/forgejo_agent_password")
 AGENT_EMAIL="agent@localhost"
 REPO_NAME="skiploom"
 REPO_OWNER="${AGENT_USER}"
@@ -45,8 +60,9 @@ curl -sf -X POST "${FORGEJO_URL}/api/v1/admin/users" \
 
 AGENT_AUTH="Authorization: Basic $(echo -n "${AGENT_USER}:${AGENT_PASSWORD}" | base64)"
 
-# --- Generate API token for service account ---
-echo "Generating API token for '${AGENT_USER}'..."
+# --- Generate API tokens for service account ---
+echo "Generating API tokens for '${AGENT_USER}'..."
+
 TOKEN_RESPONSE=$(curl -sf -X POST "${FORGEJO_URL}/api/v1/users/${AGENT_USER}/tokens" \
   -H "${AGENT_AUTH}" \
   -H "Content-Type: application/json" \
@@ -54,12 +70,24 @@ TOKEN_RESPONSE=$(curl -sf -X POST "${FORGEJO_URL}/api/v1/users/${AGENT_USER}/tok
 
 API_TOKEN=$(echo "${TOKEN_RESPONSE}" | grep -o '"sha1":"[^"]*"' | cut -d'"' -f4)
 if [ -z "${API_TOKEN}" ]; then
-  echo "  Warning: Could not extract token. It may already exist."
-  echo "  If re-running, delete the existing token in the Forgejo UI first."
+  echo "  Warning: Could not extract agent token. It may already exist."
+  echo "  If re-running, delete the existing tokens in the Forgejo UI first."
 else
-  echo "  API token: ${API_TOKEN}"
-  echo "${API_TOKEN}" > .forgejo-agent-token
-  echo "  Token saved to .forgejo-agent-token"
+  echo -n "${API_TOKEN}" > "${SECRETS_DIR}/forgejo_auth_token"
+  echo "  Agent token saved to secrets/forgejo_auth_token"
+fi
+
+PR_TOKEN_RESPONSE=$(curl -sf -X POST "${FORGEJO_URL}/api/v1/users/${AGENT_USER}/tokens" \
+  -H "${AGENT_AUTH}" \
+  -H "Content-Type: application/json" \
+  -d '{"name": "pr-agent-token", "scopes": ["all"]}' 2>/dev/null || echo '{}')
+
+PR_API_TOKEN=$(echo "${PR_TOKEN_RESPONSE}" | grep -o '"sha1":"[^"]*"' | cut -d'"' -f4)
+if [ -z "${PR_API_TOKEN}" ]; then
+  echo "  Warning: Could not extract PR agent token. It may already exist."
+else
+  echo -n "${PR_API_TOKEN}" > "${SECRETS_DIR}/forgejo_pr_agent_token"
+  echo "  PR agent token saved to secrets/forgejo_pr_agent_token"
 fi
 
 # Use token auth if available, otherwise fall back to basic auth
@@ -153,9 +181,8 @@ echo ""
 echo "=== Setup complete ==="
 echo ""
 echo "Forgejo UI:       ${FORGEJO_URL}"
-echo "Admin account:    ${ADMIN_USER} / ${ADMIN_PASSWORD}"
-echo "Agent account:    ${AGENT_USER} / ${AGENT_PASSWORD}"
+echo "Admin account:    ${ADMIN_USER} (password from secrets/forgejo_admin_password)"
+echo "Agent account:    ${AGENT_USER} (password from secrets/forgejo_agent_password)"
 echo "Repository:       ${FORGEJO_URL}/${REPO_OWNER}/${REPO_NAME}"
-if [ -n "${API_TOKEN}" ]; then
-  echo "Agent API token:  ${API_TOKEN} (saved to .forgejo-agent-token)"
-fi
+echo "Agent token:      secrets/forgejo_auth_token"
+echo "PR agent token:   secrets/forgejo_pr_agent_token"

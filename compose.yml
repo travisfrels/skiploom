@@ -3,7 +3,9 @@ services:
     image: postgres:16-alpine
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    secrets:
+      - postgres_password
     volumes:
       - postgres-data:/var/lib/postgresql/data
       - ./infra/postgres/init-databases.sql:/docker-entrypoint-initdb.d/init-databases.sql:ro
@@ -24,8 +26,8 @@ services:
       bash -c '
       /usr/bin/s6-svscan /etc/s6 &
       sleep 10 ;
-      su -c "forgejo forgejo-cli actions register --keep-labels --secret $${FORGEJO_RUNNER_SECRET}" git ;
-      su -c "forgejo admin user create --admin --username root --password $${FORGEJO_ADMIN_PASSWORD} --email root@localhost --must-change-password=false" git ;
+      su -c "forgejo forgejo-cli actions register --keep-labels --secret $$(cat /run/secrets/forgejo_runner_secret)" git ;
+      su -c "forgejo admin user create --admin --username root --password $$(cat /run/secrets/forgejo_admin_password) --email root@localhost --must-change-password=false" git ;
       sleep infinity
       '
     environment:
@@ -33,7 +35,7 @@ services:
       FORGEJO__database__HOST: postgres:5432
       FORGEJO__database__NAME: forgejo
       FORGEJO__database__USER: postgres
-      FORGEJO__database__PASSWD: postgres
+      FORGEJO__database__PASSWD__FILE: /run/secrets/postgres_password
       FORGEJO__server__ROOT_URL: http://localhost:3000
       FORGEJO__server__HTTP_PORT: "3000"
       FORGEJO__server__SSH_DOMAIN: localhost
@@ -44,8 +46,10 @@ services:
       FORGEJO__repository__ENABLE_PUSH_CREATE_USER: "true"
       FORGEJO__repository__DEFAULT_PUSH_CREATE_PRIVATE: "false"
       FORGEJO__repository__DEFAULT_REPO_UNITS: "repo.code,repo.issues,repo.pulls,repo.actions"
-      FORGEJO_RUNNER_SECRET: ${FORGEJO_RUNNER_SECRET}
-      FORGEJO_ADMIN_PASSWORD: ${FORGEJO_ADMIN_PASSWORD}
+    secrets:
+      - postgres_password
+      - forgejo_admin_password
+      - forgejo_runner_secret
     volumes:
       - forgejo-data:/data
     ports:
@@ -63,8 +67,8 @@ services:
     depends_on:
       forgejo:
         condition: service_healthy
-    environment:
-      FORGEJO_RUNNER_SECRET: ${FORGEJO_RUNNER_SECRET}
+    secrets:
+      - forgejo_runner_secret
     volumes:
       - runner-data:/data
       - /var/run/docker.sock:/var/run/docker.sock
@@ -72,7 +76,7 @@ services:
     command: >-
       bash -ec '
       while : ; do
-        forgejo-runner create-runner-file --connect --instance http://forgejo:3000 --name runner --secret $${FORGEJO_RUNNER_SECRET} && break ;
+        forgejo-runner create-runner-file --connect --instance http://forgejo:3000 --name runner --secret $$(cat /run/secrets/forgejo_runner_secret) && break ;
         sleep 1 ;
       done ;
       sed -i -e "s|\"labels\": .*|\"labels\": [\"ubuntu:docker://node:22-bookworm\", \"deploy:docker://docker:27\"]|" .runner ;
@@ -102,10 +106,11 @@ services:
       SPRING_PROFILES_ACTIVE: staging
       DATABASE_URL: jdbc:postgresql://postgres:5432/skiploom-staging
       DATABASE_USERNAME: postgres
-      DATABASE_PASSWORD: postgres
       CORS_ALLOWED_ORIGINS: http://localhost:5174
-      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
-      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+    secrets:
+      - spring.datasource.password
+      - spring.security.oauth2.client.registration.google.client-id
+      - spring.security.oauth2.client.registration.google.client-secret
     ports:
       - "8081:8080"
     healthcheck:
@@ -130,6 +135,20 @@ services:
 networks:
   default:
     name: skiploom
+
+secrets:
+  postgres_password:
+    file: ./secrets/postgres_password
+  forgejo_admin_password:
+    file: ./secrets/forgejo_admin_password
+  forgejo_runner_secret:
+    file: ./secrets/forgejo_runner_secret
+  spring.datasource.password:
+    file: ./secrets/spring.datasource.password
+  spring.security.oauth2.client.registration.google.client-id:
+    file: ./secrets/spring.security.oauth2.client.registration.google.client-id
+  spring.security.oauth2.client.registration.google.client-secret:
+    file: ./secrets/spring.security.oauth2.client.registration.google.client-secret
 
 volumes:
   postgres-data:

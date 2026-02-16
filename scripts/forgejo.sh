@@ -5,7 +5,11 @@
 # Swagger: forgejo-swagger.json
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SECRETS_DIR="$SCRIPT_DIR/../secrets"
 source "$SCRIPT_DIR/../.env"
+
+FORGEJO_AUTH_TOKEN=$(cat "$SECRETS_DIR/forgejo_auth_token")
+FORGEJO_PR_AGENT_AUTH_TOKEN=$(cat "$SECRETS_DIR/forgejo_pr_agent_token")
 
 _forgejo_curl() {
   curl -s -H "Authorization: token $FORGEJO_AUTH_TOKEN" -H "Content-Type: application/json" "$@"
@@ -26,6 +30,11 @@ get_open_issues() {
 get_issue() {
   # $1 = issue id
   _forgejo_curl "$FORGEJO_API/repos/$FORGEJO_OWNER/$FORGEJO_REPO/issues/$1"
+}
+
+patch_issue() {
+  # $1 = issue id, body from stdin (forgejo-swagger.json#L9286-L9445)
+  _forgejo_curl -X PATCH -d "$(jq -Rns '{body: input}' <&0)" "$FORGEJO_API/repos/$FORGEJO_OWNER/$FORGEJO_REPO/issues/$1"
 }
 
 patch_issue_assign_to_me() {
