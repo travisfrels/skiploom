@@ -77,6 +77,7 @@ Replace `scripts/forgejo.sh` with direct `gh` CLI usage — the CLI already hand
 - [PR #10: #6 Remove Forgejo and runner services from compose.yml](https://github.com/travisfrels/skiploom/pull/10)
 - [PR #11: #2 Remove committed secrets and update documentation](https://github.com/travisfrels/skiploom/pull/11)
 - [PR #12: #3 Rotate compromised secrets](https://github.com/travisfrels/skiploom/pull/12)
+- [PR #17: #7 Configure GitHub branch protection](https://github.com/travisfrels/skiploom/pull/17)
 
 ### Design References
 

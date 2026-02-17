@@ -26,13 +26,13 @@ The `main` branch is protected with classic branch protection rules enforced for
 ### View Current Settings
 
 ```bash
-gh api repos/{owner}/{repo}/branches/main/protection
+gh api repos/travisfrels/skiploom/branches/main/protection
 ```
 
 ### Modify Settings
 
 ```bash
-gh api repos/{owner}/{repo}/branches/main/protection \
+gh api repos/travisfrels/skiploom/branches/main/protection \
   --method PUT \
   --input - <<'EOF'
 {
