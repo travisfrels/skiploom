@@ -32,6 +32,7 @@ gh issue view {related-issue} --comments
 3. Analyze documentation coverage and quality.
    * Consider whether the documentation is clear, comprehensive, and up-to-date
    * Does the documentation effectively communicate the purpose and usage of the code?
+   * Are there stale CLAUDE.md files?
 4. Determine if this body of work stays true to the intent of issue's requirements, the associated project document (docs/projects), and the eng-design (docs).
    * If yes, clearly state in a pr review that the pull request is acceptable and explain why.
    * If no, explain the specific deficiencies in a pr review calling out anti-patterns by name if applicable.
