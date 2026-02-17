@@ -50,33 +50,33 @@ Build Docker images for the backend and frontend, define staging services in `co
 
 ## References
 
-- [Issue #23: Implement Staging Deploy](http://localhost:3000/skiploom-agent/skiploom/issues/23)
-- [Issue #24: Create backend and frontend Dockerfiles](http://localhost:3000/skiploom-agent/skiploom/issues/24)
-- [Issue #25: Add staging services and deploy runner to compose.yml](http://localhost:3000/skiploom-agent/skiploom/issues/25)
-- [Issue #26: Configure backend CORS for staging](http://localhost:3000/skiploom-agent/skiploom/issues/26)
-- [Issue #27: Add deploy-staging workflow](http://localhost:3000/skiploom-agent/skiploom/issues/27)
+- Issue #23: Implement Staging Deploy (Forgejo — destroyed)
+- Issue #24: Create backend and frontend Dockerfiles (Forgejo — destroyed)
+- Issue #25: Add staging services and deploy runner to compose.yml (Forgejo — destroyed)
+- Issue #26: Configure backend CORS for staging (Forgejo — destroyed)
+- Issue #27: Add deploy-staging workflow (Forgejo — destroyed)
 
 ### Follow-Up Issues
 
 - [Issue #14: Re-Implement Staging Deploy in GitHub](https://github.com/travisfrels/skiploom/issues/14)
-- [Issue #31: Add healthcheck to backend-staging service](http://localhost:3000/skiploom-agent/skiploom/issues/31)
-- [Issue #34: Deploy runner missing deploy label due to stale runner registration](http://localhost:3000/skiploom-agent/skiploom/issues/34)
-- [Issue #36: Deploy-staging fails: docker:27 image lacks Node.js for actions/checkout](http://localhost:3000/skiploom-agent/skiploom/issues/36)
-- [Issue #38: Deploy-staging fails: job container lacks Docker socket mount](http://localhost:3000/skiploom-agent/skiploom/issues/38)
-- [Issue #40: Staging frontend proxy strips /api prefix, causing 404s](http://localhost:3000/skiploom-agent/skiploom/issues/40)
+- Issue #31: Add healthcheck to backend-staging service (Forgejo — destroyed)
+- Issue #34: Deploy runner missing deploy label due to stale runner registration (Forgejo — destroyed)
+- Issue #36: Deploy-staging fails: docker:27 image lacks Node.js for actions/checkout (Forgejo — destroyed)
+- Issue #38: Deploy-staging fails: job container lacks Docker socket mount (Forgejo — destroyed)
+- Issue #40: Staging frontend proxy strips /api prefix, causing 404s (Forgejo — destroyed)
 
 ### Pull Requests
 
-- [PR #28: Add V0.2 Staging Deploy project definition (#23)](http://localhost:3000/skiploom-agent/skiploom/pulls/28)
-- [PR #29: #24 Create backend and frontend Dockerfiles](http://localhost:3000/skiploom-agent/skiploom/pulls/29)
-- [PR #30: #25 Add staging services and deploy runner to compose.yml](http://localhost:3000/skiploom-agent/skiploom/pulls/30)
-- [PR #32: #26 Configure backend CORS for staging](http://localhost:3000/skiploom-agent/skiploom/pulls/32)
-- [PR #33: #27 Add deploy-staging workflow](http://localhost:3000/skiploom-agent/skiploom/pulls/33)
-- [PR #35: #34 Fix runner deploy label by broadening sed pattern](http://localhost:3000/skiploom-agent/skiploom/pulls/34)
-- [PR #37: #36 Replace actions/checkout with manual git clone in deploy-staging](http://localhost:3000/skiploom-agent/skiploom/issues/37)
-- [PR #39: #38 Mount Docker socket in job containers via docker_host automount](http://localhost:3000/skiploom-agent/skiploom/issues/39)
-- [PR #41: #40 Remove trailing slash from staging BACKEND_URL to fix proxy path stripping](http://localhost:3000/skiploom-agent/skiploom/issues/41)
-- [PR #42: #31 Add healthcheck to backend-staging and wait for readiness](http://localhost:3000/skiploom-agent/skiploom/issues/42)
+- PR #28: Add V0.2 Staging Deploy project definition (#23) (Forgejo — destroyed)
+- PR #29: #24 Create backend and frontend Dockerfiles (Forgejo — destroyed)
+- PR #30: #25 Add staging services and deploy runner to compose.yml (Forgejo — destroyed)
+- PR #32: #26 Configure backend CORS for staging (Forgejo — destroyed)
+- PR #33: #27 Add deploy-staging workflow (Forgejo — destroyed)
+- PR #35: #34 Fix runner deploy label by broadening sed pattern (Forgejo — destroyed)
+- PR #37: #36 Replace actions/checkout with manual git clone in deploy-staging (Forgejo — destroyed)
+- PR #39: #38 Mount Docker socket in job containers via docker_host automount (Forgejo — destroyed)
+- PR #41: #40 Remove trailing slash from staging BACKEND_URL to fix proxy path stripping (Forgejo — destroyed)
+- PR #42: #31 Add healthcheck to backend-staging and wait for readiness (Forgejo — destroyed)
 
 ## Post-Mortem
 
@@ -109,6 +109,6 @@ The four serial failures:
 
 ### Improvement Issues
 
-- [Issue #46: Add deployment verification to deploy-staging workflow](http://localhost:3000/skiploom-agent/skiploom/issues/46)
-- [Issue #47: Add end-to-end validation guidance to project template exit criteria](http://localhost:3000/skiploom-agent/skiploom/issues/47)
-- [Issue #48: Validate runner configuration after registration](http://localhost:3000/skiploom-agent/skiploom/issues/48)
+- Issue #46: Add deployment verification to deploy-staging workflow (Forgejo — destroyed)
+- Issue #47: Add end-to-end validation guidance to project template exit criteria (Forgejo — destroyed)
+- Issue #48: Validate runner configuration after registration (Forgejo — destroyed)
