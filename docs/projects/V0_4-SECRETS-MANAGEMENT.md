@@ -2,7 +2,7 @@
 
 | Status | Created | Updated |
 |--------|---------|---------|
-| Active | 2026-02-15 | 2026-02-16 |
+| Done | 2026-02-15 | 2026-02-16 |
 
 ## Context
 
@@ -60,17 +60,17 @@ A setup script generates local-only secrets (random passwords, runner secret) an
 
 ## Exit Criteria
 
-- [ ] `secrets/` directory is gitignored and contains one file per secret
+- [x] `secrets/` directory is gitignored and contains one file per secret
 - [x] `.env` is gitignored and removed from git tracking
-- [ ] `compose.yml` declares a top-level `secrets:` block and each service references only the secrets it needs
-- [ ] PostgreSQL reads its password from `/run/secrets/postgres_password` via `POSTGRES_PASSWORD_FILE`
-- [ ] Forgejo reads database password from `/run/secrets/` via `__FILE` suffix
-- [ ] Spring Boot development profile reads secrets via `configtree:/run/secrets/`
-- [ ] `infra/forgejo/setup.sh` reads passwords from secret files, not hardcoded values
-- [ ] `scripts/forgejo.sh` reads API tokens from secret files
+- [x] `compose.yml` declares a top-level `secrets:` block and each service references only the secrets it needs
+- [x] PostgreSQL reads its password from `/run/secrets/postgres_password` via `POSTGRES_PASSWORD_FILE`
+- ~~Forgejo reads database password from `/run/secrets/` via `__FILE` suffix~~ (N/A — Forgejo removed in V0.5)
+- [x] Spring Boot development profile reads secrets via `configtree:/run/secrets/`
+- ~~`infra/forgejo/setup.sh` reads passwords from secret files, not hardcoded values~~ (N/A — Forgejo removed in V0.5)
+- ~~`scripts/forgejo.sh` reads API tokens from secret files~~ (N/A — Forgejo removed in V0.5)
 - [x] No hardcoded secrets remain in any source-controlled file
-- [ ] All previously-committed secrets are rotated (Google OAuth2 credentials regenerated, all local passwords/tokens regenerated on next setup)
-- [ ] `docker compose up` starts all services successfully with secrets mounted from files
+- [x] All previously-committed secrets are rotated (Google OAuth2 credentials regenerated, all local passwords/tokens regenerated on next setup)
+- [x] `docker compose up` starts all services successfully with secrets mounted from files
 - [x] A new developer can set up the project by running a setup script and providing Google OAuth2 credentials
 
 ## References
@@ -86,6 +86,9 @@ A setup script generates local-only secrets (random passwords, runner secret) an
 ### Follow-Up Issues
 
 ### Pull Requests
+
+- [PR #11: #2 Remove committed secrets and update documentation](https://github.com/travisfrels/skiploom/pull/11) (also closed issue #1)
+- [PR #12: #3 Rotate compromised secrets](https://github.com/travisfrels/skiploom/pull/12)
 
 ### Design References
 

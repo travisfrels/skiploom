@@ -41,9 +41,5 @@ gh issue view {related-issue} --comments
          c. Clearly identify the highest scoring alternative.
 
 ```bash
-gh pr review $ARGUMENTS --approve --body '{Body}'
-# or
-gh pr review $ARGUMENTS --request-changes --body '{Body}'
-# or
 gh pr review $ARGUMENTS --comment --body '{Body}'
 ```

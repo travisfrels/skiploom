@@ -7,3 +7,4 @@ Document repository to support the software development lifecycle.
 - `adrs/`: Architecture Decision Records.
 - `projects/`: Project definitions for product initiatives.
 - `ENG-DESIGN.md`: Skiploom engineering design document.
+- `RUNBOOK.md`: Operational procedures.
