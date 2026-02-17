@@ -55,8 +55,8 @@ Replace `scripts/forgejo.sh` with direct `gh` CLI usage — the CLI already hand
 - [x] Forgejo and runner services removed from `compose.yml`
 - [x] `infra/forgejo/setup.sh` removed or reduced to application-only setup
 - [x] `docker compose up` starts only application services (postgres, backend-staging, frontend-staging)
-- [ ] A PR can be created, reviewed, and merged entirely through GitHub
-- [ ] End-to-end: push a branch, CI runs, PR is created, PR is merged
+- [x] A PR can be created, reviewed, and merged entirely through GitHub
+- [x] End-to-end: push a branch, CI runs, PR is created, PR is merged
 
 ## References
 
@@ -72,7 +72,11 @@ Replace `scripts/forgejo.sh` with direct `gh` CLI usage — the CLI already hand
 
 ### Pull Requests
 
+- [PR #8: #5 Update agent skills to use gh CLI instead of forgejo.sh](https://github.com/travisfrels/skiploom/pull/8)
 - [PR #9: #4 Port CI workflow to GitHub Actions](https://github.com/travisfrels/skiploom/pull/9)
+- [PR #10: #6 Remove Forgejo and runner services from compose.yml](https://github.com/travisfrels/skiploom/pull/10)
+- [PR #11: #2 Remove committed secrets and update documentation](https://github.com/travisfrels/skiploom/pull/11)
+- [PR #12: #3 Rotate compromised secrets](https://github.com/travisfrels/skiploom/pull/12)
 
 ### Design References
 
