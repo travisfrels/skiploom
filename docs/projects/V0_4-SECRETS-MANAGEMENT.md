@@ -88,6 +88,7 @@ A setup script generates local-only secrets (random passwords, runner secret) an
 ### Pull Requests
 
 - [PR #11: #2 Remove committed secrets and update documentation](https://github.com/travisfrels/skiploom/pull/11) (also closed issue #1)
+- [PR #12: #3 Rotate compromised secrets](https://github.com/travisfrels/skiploom/pull/12)
 
 ### Design References
 
