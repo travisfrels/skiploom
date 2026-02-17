@@ -58,3 +58,10 @@ allOpen {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+tasks.named<org.springframework.boot.gradle.tasks.run.BootRun>("bootRun") {
+    val secretsDir = file("../../secrets")
+    if (secretsDir.isDirectory) {
+        systemProperty("skiploom.secrets.path", secretsDir.canonicalPath.replace('\\', '/'))
+    }
+}

@@ -4,7 +4,7 @@ skiploom:
 
 spring:
   config:
-    import: optional:configtree:/run/secrets/,optional:configtree:../../secrets/
+    import: optional:configtree:${skiploom.secrets.path:../../secrets}/
   datasource:
     url: jdbc:postgresql://localhost:5432/skiploom-development
     username: postgres

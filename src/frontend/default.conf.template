@@ -5,26 +5,17 @@ server {
 
     location /api/ {
         proxy_pass ${BACKEND_URL};
-        proxy_set_header Host $http_host;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header X-Forwarded-Host $http_host;
+        include /etc/nginx/snippets/proxy-headers.conf;
     }
 
     location /oauth2/ {
         proxy_pass ${BACKEND_URL};
-        proxy_set_header Host $http_host;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header X-Forwarded-Host $http_host;
+        include /etc/nginx/snippets/proxy-headers.conf;
     }
 
     location /login/oauth2/ {
         proxy_pass ${BACKEND_URL};
-        proxy_set_header Host $http_host;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header X-Forwarded-Host $http_host;
+        include /etc/nginx/snippets/proxy-headers.conf;
     }
 
     location / {
