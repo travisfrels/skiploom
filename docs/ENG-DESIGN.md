@@ -71,6 +71,7 @@ PostgreSQL running as a Docker container provides the operational persistence la
 Spring profiles control datasource configuration per environment. Each profile has a corresponding `application-{profile}.yml` file:
 
 - `application-development.yml` — local PostgreSQL (`skiploom-development`) with hardcoded non-secret values (`url`, `username`); secrets resolved via configtree from `/run/secrets/` (Docker) and `../../secrets/` (local Gradle run)
+- `application-test.yml` — secrets resolved via configtree from checked-in test secret files (`src/test/resources/secrets/`); datasource provided dynamically by Testcontainers `@ServiceConnection`
 - `application-staging.yml` — non-secret config (`url`, `username`) from environment variables; secrets resolved via configtree from `/run/secrets/`
 - `application-production.yml` — non-secret config (`url`, `username`) from environment variables; secrets resolved via configtree from `/run/secrets/` with `${ENV_VAR}` fallbacks
 
@@ -160,7 +161,7 @@ Secrets are managed through file-based secrets, never hardcoded in source-contro
 - **Development**: Configtree reads from both `/run/secrets/` (Docker) and `../../secrets/` (local Gradle run).
 - **Staging**: Configtree reads from `/run/secrets/`. Non-secret config (`DATABASE_URL`, `DATABASE_USERNAME`) uses environment variables.
 - **Production**: Configtree reads from `/run/secrets/` with `${ENV_VAR}` fallbacks for environments not yet using file-based secrets.
-- **Test/CI**: Hardcoded test values (`postgres`, `test-client-id`) — disposable containers with well-known credentials.
+- **Test/CI**: Configtree reads from checked-in test secret files (`src/test/resources/secrets/`) containing well-known disposable values. A test-scoped `application.properties` sets `spring.profiles.active=test` for all tests. Testcontainers with `@ServiceConnection` provides a disposable PostgreSQL instance — no external database required locally or in CI.
 
 ## Local Development
 

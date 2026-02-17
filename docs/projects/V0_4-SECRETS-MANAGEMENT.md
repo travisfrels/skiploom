@@ -85,6 +85,8 @@ A setup script generates local-only secrets (random passwords, runner secret) an
 
 ### Follow-Up Issues
 
+- [Issue #18: Normalize Spring profile configuration and test strategy](https://github.com/travisfrels/skiploom/issues/18) — Test profile hardcoded secrets instead of using configtree; gap in original secrets normalization scope.
+
 ### Pull Requests
 
 - [PR #11: #2 Remove committed secrets and update documentation](https://github.com/travisfrels/skiploom/pull/11) (also closed issue #1)

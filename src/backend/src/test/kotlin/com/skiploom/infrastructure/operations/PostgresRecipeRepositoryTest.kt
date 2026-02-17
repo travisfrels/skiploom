@@ -8,14 +8,15 @@ import com.skiploom.domain.operations.RecipeWriter
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import com.skiploom.TestcontainersConfiguration
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.ActiveProfiles
+import org.springframework.context.annotation.Import
 import org.springframework.transaction.annotation.Transactional
 import java.util.UUID
 
 @SpringBootTest
-@ActiveProfiles("test")
+@Import(TestcontainersConfiguration::class)
 @Transactional
 class PostgresRecipeRepositoryTest {
 
