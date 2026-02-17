@@ -3,16 +3,7 @@ skiploom:
     allowed-origins: http://localhost:5173
 
 spring:
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: test-client-id
-            client-secret: test-client-secret
-  datasource:
-    url: jdbc:postgresql://localhost:5432/skiploom-test
-    username: postgres
-    password: postgres
+  config:
+    import: optional:configtree:src/test/resources/secrets/
   flyway:
     locations: classpath:db/migration,classpath:db/seed
