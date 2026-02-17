@@ -18,3 +18,39 @@ When secrets need to be rotated (e.g., after a compromise or as routine maintena
 5. **Verify services**:
    - `docker compose config` — static validation of compose configuration
    - `docker compose up -d` — non-destructive restart; verify all services start healthy
+
+## Branch Protection
+
+The `main` branch is protected with classic branch protection rules enforced for all users, including administrators. All changes must go through a pull request with passing CI (`Backend Tests` and `Frontend Tests`). No review approval is required.
+
+### View Current Settings
+
+```bash
+gh api repos/{owner}/{repo}/branches/main/protection
+```
+
+### Modify Settings
+
+```bash
+gh api repos/{owner}/{repo}/branches/main/protection \
+  --method PUT \
+  --input - <<'EOF'
+{
+  "required_status_checks": {
+    "strict": true,
+    "contexts": ["Backend Tests", "Frontend Tests"]
+  },
+  "enforce_admins": true,
+  "required_pull_request_reviews": {
+    "required_approving_review_count": 0
+  },
+  "restrictions": null
+}
+EOF
+```
+
+Key fields:
+- `required_status_checks.contexts` — CI job names that must pass before merging
+- `required_status_checks.strict` — require branches to be up-to-date with `main`
+- `enforce_admins` — apply rules to repository administrators
+- `required_pull_request_reviews.required_approving_review_count` — number of approvals needed (0 = PR required but no approval needed)
