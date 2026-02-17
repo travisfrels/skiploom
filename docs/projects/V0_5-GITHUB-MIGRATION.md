@@ -2,7 +2,7 @@
 
 | Status | Created | Updated |
 |--------|---------|---------|
-| Draft | 2026-02-16 | 2026-02-16 |
+| Draft | 2026-02-16 | 2026-02-17 |
 
 ## Context
 
@@ -50,7 +50,7 @@ Replace `scripts/forgejo.sh` with direct `gh` CLI usage — the CLI already hand
 - [x] GitHub repository exists with full git history pushed
 - [x] Open Forgejo issues recreated as GitHub issues
 - [x] `.github/workflows/ci.yml` runs backend and frontend tests on PRs
-- [ ] `.github/workflows/deploy-staging.yml` deploys locally on merge to main (self-hosted runner) OR is replaced with manual deployment documented in README
+- [x] Staging deployment replaced with manual procedure documented in Runbook (self-hosted runner deferred as non-goal)
 - [x] Agent skills updated to use `gh` CLI instead of `forgejo.sh`
 - [x] Forgejo and runner services removed from `compose.yml`
 - [x] `infra/forgejo/setup.sh` removed or reduced to application-only setup
@@ -67,6 +67,7 @@ Replace `scripts/forgejo.sh` with direct `gh` CLI usage — the CLI already hand
 - [Issue #5: Update agent skills to use gh CLI instead of forgejo.sh](https://github.com/travisfrels/skiploom/issues/5)
 - [Issue #6: Remove Forgejo and runner services from compose.yml](https://github.com/travisfrels/skiploom/issues/6)
 - [Issue #7: Configure GitHub branch protection and end-to-end validation](https://github.com/travisfrels/skiploom/issues/7)
+- [Issue #14: Re-Implement Staging Deploy in GitHub](https://github.com/travisfrels/skiploom/issues/14)
 
 ### Follow-Up Issues
 

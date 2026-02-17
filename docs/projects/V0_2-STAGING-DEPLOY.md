@@ -2,7 +2,7 @@
 
 | Status | Created | Updated |
 |--------|---------|---------|
-| Done | 2026-02-09 | 2026-02-10 |
+| Done | 2026-02-09 | 2026-02-17 |
 
 ## Context
 
@@ -16,7 +16,9 @@ Automating deployment to staging on merge to `main` closes the loop between code
 
 ### Approach
 
-Build Docker images for the backend and frontend, define staging services in `compose.yml` under a `staging` Docker Compose profile, and add a Forgejo Actions workflow that triggers on push to `main` to build and deploy. The runner is configured with a `deploy` label (`docker:27`) and Docker socket access to build images and manage containers directly. Each merge rebuilds images so compose always runs the latest version.
+Build Docker images for the backend and frontend, define staging services in `compose.yml` under a `staging` Docker Compose profile, and document a manual deploy procedure in the runbook. Developers run `docker compose --profile staging up -d --build` after merging to `main` to rebuild and restart staging containers with the latest code.
+
+> **Note:** The original approach used a Forgejo Actions workflow for automatic deploy on merge. That infrastructure was removed during V0.5 GitHub Migration. Automatic deploy via a GitHub self-hosted runner was deferred as a V0.5 non-goal and can be added later if needed.
 
 ## Goals
 
@@ -24,7 +26,7 @@ Build Docker images for the backend and frontend, define staging services in `co
 - Staging backend connects to `skiploom-staging` with environment-provided credentials
 - Staging frontend can reach the backend REST API
 - Staging services are accessible on host ports distinct from development
-- Merging a PR to `main` automatically builds and deploys the latest staging containers
+- Staging deploy procedure is documented and repeatable
 
 ## Non-Goals
 
@@ -36,16 +38,15 @@ Build Docker images for the backend and frontend, define staging services in `co
 
 ## Exit Criteria
 
-- [ ] Backend Dockerfile produces a runnable image (multi-stage: Gradle build, JRE runtime)
-- [ ] Frontend Dockerfile produces a runnable image (multi-stage: npm build, static server)
-- [ ] Staging backend connects to `skiploom-staging` with environment-provided credentials
-- [ ] Backend CORS configured to allow staging frontend requests
-- [ ] Frontend container can reach the backend API in the staging network
-- [ ] Staging services expose host ports that do not conflict with development services
-- [ ] Staging services defined in `compose.yml` under a `staging` profile
-- [ ] Runner configured with a `deploy` label (`docker:27`) and Docker socket access
-- [ ] Deploy workflow (`.forgejo/workflows/deploy-staging.yml`) triggers on push to `main`
-- [ ] After merging a PR, staging containers are rebuilt and running with the latest images
+- [x] Backend Dockerfile produces a runnable image (multi-stage: Gradle build, JRE runtime)
+- [x] Frontend Dockerfile produces a runnable image (multi-stage: npm build, static server)
+- [x] Staging backend connects to `skiploom-staging` with environment-provided credentials
+- [x] Backend CORS configured to allow staging frontend requests
+- [x] Frontend container can reach the backend API in the staging network
+- [x] Staging services expose host ports that do not conflict with development services
+- [x] Staging services defined in `compose.yml` under a `staging` profile
+- [x] Staging deploy procedure documented in the Runbook
+- [x] End-to-end: run staging deploy command, verify containers are healthy and serving traffic
 
 ## References
 
@@ -57,6 +58,7 @@ Build Docker images for the backend and frontend, define staging services in `co
 
 ### Follow-Up Issues
 
+- [Issue #14: Re-Implement Staging Deploy in GitHub](https://github.com/travisfrels/skiploom/issues/14)
 - [Issue #31: Add healthcheck to backend-staging service](http://localhost:3000/skiploom-agent/skiploom/issues/31)
 - [Issue #34: Deploy runner missing deploy label due to stale runner registration](http://localhost:3000/skiploom-agent/skiploom/issues/34)
 - [Issue #36: Deploy-staging fails: docker:27 image lacks Node.js for actions/checkout](http://localhost:3000/skiploom-agent/skiploom/issues/36)
