@@ -5,14 +5,17 @@ server {
 
     location /api/ {
         proxy_pass ${BACKEND_URL};
+        include /etc/nginx/snippets/proxy-headers.conf;
     }
 
     location /oauth2/ {
         proxy_pass ${BACKEND_URL};
+        include /etc/nginx/snippets/proxy-headers.conf;
     }
 
     location /login/oauth2/ {
         proxy_pass ${BACKEND_URL};
+        include /etc/nginx/snippets/proxy-headers.conf;
     }
 
     location / {

@@ -64,6 +64,7 @@ Spring Security enables CSRF protection by default. Session-cookie authenticatio
 
 ### Follow-Up Issues
 
+- [Issue #13: Frontend Staging Access Blocked](https://github.com/travisfrels/skiploom/issues/13)
 - [Issue #69: Add OAuth2 configuration documentation and startup validation](http://localhost:3000/skiploom-agent/skiploom/issues/69)
 - [Issue #70: Fix post-login redirect to frontend root](http://localhost:3000/skiploom-agent/skiploom/issues/70)
 
