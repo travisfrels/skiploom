@@ -91,6 +91,7 @@ Update the `create-project` skill template to include a Post-Mortem section with
 ### Pull Requests
 
 - [PR #37: #30 Update create-project skill template](https://github.com/travisfrels/skiploom/pull/37)
+- [PR #38: #31 Define post-mortem output structure in skills](https://github.com/travisfrels/skiploom/pull/38)
 
 ### Design References
 
