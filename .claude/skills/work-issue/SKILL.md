@@ -1,6 +1,6 @@
 ---
 name: work-issue
-description: Start working on a GitHub issue
+description: Start working on a GitHub issue. Use when working a GitHub issue is needed.
 ---
 
 Work GitHub issue $ARGUMENTS.
