@@ -19,7 +19,7 @@ Review GitHub pull request $ARGUMENTS
 1. Analyze code quality and design.
    * Consider readability, maintainability, extensibility, and modularity.
    * Is the code clean, SOLID, and DRY?
-   * Does the code exchibit anti-patterns or code smells?
+   * Does the code exhibit anti-patterns or code smells?
    * Is the code idiomatic for the language, frameworks, libraries, and SDKs used?
    * Are there any dead code or unused references, variables, or functions?
 2. Analyze test coverage and quality.
@@ -38,7 +38,7 @@ Review GitHub pull request $ARGUMENTS
          b. Evaluate using three criteria, in order: impact, least astonishment, idiomaticity.
          c. Clearly identify the highest scoring alternative.
 
-## Post the Pull Reqeust Review
+## Post the Pull Request Review
 
 ```bash
 gh pr review $ARGUMENTS --comment --body '{Body}'
