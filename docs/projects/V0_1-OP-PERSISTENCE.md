@@ -63,12 +63,12 @@ Configuration uses Spring profiles with environment-specific files extending a b
 
 ## References
 
-- [Issue #3: Implement Operational Persistence](http://localhost:3000/skiploom-agent/skiploom/issues/3)
-- [Issue #4: Implement Development Platform](http://localhost:3000/skiploom-agent/skiploom/issues/4)
-- [Issue #12: Set up environment configuration structure](http://localhost:3000/skiploom-agent/skiploom/issues/12)
-- [Issue #13: Add persistence dependencies and Flyway migrations](http://localhost:3000/skiploom-agent/skiploom/issues/13)
-- [Issue #14: Implement JPA entities and mapping layer](http://localhost:3000/skiploom-agent/skiploom/issues/14)
-- [Issue #15: Implement JPA-backed RecipeReader and RecipeWriter](http://localhost:3000/skiploom-agent/skiploom/issues/15)
-- [Issue #16: Seed initial recipe data](http://localhost:3000/skiploom-agent/skiploom/issues/16)
+- Issue #3: Implement Operational Persistence (Forgejo — destroyed)
+- Issue #4: Implement Development Platform (Forgejo — destroyed)
+- Issue #12: Set up environment configuration structure (Forgejo — destroyed)
+- Issue #13: Add persistence dependencies and Flyway migrations (Forgejo — destroyed)
+- Issue #14: Implement JPA entities and mapping layer (Forgejo — destroyed)
+- Issue #15: Implement JPA-backed RecipeReader and RecipeWriter (Forgejo — destroyed)
+- Issue #16: Seed initial recipe data (Forgejo — destroyed)
 - [ADR-OP-PERSISTENCE-20260205](../adrs/ADR-OP-PERSISTENCE-20260205.md)
 - [Engineering Design: Operational Persistence](../ENG-DESIGN.md#operational-persistence)

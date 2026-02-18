@@ -59,24 +59,24 @@ Spring Security enables CSRF protection by default. Session-cookie authenticatio
 
 ## References
 
-- [Issue #54: Add V0.3 Authentication project definition](http://localhost:3000/skiploom-agent/skiploom/issues/54)
-- [Issue #56: Add Spring Security OAuth2 and SecurityFilterChain](http://localhost:3000/skiploom-agent/skiploom/issues/56)
-- [Issue #57: Add user persistence and /api/me endpoint](http://localhost:3000/skiploom-agent/skiploom/issues/57)
-- [Issue #58: Add frontend authentication handling](http://localhost:3000/skiploom-agent/skiploom/issues/58)
+- Issue #54: Add V0.3 Authentication project definition (Forgejo — destroyed)
+- Issue #56: Add Spring Security OAuth2 and SecurityFilterChain (Forgejo — destroyed)
+- Issue #57: Add user persistence and /api/me endpoint (Forgejo — destroyed)
+- Issue #58: Add frontend authentication handling (Forgejo — destroyed)
 
 ### Follow-Up Issues
 
 - [Issue #13: Frontend Staging Access Blocked](https://github.com/travisfrels/skiploom/issues/13)
 - [Issue #21: API Returns 403 Forbidden After Authenticating](https://github.com/travisfrels/skiploom/issues/21)
-- [Issue #69: Add OAuth2 configuration documentation and startup validation](http://localhost:3000/skiploom-agent/skiploom/issues/69)
-- [Issue #70: Fix post-login redirect to frontend root](http://localhost:3000/skiploom-agent/skiploom/issues/70)
+- Issue #69: Add OAuth2 configuration documentation and startup validation (Forgejo — destroyed)
+- Issue #70: Fix post-login redirect to frontend root (Forgejo — destroyed)
 
 ### Pull Requests
 
-- [PR #55: #54 Add V0.3 Authentication project definition](http://localhost:3000/skiploom-agent/skiploom/pulls/55)
-- [PR #66: #56 Add Spring Security OAuth2 and SecurityFilterChain](http://localhost:3000/skiploom-agent/skiploom/pulls/66)
-- [PR #67: #57 Add user persistence and /api/me endpoint](http://localhost:3000/skiploom-agent/skiploom/pulls/67)
-- [PR #68: #58 Add frontend authentication handling](http://localhost:3000/skiploom-agent/skiploom/pulls/68)
+- PR #55: #54 Add V0.3 Authentication project definition (Forgejo — destroyed)
+- PR #66: #56 Add Spring Security OAuth2 and SecurityFilterChain (Forgejo — destroyed)
+- PR #67: #57 Add user persistence and /api/me endpoint (Forgejo — destroyed)
+- PR #68: #58 Add frontend authentication handling (Forgejo — destroyed)
 - [PR #20: #13 Fix forwarded headers for staging OAuth2 login](https://github.com/travisfrels/skiploom/pull/20)
 - [PR #19: #18 Normalize Spring profile configuration and test strategy](https://github.com/travisfrels/skiploom/pull/19)
 - [PR #23: #21 Fix 403 Forbidden on POST after OAuth2 authentication](https://github.com/travisfrels/skiploom/pull/23)
