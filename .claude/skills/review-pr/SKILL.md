@@ -1,9 +1,11 @@
 ---
 name: review-pr
-description: Review a pull request
+description: Review a GitHub pull request. Use when review pull request (PR) is needed.
 ---
 
 Review GitHub pull request $ARGUMENTS
+
+## Gather Context
 
 1. Fetch PR details.
 2. Fetch PR comments.
@@ -18,13 +20,15 @@ gh issue view {related-issue}
 gh issue view {related-issue} --comments
 ```
 
+## Review the Pull Request
+
 0. Maintain an independent, critical stance. Avoid agreement-seeking, performative professionalism, or unnecessary hedging.
 1. Analyze code quality and design.
-   * Consider readability, maintainability, modularity, separation of concerns, and adherence to the project's coding standards.
+   * Consider readability, maintainability, extensibility, and modularity.
    * Is the code clean, SOLID, and DRY?
-   * Does the code exchibit any anti-patterns such as god objects, shotgun surgery, or cargo cult programming?
+   * Does the code exchibit anti-patterns or code smells?
    * Is the code idiomatic for the language, frameworks, libraries, and SDKs used?
-   * Are there any unused references, variables, or functions?
+   * Are there any dead code or unused references, variables, or functions?
 2. Analyze test coverage and quality.
    * Consider whether the tests effectively validate functionality, handle edge cases, and objectively follow best practices for testing.
    * Are there any redundant, missing, or ineffective tests?
@@ -40,6 +44,8 @@ gh issue view {related-issue} --comments
          a. List concrete pros and cons in table format.
          b. Evaluate using three criteria, in order: impact, least astonishment, idiomaticity.
          c. Clearly identify the highest scoring alternative.
+
+## Post the Pull Reqeust Review
 
 ```bash
 gh pr review $ARGUMENTS --comment --body '{Body}'

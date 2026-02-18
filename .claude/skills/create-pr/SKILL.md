@@ -1,16 +1,44 @@
 ---
 name: create-pr
-description: Push the current branch to GitHub and create a pull request
+description: Create a GitHub pull request. Use when the asked to create a pull request (PR).
 ---
 
-Create a pull request for the current branch.
+Create a GitHub pull request, using the GitHub (`gh`) CLI.
 
-1. Check the current branch using `git branch --show-current`.
-  * If the current branch is `main`, then report an error and stop.
-2. Check the status of the current branch using `git status`.
-  * If there are uncommitted changes, then go through the process of staging and committing with the user.
-3. Push the current branch using `git push`
-4. Create a pull request.
+## Prerequisites Checklist
+
+- [ ] On a working branch
+- [ ] Working tree is clean
+
+## Gather Context
+
+1. Find the base branch
+2. View the diffs
+3. Find the related issue
+
+### Checklist
+
+- [ ] Base branch found
+- [ ] Diffs reviewed
+- [ ] Related issue identified
+
+## Analyze the Changes
+
+1. Do the changes address the issue?
+2. Do the commits follow the implementation plan?
+3. Was correctness verified?
+
+### Checklist
+
+- [ ] Changes address the issue
+- [ ] Commits follow the implementation plan
+- [ ] Correctness verified
+
+## Create the Pull Request
+
+1. Identify the issue.
+2. Describe how the changes address the issue.
+3. Describe how correctness was verified.
 
 ```bash
 gh pr create --title "{Title}" --body "{Body}"
