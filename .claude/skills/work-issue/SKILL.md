@@ -19,7 +19,7 @@ Work GitHub issue $ARGUMENTS.
 ```bash
 cat docs/ENG-DESIGN.md # Read the eng-design.
 gh issue view $ARGUMENTS # Read the issue.
-gh issue view $ARGUMENTS -- comments # Read the issue comments.
+gh issue view $ARGUMENTS --comments # Read the issue comments.
 gh issue edit $ARGUMENTS --add-assignee @me # Assign the issue to yourself.
 git checkout main # Checkout main
 git checkout -b issue-$ARGUMENTS-{slugified_issue_title} # Checkout a working branch.
