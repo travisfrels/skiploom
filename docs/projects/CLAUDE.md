@@ -17,20 +17,9 @@ Product initiative definitions (a.k.a. Projects).
 
 Transitions: Draft → Active → Done. Any status may transition to Paused and back.
 
-## Template Structure
+## Template
 
-Each project file contains these sections in order:
-
-| Section | Required | Contents |
-|---------|----------|----------|
-| **Context** | Yes | Situation (current state), Opportunity (what could be better), Approach (what to do). Optional subsections: Alternatives not chosen, Decisions table. |
-| **Goals** | Yes | What this project achieves. |
-| **Non-Goals** | Yes | What this project explicitly does not attempt. |
-| **Exit Criteria** | Yes | Checkboxes — verifiable conditions that define "done." Infrastructure projects include at least one end-to-end criterion. |
-| **References** | Yes | Links to planned issues, follow-up issues, pull requests, and design references. Includes milestone URL. |
-| **Post-Mortem** | At completion | Added when the project reaches Done. See Post-Mortem Format below. |
-
-The status metadata table (`Status | Created | Updated`) appears at the top of each file, immediately after the title heading.
+See [`TEMPLATE.md`](TEMPLATE.md) for the full project file template.
 
 ## Milestone Convention
 
