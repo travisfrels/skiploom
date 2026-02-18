@@ -1,3 +1,4 @@
 .env
 secrets/
 !**/src/test/resources/secrets/
+.claude/settings.local.json
