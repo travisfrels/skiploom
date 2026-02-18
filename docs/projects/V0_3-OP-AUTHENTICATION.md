@@ -37,7 +37,7 @@ Add `spring-boot-starter-oauth2-client` to the backend. Configure Google as the 
 
 ### CSRF
 
-Spring Security enables CSRF protection by default. Session-cookie authentication with a same-origin SPA requires a CSRF strategy — either synchronizer tokens via `CookieCsrfTokenRepository` or disabling CSRF for API endpoints and relying on `SameSite` cookie attributes. The specific approach should be decided during implementation.
+Spring Security enables CSRF protection by default. Session-cookie authentication with a same-origin SPA requires CSRF synchronizer tokens. The implementation uses `CookieCsrfTokenRepository` with a non-XOR `CsrfTokenRequestAttributeHandler` and a `CsrfTokenMaterializingFilter` for eager token generation, so the `XSRF-TOKEN` cookie is set on every response and the frontend can read it via `document.cookie` and send it back as `X-XSRF-TOKEN`.
 
 ## Exit Criteria
 
@@ -65,6 +65,7 @@ Spring Security enables CSRF protection by default. Session-cookie authenticatio
 ### Follow-Up Issues
 
 - [Issue #13: Frontend Staging Access Blocked](https://github.com/travisfrels/skiploom/issues/13)
+- [Issue #21: API Returns 403 Forbidden After Authenticating](https://github.com/travisfrels/skiploom/issues/21)
 - [Issue #69: Add OAuth2 configuration documentation and startup validation](http://localhost:3000/skiploom-agent/skiploom/issues/69)
 - [Issue #70: Fix post-login redirect to frontend root](http://localhost:3000/skiploom-agent/skiploom/issues/70)
 
