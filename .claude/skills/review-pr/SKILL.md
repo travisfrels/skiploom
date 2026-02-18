@@ -1,6 +1,6 @@
 ---
 name: review-pr
-description: Review a GitHub pull request. Use in the context of finish-issue to create the GitHub pull request.
+description: Review a GitHub pull request. Use when a GitHub pull request review is needed.
 ---
 
 Review GitHub pull request $ARGUMENTS

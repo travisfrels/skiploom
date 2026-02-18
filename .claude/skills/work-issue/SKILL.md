@@ -1,6 +1,6 @@
 ---
 name: work-issue
-description: Start working on a GitHub issue. Use when working a GitHub issue is needed.
+description: Start working on a GitHub issue. Use when working a GitHub issue is needed. Uses the design, assess-alternatives, and finish-issue skills.
 ---
 
 Work GitHub issue $ARGUMENTS.

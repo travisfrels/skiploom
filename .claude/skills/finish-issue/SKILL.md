@@ -1,6 +1,6 @@
 ---
 name: finish-issue
-description: Finish working on a GitHub issue. Use in the context of work-issue when the issue work is complete.
+description: Finish working on a GitHub issue. Used in the context of work-issue when the issue work is complete. Uses the create-pr skill to create the GitHub pull request.
 ---
 
 Finish GitHub issue: $ARGUMENTS
@@ -11,6 +11,6 @@ Finish GitHub issue: $ARGUMENTS
     - What you implemented.
     - Any design decisions that you made and the rationale behind them.
     - Any open questions or unresolved issues that remain.
-3. Update the project doc (docs/projects).
-4. Check for stale CLAUDE.md files
-5. Use the `create-pr` skill to create a GitHub pull request.
+4. Update the project doc (docs/projects).
+5. Check for stale CLAUDE.md files.
+6. Use the `create-pr` skill to create a GitHub pull request.
