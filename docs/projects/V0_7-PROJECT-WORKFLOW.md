@@ -77,7 +77,12 @@ Update the `create-project` skill template to include a Post-Mortem section with
 
 ## References
 
+- [Milestone: V0.7 Project Workflow](https://github.com/travisfrels/skiploom/milestone/1)
 - [Issue #28: E2E Project Definition](https://github.com/travisfrels/skiploom/issues/28) — structural drift identified during V0.6 project creation
+- [Issue #30: Update create-project skill template](https://github.com/travisfrels/skiploom/issues/30)
+- [Issue #31: Update project-post-mortem and post-mortem skills](https://github.com/travisfrels/skiploom/issues/31)
+- [Issue #32: Create docs/projects/README.md for human onboarding](https://github.com/travisfrels/skiploom/issues/32)
+- [Issue #33: Expand docs/projects/CLAUDE.md for agent instructions](https://github.com/travisfrels/skiploom/issues/33)
 
 ### Follow-Up Issues
 
