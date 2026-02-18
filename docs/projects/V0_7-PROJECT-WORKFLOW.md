@@ -90,6 +90,8 @@ Update the `create-project` skill template to include a Post-Mortem section with
 
 ### Pull Requests
 
+- [PR #37: #30 Update create-project skill template](https://github.com/travisfrels/skiploom/pull/37)
+
 ### Design References
 
 - [GitHub Milestones: About Milestones](https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/about-milestones)

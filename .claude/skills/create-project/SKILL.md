@@ -30,6 +30,16 @@ What's wrong with it, or what could be better?
 
 What can we do about it?
 
+#### Alternatives not chosen (optional)
+
+- **{Alternative}** — Why it was not chosen.
+
+#### Decisions (optional)
+
+| Decision | Choice | Rationale |
+|----------|--------|-----------|
+| {Decision} | {Choice} | {Rationale} |
+
 ## Goals
 
 - What this project achieves.
@@ -64,9 +74,44 @@ as a whole.
 
 - Links to web-based articles used in the design of the project.
 
+## Post-Mortem
+
+### Summary
+
+High-level outcome: issues planned, PRs merged, follow-ups identified, and overall assessment.
+
+### What Went Well
+
+- What succeeded and why.
+
+### What Went Wrong
+
+What failed and why.
+
+| Issue | Root Cause | Category |
+|-------|-----------|----------|
+| {Issue} | {Root Cause} | {Category} |
+
+### Recommendations
+
+Actionable improvements for future projects.
+
 ```
 
-ADRs and tasks are created during project execution, not pre-defined.
+## Workflow
+
+1. **Create a GitHub Milestone** matching the project title using `gh api`:
+   ```bash
+   gh api repos/{owner}/{repo}/milestones -f title="V{VERSION} {Initiative Name}"
+   ```
+   The milestone title must match the project title exactly (e.g., `V0.7 Project Workflow`).
+
+2. **Create the project file** at `docs/projects/V{VERSION}-{INITIATIVE}.md` using the template above. Include the milestone URL in the `## References` section:
+   ```markdown
+   - [Milestone: V{VERSION} {Initiative Name}](https://github.com/{owner}/{repo}/milestone/{number})
+   ```
+
+3. ADRs and tasks are created during project execution, not pre-defined.
 
 ## Status Values
 
