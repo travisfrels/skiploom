@@ -10,7 +10,27 @@ Perform a post-mortem analysis of docs/projects $ARGUMENTS.
 3. Read the project issue(s) and pull request(s).
 4. /post-mortem the project actions.
 5. Post issues for each identified opportunity.
-6. Add a `## Post-Mortem` section to the project documentation with the analysis and links to the improvement issues.
+6. Add a `## Post-Mortem` section to the project documentation with the analysis and links to the improvement issues. Use this structure:
+
+### Summary
+
+High-level outcome: issues planned, PRs merged, follow-ups identified, and overall assessment.
+
+### What Went Well
+
+- What succeeded and why.
+
+### What Went Wrong
+
+What failed and why.
+
+| Issue | Root Cause | Category |
+|-------|-----------|----------|
+| {Issue} | {Root Cause} | {Category} |
+
+### Recommendations
+
+Actionable improvements for future projects.
 
 ```bash
 # Read the issue.

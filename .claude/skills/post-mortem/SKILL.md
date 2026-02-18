@@ -13,3 +13,11 @@ Reflect upon: $ARGUMENTS
 3. For each opportunity for improvement:
    a. `/design` an implementation plan.
    b. `/assess-alternatives` for alternatives identified by the design.
+
+## Output Format
+
+Map analysis categories to post-mortem sections:
+
+- **Successes** → What Went Well
+- **Failures** → What Went Wrong + root-cause table (Issue | Root Cause | Category)
+- **Opportunities** → Recommendations
