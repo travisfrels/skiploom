@@ -11,5 +11,12 @@ REST API written in Kotlin using the Spring framework implementing CQRS and Clea
 
 ## Testing
 
-- bash uses `./gradlew test` and PowerShell uses `.\gradlew test`
-- All tests must pass before merging
+```bash
+./gradlew test
+```
+
+## Run
+
+```bash
+./gradlew bootRun
+```

@@ -7,18 +7,11 @@ Review GitHub pull request $ARGUMENTS
 
 ## Gather Context
 
-1. Fetch PR details.
-2. Fetch PR comments.
-3. Fetch PR reviews.
-
-```bash
-gh pr view $ARGUMENTS
-gh pr view $ARGUMENTS --comments
-gh pr view $ARGUMENTS --json reviews --jq '.reviews'
-gh pr diff $ARGUMENTS
-gh issue view {related-issue}
-gh issue view {related-issue} --comments
-```
+1. Fetch PR details using `gh pr view $ARGUMENTS`
+2. Fetch PR comments using `gh pr view $ARGUMENTS --comments`
+3. Fetch PR reviews using `gh pr view $ARGUMENTS --json reviews --jq '.reviews'`
+4. Fetch PR diff using `gh pr diff $ARGUMENTS`
+5. Fetch related issue using `gh issue view {related-issue} && gh issue view {related-issue} --comments`
 
 ## Review the Pull Request
 
