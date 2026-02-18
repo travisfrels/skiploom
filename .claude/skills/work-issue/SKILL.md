@@ -5,7 +5,7 @@ description: Start working on a GitHub issue
 
 Work GitHub issue $ARGUMENTS.
 
-1. Read the eng-design.
+1. Read the docs/ENG-DESIGN.md document.
 2. Read the issue using `gh issue view $ARGUMENTS && gh issue view $ARGUMENTS --comments`
 3. Assign the issue to yourself using `gh issue edit $ARGUMENTS --add-assignee @me`
 4. Checkout a working branch from `main` using `git checkout main && git checkout -b issue-$ARGUMENTS-{slugified_issue_title}`
