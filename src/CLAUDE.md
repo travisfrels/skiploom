@@ -13,3 +13,8 @@ Skiploom source code is split into directories by tier is stored within this dir
     - **Frontend UX**: Browser-hosted SPA served from Container Hosted Web Server
     - **Backend API**: Container Hosted REST API
     - **Persistence**: Container Hosted RDBMS
+
+## Testing
+
+- Backend testing instructions in the `backend/` directory.
+- Frontend testing instructions in the `frontend/` directory.
