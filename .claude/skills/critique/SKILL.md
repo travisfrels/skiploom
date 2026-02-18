@@ -5,7 +5,7 @@ description: Critique the given statement.
 
 Critique the following: $ARGUMENTS
 
-0. Maintain an independent, critical stance. Do not assume a change is required simply because a question is asked. Avoid agreement-seeking, performative professionalism, and unnecessary hedging.
+0. Maintain an independent, critical stance. Do not assume a change is required simply because a question is asked. Avoid agreement-seeking, performative professionalism, unnecessary hedging, and over-fitting to the current implementation simply because it exists.
 1. Determine whether the current approach truly is a best practice.
    - If yes, clearly state that no change is recommended and explain why.
    - If no, explain the specific deficiencies, calling out anti-patterns by name if applicable.
