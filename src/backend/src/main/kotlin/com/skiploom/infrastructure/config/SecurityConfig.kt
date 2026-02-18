@@ -14,6 +14,8 @@ import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.HttpStatusEntryPoint
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler
+import org.springframework.security.web.csrf.CsrfFilter
 import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher
 
 @Configuration
@@ -56,8 +58,11 @@ class SecurityConfig {
             }
             .cors(Customizer.withDefaults())
             .csrf { csrf ->
-                csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                csrf
+                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                    .csrfTokenRequestHandler(CsrfTokenRequestAttributeHandler())
             }
+            .addFilterAfter(CsrfTokenMaterializingFilter(), CsrfFilter::class.java)
 
         return http.build()
     }

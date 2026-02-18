@@ -81,4 +81,16 @@ class SecurityConfigTest {
         )
             .andExpect(status().isForbidden)
     }
+
+    @Test
+    @WithMockUser
+    fun `POST with CSRF token is permitted`() {
+        mockMvc.perform(
+            post("/api/commands/create_recipe")
+                .with(csrf())
+                .contentType("application/json")
+                .content("{}")
+        )
+            .andExpect(status().isNotFound)
+    }
 }
