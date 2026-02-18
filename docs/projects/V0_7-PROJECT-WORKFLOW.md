@@ -94,6 +94,7 @@ Update the `create-project` skill template to include a Post-Mortem section with
 - [PR #38: #31 Define post-mortem output structure in skills](https://github.com/travisfrels/skiploom/pull/38)
 - [PR #39: #32 Create docs/projects/README.md for human onboarding](https://github.com/travisfrels/skiploom/pull/39)
 - [PR #40: #33 Expand docs/projects/CLAUDE.md for agent instructions](https://github.com/travisfrels/skiploom/pull/40)
+- [PR #42: #34 Update finish-issue skill for milestone progress and project doc clarity](https://github.com/travisfrels/skiploom/pull/42)
 
 ### Design References
 
