@@ -21,5 +21,8 @@ Skiploom is a recipe management system.
 
 - **Test-Driven Development**: Code changes follow TDD, but if no code changes, then no tests.
   - All tests must pass prior to committing changes.
-  - See `src/CLAUDE.md` for testing instructions.
 - **SOLID Principles**: Implemented code follows SOLID principles
+
+## Testing
+
+- See `src/CLAUDE.md` for testing instructions.

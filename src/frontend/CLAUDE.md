@@ -8,7 +8,7 @@ frameworks implementing the FLUX pattern.
 - `src/`: Skiploom frontend source code
 - `public/`: Static resources included when building the frontend
 
-## Test
+## Testing
 
 ```bash
 npm test
