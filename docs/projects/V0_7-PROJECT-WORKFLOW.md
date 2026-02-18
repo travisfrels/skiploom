@@ -83,6 +83,8 @@ Update the `create-project` skill template to include a Post-Mortem section with
 - [Issue #31: Update project-post-mortem and post-mortem skills](https://github.com/travisfrels/skiploom/issues/31)
 - [Issue #32: Create docs/projects/README.md for human onboarding](https://github.com/travisfrels/skiploom/issues/32)
 - [Issue #33: Expand docs/projects/CLAUDE.md for agent instructions](https://github.com/travisfrels/skiploom/issues/33)
+- [Issue #34: Update finish-issue skill for milestone progress and project doc clarity](https://github.com/travisfrels/skiploom/issues/34)
+- [Issue #35: Update create-issue skill for milestone assignment](https://github.com/travisfrels/skiploom/issues/35)
 
 ### Follow-Up Issues
 
