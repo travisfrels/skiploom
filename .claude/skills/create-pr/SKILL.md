@@ -1,6 +1,6 @@
 ---
 name: create-pr
-description: Create a GitHub pull request. Use when the asked to create a pull request (PR).
+description: Create a GitHub pull request. Used in the context of the finish-issue skill to create the GitHub pull request.
 ---
 
 Create a GitHub pull request, using the GitHub (`gh`) CLI.

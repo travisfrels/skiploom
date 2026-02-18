@@ -16,5 +16,5 @@ Skiploom source code is split into directories by tier is stored within this dir
 
 ## Testing
 
-- Backend testing instructions in the `backend/` directory.
-- Frontend testing instructions in the `frontend/` directory.
+- See `backend/CLAUDE.md` for backend testing instructions.
+- See `frontend/CLAUDE.md` for frontend testing instructions.
