@@ -21,7 +21,7 @@ Finish GitHub issue $ARGUMENTS
 6. Use the `create-pr` skill to create a GitHub pull request.
 7. Check milestone progress:
     - Retrieve the issue's milestone: `gh issue view $ARGUMENTS --json milestone`.
-    - If the issue has a milestone, query progress: `gh api /repos/{owner}/{repo}/milestones/{number}`.
+    - If the issue has a milestone, query progress: `gh api repos/{owner}/{repo}/milestones/{number}`.
     - If `open_issues` is 1 (this is the last open issue in the milestone):
       1. Prompt the developer to verify exit criteria in the project document before marking the project Done.
       2. Create a post-mortem issue:
