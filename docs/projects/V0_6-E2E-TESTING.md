@@ -74,6 +74,8 @@ Add Playwright as the E2E testing framework, installed in the frontend project. 
 
 ### Pull Requests
 
+- [#54: Initialize V0.6 E2E Testing milestone and project issues](https://github.com/travisfrels/skiploom/pull/54)
+
 ### Design References
 
 - [Playwright Documentation](https://playwright.dev/docs/intro)
