@@ -26,3 +26,4 @@ Skiploom is a recipe management system.
 ## Testing
 
 - See `src/CLAUDE.md` for testing instructions.
+- New features that affect user-facing behavior require E2E tests (see `src/frontend/CLAUDE.md`).
