@@ -61,25 +61,3 @@ as a whole.
 ### Design References
 
 - Links to web-based articles used in the design of the project.
-
-## Post-Mortem
-
-### Summary
-
-High-level outcome: issues planned, PRs merged, follow-ups identified, and overall assessment.
-
-### What Went Well
-
-- What succeeded and why.
-
-### What Went Wrong
-
-What failed and why.
-
-| Issue | Root Cause | Category |
-|-------|-----------|----------|
-| {Issue} | {Root Cause} | {Category} |
-
-### Recommendations
-
-Actionable improvements for future projects.
