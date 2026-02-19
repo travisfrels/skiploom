@@ -1,0 +1,4 @@
+services:
+  backend-staging:
+    environment:
+      SPRING_PROFILES_ACTIVE: staging,e2e
