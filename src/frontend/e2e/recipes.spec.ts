@@ -40,8 +40,12 @@ test.describe('Recipe List', () => {
     })
 
     test('shows created recipe in the list', async ({ page }) => {
-        await page.goto('/recipes')
-        await expect(page.getByText(TEST_RECIPE.title)).toBeVisible()
+        await test.step('navigate to the recipe list', async () => {
+            await page.goto('/recipes')
+        })
+        await test.step('verify the recipe appears in the list', async () => {
+            await expect(page.getByText(TEST_RECIPE.title)).toBeVisible()
+        })
     })
 })
 
@@ -60,9 +64,15 @@ test.describe('Recipe Detail', () => {
     })
 
     test('shows recipe title and description on detail page', async ({ page }) => {
-        await page.goto(`/recipes/${recipeId}`)
-        await expect(page.getByText(TEST_RECIPE.title)).toBeVisible()
-        await expect(page.getByText(TEST_RECIPE.description)).toBeVisible()
+        await test.step('navigate to the recipe detail page', async () => {
+            await page.goto(`/recipes/${recipeId}`)
+        })
+        await test.step('verify the recipe title is visible', async () => {
+            await expect(page.getByText(TEST_RECIPE.title)).toBeVisible()
+        })
+        await test.step('verify the recipe description is visible', async () => {
+            await expect(page.getByText(TEST_RECIPE.description)).toBeVisible()
+        })
     })
 })
 
@@ -76,19 +86,25 @@ test.describe('Recipe Create', () => {
     })
 
     test('creates a recipe via form and redirects to detail page', async ({ page }) => {
-        await page.goto('/recipes/new')
-        await page.getByLabel('Title').fill(TEST_RECIPE.title)
-        await page.getByLabel('Description').fill(TEST_RECIPE.description)
-        await page.getByPlaceholder('Amt').fill(String(TEST_RECIPE.ingredients[0].amount))
-        await page.getByPlaceholder('Unit').fill(TEST_RECIPE.ingredients[0].unit)
-        await page.getByPlaceholder('Ingredient name').fill(TEST_RECIPE.ingredients[0].name)
-        await page.getByPlaceholder('Describe this step').fill(TEST_RECIPE.steps[0].instruction)
-
-        await page.getByRole('button', { name: 'Create Recipe' }).click()
-        await page.waitForURL(/\/recipes\/[0-9a-f-]+$/)
-
-        createdId = page.url().split('/').pop()!
-        await expect(page.getByText(TEST_RECIPE.title)).toBeVisible()
+        await test.step('navigate to the new recipe form', async () => {
+            await page.goto('/recipes/new')
+        })
+        await test.step('fill in recipe details', async () => {
+            await page.getByLabel('Title').fill(TEST_RECIPE.title)
+            await page.getByLabel('Description').fill(TEST_RECIPE.description)
+            await page.getByPlaceholder('Amt').fill(String(TEST_RECIPE.ingredients[0].amount))
+            await page.getByPlaceholder('Unit').fill(TEST_RECIPE.ingredients[0].unit)
+            await page.getByPlaceholder('Ingredient name').fill(TEST_RECIPE.ingredients[0].name)
+            await page.getByPlaceholder('Describe this step').fill(TEST_RECIPE.steps[0].instruction)
+        })
+        await test.step('submit the form', async () => {
+            await page.getByRole('button', { name: 'Create Recipe' }).click()
+            await page.waitForURL(/\/recipes\/[0-9a-f-]+$/)
+            createdId = page.url().split('/').pop()!
+        })
+        await test.step('verify the recipe detail page is shown', async () => {
+            await expect(page.getByText(TEST_RECIPE.title)).toBeVisible()
+        })
     })
 })
 
@@ -107,14 +123,20 @@ test.describe('Recipe Update', () => {
     })
 
     test('updates recipe title via form and shows updated title on detail page', async ({ page }) => {
-        await page.goto(`/recipes/${recipeId}/edit`)
-        await page.getByLabel('Title').clear()
-        await page.getByLabel('Title').fill('Updated E2E Recipe')
-
-        await page.getByRole('button', { name: 'Save Changes' }).click()
-        await page.waitForURL(new RegExp(`/recipes/${recipeId}$`))
-
-        await expect(page.getByText('Updated E2E Recipe')).toBeVisible()
+        await test.step('navigate to the edit form', async () => {
+            await page.goto(`/recipes/${recipeId}/edit`)
+        })
+        await test.step('update the recipe title', async () => {
+            await page.getByLabel('Title').clear()
+            await page.getByLabel('Title').fill('Updated E2E Recipe')
+        })
+        await test.step('submit the form', async () => {
+            await page.getByRole('button', { name: 'Save Changes' }).click()
+            await page.waitForURL(new RegExp(`/recipes/${recipeId}$`))
+        })
+        await test.step('verify the updated title is shown on the detail page', async () => {
+            await expect(page.getByText('Updated E2E Recipe')).toBeVisible()
+        })
     })
 })
 
@@ -129,10 +151,16 @@ test.describe('Recipe Delete', () => {
     })
 
     test('deletes a recipe via detail page and redirects to list', async ({ page }) => {
-        await page.goto(`/recipes/${recipeId}`)
-        page.on('dialog', dialog => dialog.accept())
-        await page.getByRole('button', { name: 'Delete' }).click()
-        await page.waitForURL('**/recipes')
-        await expect(page.getByText(TEST_RECIPE.title)).not.toBeVisible()
+        await test.step('navigate to the recipe detail page', async () => {
+            await page.goto(`/recipes/${recipeId}`)
+        })
+        await test.step('click delete and accept the confirmation dialog', async () => {
+            page.on('dialog', dialog => dialog.accept())
+            await page.getByRole('button', { name: 'Delete' }).click()
+        })
+        await test.step('verify redirect to the recipe list', async () => {
+            await page.waitForURL('**/recipes')
+            await expect(page.getByText(TEST_RECIPE.title)).not.toBeVisible()
+        })
     })
 })
