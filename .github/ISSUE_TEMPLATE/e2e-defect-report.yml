@@ -1,0 +1,60 @@
+name: E2E Defect Report
+description: Report a defect discovered through E2E test failure
+labels: ["bug"]
+title: "[E2E] "
+body:
+  - type: input
+    id: failing-test-name
+    attributes:
+      label: Failing Test Name
+      description: The full test name from the Playwright report (e.g., `recipe-crud.spec.ts > Create Recipe > should save a new recipe`)
+      placeholder: test-file.spec.ts > Describe Block > test name
+    validations:
+      required: true
+
+  - type: textarea
+    id: failing-step
+    attributes:
+      label: Failing Step
+      description: The specific step or assertion that failed, including the line or action if available
+      placeholder: |
+        Step: Click the "Save" button
+        Assertion: expect(page.getByText('Recipe saved')).toBeVisible()
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: What should have happened
+      placeholder: Describe the expected outcome
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual Behavior
+      description: What actually happened, including any error messages
+      placeholder: Describe what happened instead
+    validations:
+      required: true
+
+  - type: input
+    id: ci-run-or-artifact-link
+    attributes:
+      label: CI Run or Artifact Link
+      description: Link to the GitHub Actions run or the Playwright HTML report artifact
+      placeholder: https://github.com/travisfrels/skiploom/actions/runs/...
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Browser, OS, and any relevant environment context
+      placeholder: "Chromium, Ubuntu (CI)"
+    validations:
+      required: true
