@@ -7,7 +7,7 @@ Finish GitHub issue $ARGUMENTS
 
 1. Use the `git` CLI to add, commit, and push any remaining changes to the working branch.
 2. Use `git log -n 10 --pretty=format:"%h - %an, %ar : %s"` to sanity check repository changes.
-3. Think about issue implementation and use `gh issue comment $ARGUMENTS --body '{Body}'` to post an implementation summary comment to the issue with the following sections:
+3. Think critically about issue implementation and use `gh issue comment $ARGUMENTS --body '{Body}'` to post an implementation summary comment to the issue with the following sections:
     - **What was implemented.**
     - **Design decisions**: decisions made and the rationale behind them.
     - **Open questions**: unresolved issues that remain.
