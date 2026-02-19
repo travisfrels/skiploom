@@ -1,10 +1,13 @@
 {
   "permissions": {
     "allow": [
+      "Bash(git log:*)",
+      "Bash(git status:*)",
       "Bash(gh issue view:*)",
       "Bash(gh api:*)",
       "Bash(gh pr view:*)",
-      "Bash(gh pr diff:*)"
+      "Bash(gh pr diff:*)",
+      "Bash(gh milestone list:*)"
     ]
   }
 }

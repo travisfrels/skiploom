@@ -11,7 +11,6 @@ Work GitHub issue $ARGUMENTS.
 4. Checkout a working branch from `main` using `git checkout main && git checkout -b issue-$ARGUMENTS-{slugified_issue_title}`
 5. Push the branch to origin using `git push --set-upstream origin issue-$ARGUMENTS-{slugified_issue_title}`
 6. /design an implementation plan for issue $ARGUMENTS
-  * /assess-alternatives for each decision point in the implementation plan
-  * Present alternatives and and the assessment to the user for final decision making.
+  * For each decision point in the implementation plan use the assess-alternatives skill and then ask for confirmation.
 7. Create a step-by-step implementation plan.
 8. Post the implementation plan using `gh issue comment $ARGUMENTS --body '{Implementation_Plan}'`
