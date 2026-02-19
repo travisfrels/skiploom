@@ -80,7 +80,7 @@ test.describe('Recipe Create', () => {
 
     test.afterEach(async ({ page }) => {
         if (createdId) {
-            await apiPost(page.context(), '/commands/delete_recipe', { id: createdId })
+            await deleteTestRecipe(page.context(), createdId)
         }
     })
 
