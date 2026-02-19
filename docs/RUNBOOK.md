@@ -112,7 +112,7 @@ End-to-end tests use Playwright to exercise the application through a browser ag
    ```bash
    npm ci
    ```
-3. Install Playwright browsers:
+3. Install Playwright browsers (from `src/frontend/`):
    ```bash
    npx playwright install --with-deps chromium
    ```
