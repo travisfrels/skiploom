@@ -8,6 +8,7 @@ REST controllers and exception handling for HTTP interactions.
 - **RecipeCommandController.kt**: Command endpoints for recipe mutations (`POST /api/commands/...`)
 - **RecipeQueryController.kt**: Query endpoints for recipe reads (`GET /api/queries/...`)
 - **ValidationExceptionHandler.kt**: `@ControllerAdvice` adding field-level `{field, message}` errors to validation ProblemDetail responses
+- **E2eLoginController.kt**: E2E-only login endpoint (`POST /api/e2e/login`); synthesises an OAuth2 session for a fixed test user (`@Profile("e2e")` — not active in production)
 
 ## Conventions
 
