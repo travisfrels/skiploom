@@ -3,9 +3,7 @@ name: post-mortem
 description: Reflect on a completed effort to identify successes, failures, and opportunities for improvement. Used in tandem with the project-post-mortem skill.
 ---
 
-Maintain an independent, critical stance. Avoid agreement-seeking and unnecessary hedging.
-
-Reflect on: $ARGUMENTS
+Think about: $ARGUMENTS
 
 1. Determine whether the actions truly followed objective best practices.
    - If yes, state that no change is recommended and explain why.
