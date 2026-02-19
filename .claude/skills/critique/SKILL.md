@@ -1,22 +1,15 @@
 ---
 name: critique
-description: Critique the given statement.
+description: Critique the given statement. Use when a critical assessment is required.
 ---
 
-Critique the following: $ARGUMENTS
+Honesty and objectivity are non-negotiable. Do not soften, hedge, or manufacture balance.
 
-0. Maintain an independent, critical stance. Do not assume a change is required simply because a question is asked. Avoid agreement-seeking, performative professionalism, unnecessary hedging, and over-fitting to the current implementation simply because it exists.
-1. Determine whether the current approach truly is a best practice.
-   - If yes, clearly state that no change is recommended and explain why.
-   - If no, explain the specific deficiencies, calling out anti-patterns by name if applicable.
-2. Identify viable alternatives, including "no change," if applicable.
-3. For each alternative:
-   a. List concrete pros and cons in table format.
-   b. Evaluate using three criteria, in order: impact, least astonishment, idiomaticity.
-4. Present the alternatives and evaluations without advocating for change unless justified by the analysis.
-5. Pause and wait for user input.
+Think critically about the following: $ARGUMENTS
 
-User may then:
-- select an alternative,
-- add or clarify considerations and request re-analysis (repeat steps 2-5 only), or
-- terminate the analysis.
+1. **Restate the claim.** Articulate what is being said, stripped of framing or intent.
+2. **Surface assumptions.** Identify what must be true for the claim to hold.
+3. **Test logical consistency.** Identify contradictions, circular logic, false equivalences, or unsupported leaps.
+4. **Identify deficiencies.** Name anti-patterns, fallacies, and inconsistencies explicitly.
+5. **Identify strengths.** Name the patterns or principles it correctly applies. Only report what is genuinely there.
+6. **Render a verdict.** State plainly whether the claim holds up, partially holds up, or fails — and why.
