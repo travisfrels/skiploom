@@ -15,28 +15,23 @@ Review GitHub pull request $ARGUMENTS
 
 ## Review the Pull Request
 
-0. Maintain an independent, critical stance. Avoid agreement-seeking, performative professionalism, or unnecessary hedging.
-1. Analyze code quality and design.
-   * Consider readability, maintainability, extensibility, and modularity.
-   * Is the code clean, SOLID, and DRY?
+1. Think critically about code quality and design.
+   * Assess readability, maintainability, extensibility, and modularity.
+   * Is the code clean, SOLID, DRY, and self documenting?
    * Does the code exhibit anti-patterns or code smells?
    * Is the code idiomatic for the language, frameworks, libraries, and SDKs used?
-   * Are there any dead code or unused references, variables, or functions?
-2. Analyze test coverage and quality.
-   * Consider whether the tests effectively validate functionality, handle edge cases, and objectively follow best practices for testing.
+   * Are there any dead code paths or unused references, variables, or functions?
+2. Assess test coverage and quality.
+   * Do the tests effectively validate functionality, handle edge cases, and objectively follow best practices for testing?
    * Are there any redundant, missing, or ineffective tests?
-   * Are tests testing one-and-only-one behavior?
-3. Analyze documentation coverage and quality.
-   * Consider whether the documentation is clear, comprehensive, and up-to-date
-   * Does the documentation effectively communicate the purpose and usage of the code?
-   * Are there stale CLAUDE.md files?
-4. Determine if this body of work stays true to the intent of issue's requirements, the associated project document (docs/projects), and the eng-design (docs).
-   * If yes, clearly state in a pr review that the pull request is acceptable and explain why.
+   * Are tests each covering one-and-only-one behavior?
+3. Assess documentation coverage and quality including README.md, CLAUDE.md, and project files.
+   * Is the documentation clear, concise, comprehensive, up-to-date, and audience appropriate?
+   * Does the documentation effectively communicate the purpose, intention, and usage of the code?
+   * Are there stale README.md or CLAUDE.md files?
+4. Determine if this body of work stays true to the intent of issue, associated project document (docs/projects), and eng-design (docs/ENG-DESIGN.md).
+   * If yes, clearly state that the pull request is acceptable and explain why.
    * If no, explain the specific deficiencies in a pr review calling out anti-patterns by name if applicable.
-      - If there are viable alternatives:
-         a. List concrete pros and cons in table format.
-         b. Evaluate using three criteria, in order: impact, least astonishment, idiomaticity.
-         c. Clearly identify the highest scoring alternative.
 
 ## Post the Pull Request Review
 
