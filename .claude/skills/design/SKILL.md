@@ -1,23 +1,13 @@
 ---
 name: design
-description: Design a solution to the given problem.
+description: Design a solution to the given problem. Used in tandem with the assess-alternatives skill.
 ---
 
-Create and present viable solution alternatives: $ARGUMENTS
+Think about viable alternatives for the following: $ARGUMENTS
 
-0. Maintain an independent, critical stance. Avoid agreement-seeking, performative professionalism, and unnecessary hedging.
-1. Seek official documentation for languages, frameworks, libraries, and SDKs.
-   * Excerpts from references should be cited and included in the analysis to support the evaluation of alternatives.
-2. Identify truly viable alternatives.
-   * Viable alternatives are those that are objectively reasonable and could be feasibly be implemented within the constraints of the project, timeline, and resources.
-   * Avoid proposing alternatives that are impractical, unfeasible, or clearly inferior without a compelling justification.
-4. For each alternative:
-   a. Evaluate using three criteria, in order: impact, least astonishment, idiomaticity.
-   b. List pros, cons, impact, least astonishment, and idiomaticity as rows and alternatives as columns in markdown table format.
-   c. Cite a list of references that informed the evaluation of each alternative.
-5. Present the options and evaluations without advocating for an option unless justified by the analysis.
-6. Pause and wait for user input.
+1. A viable alternative is one that is objectively reasonable and feasibly implementable within project constraints.
+2. Where the implementation space is non-obvious, consult official documentation and cite relevant excerpts.
+3. For each alternative, describe: what it is, how it addresses the problem, and its trade-offs.
+4. Present alternatives as columns in a markdown table. Use impact, least astonishment, and idiomaticity as rows at minimum; add other relevant trade-off dimensions as needed.
+5. Do not score, rank, or advocate. Characterize only.
 
-User may then:
-- select an option,
-- add or clarify considerations and request re-analysis.
