@@ -2,7 +2,7 @@
 
 | Status | Created | Updated |
 |--------|---------|---------|
-| Draft | 2026-02-18 | 2026-02-18 |
+| Done | 2026-02-18 | 2026-02-19 |
 
 ## Context
 
@@ -66,14 +66,14 @@ Update the `create-project` skill template to include a Post-Mortem section with
 
 ## Exit Criteria
 
-- [ ] `create-project` skill template includes `## Post-Mortem` section with subsections: Summary, What Went Well, What Went Wrong, root-cause table, Recommendations
-- [ ] `create-project` skill template includes optional `#### Alternatives not chosen` and `#### Decisions` under Approach
-- [ ] `create-project` skill workflow includes milestone creation step
-- [ ] `project-post-mortem` skill defines post-mortem output structure matching template
-- [ ] `post-mortem` skill defines output format for successes, failures, and opportunities
-- [ ] `docs/projects/CLAUDE.md` documents agent instructions: skill usage, template structure, and conventions
-- [ ] `docs/projects/README.md` documents the project lifecycle workflow for human onboarding: phases (initiation, planning, execution, tracking, completion), what happens in each, where artifacts live, and how milestones and local docs interact
-- [ ] A new project can be created end-to-end: `/create-project` produces a document matching the template, a milestone exists in GitHub, and the document references the milestone
+- [x] `create-project` skill template includes `## Post-Mortem` section with subsections: Summary, What Went Well, What Went Wrong, root-cause table, Recommendations
+- [x] `create-project` skill template includes optional `#### Alternatives not chosen` and `#### Decisions` under Approach
+- [x] `create-project` skill workflow includes milestone creation step
+- [x] `project-post-mortem` skill defines post-mortem output structure matching template
+- [x] `post-mortem` skill defines output format for successes, failures, and opportunities
+- [x] `docs/projects/CLAUDE.md` documents agent instructions: skill usage, template structure, and conventions
+- [x] `docs/projects/README.md` documents the project lifecycle workflow for human onboarding: phases (initiation, planning, execution, tracking, completion), what happens in each, where artifacts live, and how milestones and local docs interact
+- [x] A new project can be created end-to-end: `/create-project` produces a document matching the template, a milestone exists in GitHub, and the document references the milestone
 
 ## References
 
@@ -102,3 +102,33 @@ Update the `create-project` skill template to include a Post-Mortem section with
 - [GitHub Milestones: About Milestones](https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/about-milestones)
 - [`gh issue create --milestone`](https://cli.github.com/manual/gh_issue_create) — native CLI support for assigning issues to milestones
 - [Milestone management in `gh` CLI — Issue #1200](https://github.com/cli/cli/issues/1200) — native milestone CRUD excluded from core CLI; requires `gh api` or extensions
+
+## Post-Mortem
+
+V0.7 delivered all 7 planned issues (#30–#35, #45) across 6 PRs (#37–#40, #42, #44), with 8/8 milestone issues closed. All exit criteria are met. The two problems the project identified are resolved: skills produce consistent post-mortem structure, milestones track project progress, and `docs/projects/CLAUDE.md` is a usable standalone reference for project conventions.
+
+### What Went Well
+
+- **Problem decomposition was precise.** Two root causes (structural drift, tracking gap) mapped cleanly to 6 issues with minimal overlap. No issue conflated the two problem dimensions.
+- **PR reviews caught real defects.** PR #40 review found a duplicate step number in `finish-issue/SKILL.md` and a misleading skill description; both were fixed before merge. PR #42 review identified the wrong file type for permissions (`settings.local.json` → `settings.json`); the correction was made.
+- **All issues closed without CI failures.** PR #40 required one revision cycle; all others merged on first review.
+- **Milestone tracking worked as designed.** The V0.7 milestone reached 8/8 closed before the post-mortem, providing the intended completion signal.
+- **Template extraction (#40) improved CLAUDE.md accessibility beyond the issue scope.** Extracting the 87-line template from `create-project/SKILL.md` into `docs/projects/TEMPLATE.md` directly served V0.7's goal of making CLAUDE.md a standalone agent reference — and was not in the original issue requirements.
+
+### What Went Wrong
+
+Multi-point PR review feedback was partially resolved in two cases. PR #42 review listed three problems; only the file type issue was addressed before merge — the missing `Bash(gh api:*)` permission and unrelated `gh pr view`/`gh pr diff` entries remained. PR #44 review identified `gh milestone list:*` as dead config; it remains in `settings.json`. Out-of-scope findings from PR reviews were also not tracked: PR #40 noted two pre-existing typos in `review-pr/SKILL.md` and flagged them for future tracking, but no follow-up was filed. Finally, the project status field was not updated from `Draft` to `Done` as exit criteria were completed — the same close-out step missed in V0.5.
+
+| Issue | Root Cause | Category |
+|-------|-----------|----------|
+| Multi-point PR review feedback partially resolved | No systematic check that all review items were addressed before re-requesting review | Execution error |
+| Out-of-scope review findings not tracked | No convention for capturing adjacent defects noted during PR review | Process gap |
+| Project status not updated during execution | Close-out step has no mechanism to prompt the project document status update | Process gap |
+
+### Recommendations
+
+1. **When acting on multi-item review feedback, verify every numbered item before re-requesting review.** The PR #42 review listed three numbered problems; only one was resolved. A simple habit of checking each item off before re-requesting review catches partial resolutions before merge.
+
+2. **Create a follow-up issue for out-of-scope review findings at the moment they're noted.** PR reviews regularly surface defects in adjacent code. Without capturing them as issues at the point of observation, they disappear into PR comment threads. A brief follow-up issue costs less than rediscovering the problem later.
+
+3. **Update project status to Done as part of the post-mortem close-out.** This is the same recommendation V0.5 made. The project document status field signals overall project state; the exit criteria checkboxes signal individual item completion. These are separate concerns. Make the status update explicit in the post-mortem process — not an afterthought.
