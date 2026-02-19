@@ -2,7 +2,7 @@
 
 | Status | Created | Updated |
 |--------|---------|---------|
-| Draft | 2026-02-18 | 2026-02-18 |
+| Draft | 2026-02-18 | 2026-02-19 |
 
 ## Context
 
@@ -59,11 +59,22 @@ Add Playwright as the E2E testing framework, installed in the frontend project. 
 
 ## References
 
+- [Milestone: V0.6 E2E Testing](https://github.com/travisfrels/skiploom/milestone/2)
 - [Issue #28: E2E Project Definition](https://github.com/travisfrels/skiploom/issues/28)
+
+### Issues
+
+- [#48: Install and configure Playwright in the frontend project](https://github.com/travisfrels/skiploom/issues/48)
+- [#49: Implement E2E tests for core recipe flows](https://github.com/travisfrels/skiploom/issues/49)
+- [#50: Add E2E CI job with HTML artifact reporting](https://github.com/travisfrels/skiploom/issues/50)
+- [#51: Create GitHub issue template for E2E defect reports](https://github.com/travisfrels/skiploom/issues/51)
+- [#52: Document E2E test execution and defect reporting in the runbook](https://github.com/travisfrels/skiploom/issues/52)
 
 ### Follow-Up Issues
 
 ### Pull Requests
+
+- [#54: Initialize V0.6 E2E Testing milestone and project issues](https://github.com/travisfrels/skiploom/pull/54)
 
 ### Design References
 
