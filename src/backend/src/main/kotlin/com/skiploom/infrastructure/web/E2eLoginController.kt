@@ -18,7 +18,10 @@ import java.util.UUID
 
 @RestController
 @Profile("e2e")
-class E2eLoginController(private val userWriter: UserWriter) {
+class E2eLoginController(
+    private val userWriter: UserWriter,
+    private val securityContextRepository: HttpSessionSecurityContextRepository
+) {
     companion object {
         val TEST_USER_ID: UUID = UUID.fromString("00000000-0000-0000-0000-e2e000000001")
         const val TEST_SUBJECT = "e2e-test-google-subject"
@@ -44,7 +47,7 @@ class E2eLoginController(private val userWriter: UserWriter) {
         val auth = OAuth2AuthenticationToken(oidcUser, emptyList(), "google")
         val ctx = SecurityContextHolder.createEmptyContext().also { it.authentication = auth }
         SecurityContextHolder.setContext(ctx)
-        HttpSessionSecurityContextRepository().saveContext(ctx, request, response)
+        securityContextRepository.saveContext(ctx, request, response)
 
         return ResponseEntity.ok().build()
     }
