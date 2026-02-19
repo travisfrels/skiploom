@@ -135,6 +135,13 @@ test.describe('Recipe Delete', () => {
     let recipeId: string
 
     test.beforeEach(async ({ page }) => { recipeId = await createTestRecipe(page.context()) })
+    test.afterEach(async ({ page }) => {
+        try {
+            await deleteTestRecipe(page.context(), recipeId)
+        } catch {
+            // Recipe was already deleted by the test — no cleanup needed
+        }
+    })
 
     test('deletes a recipe via detail page and redirects to list', async ({ page }) => {
         await test.step('navigate to the recipe detail page', async () => {
