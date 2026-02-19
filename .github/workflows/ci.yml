@@ -46,3 +46,49 @@ jobs:
       - name: Run frontend tests
         working-directory: src/frontend
         run: npx vitest run
+
+  e2e-tests:
+    name: E2E Tests
+    runs-on: ubuntu-latest
+    needs: [backend-tests, frontend-tests]
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate secrets
+        run: bash scripts/generate-secrets.sh
+
+      - name: Start Docker Compose stack
+        run: SPRING_PROFILES_ACTIVE=staging,e2e docker compose --profile staging up -d --wait --build
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: src/frontend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: src/frontend
+        run: npm ci
+
+      - name: Install Playwright browsers
+        working-directory: src/frontend
+        run: npx playwright install --with-deps chromium
+
+      - name: Run E2E tests
+        working-directory: src/frontend
+        run: npx playwright test
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: src/frontend/playwright-report/
+          retention-days: 30
+
+      - name: Print Docker Compose logs
+        if: failure()
+        run: docker compose --profile staging logs
