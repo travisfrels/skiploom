@@ -90,3 +90,72 @@ Key fields:
 - `required_status_checks.strict` — require branches to be up-to-date with `main`
 - `enforce_admins` — apply rules to repository administrators
 - `required_pull_request_reviews.required_approving_review_count` — number of approvals needed (0 = PR required but no approval needed)
+
+## E2E Testing
+
+End-to-end tests use Playwright to exercise the application through a browser against the Docker Compose staging stack.
+
+### Run E2E Tests Locally
+
+**Prerequisites**
+
+- Docker Compose staging stack running with the `e2e` Spring profile
+- Secrets generated via `bash scripts/generate-secrets.sh`
+
+**Steps**
+
+1. Start the staging stack with the E2E profile:
+   ```bash
+   SPRING_PROFILES_ACTIVE=staging,e2e docker compose --profile staging up -d --wait --build
+   ```
+2. Install frontend dependencies (from `src/frontend/`):
+   ```bash
+   npm ci
+   ```
+3. Install Playwright browsers:
+   ```bash
+   npx playwright install --with-deps chromium
+   ```
+4. Run the tests (from `src/frontend/`):
+   ```bash
+   npx playwright test
+   ```
+
+### View the Local HTML Report
+
+The default local reporter is `list` (console output only). To generate an HTML report locally, run the tests with the `html` reporter:
+
+```bash
+npx playwright test --reporter=list,html
+```
+
+The report is written to `src/frontend/playwright-report/`. To open it in a browser:
+
+```bash
+npx playwright show-report
+```
+
+### Access the HTML Artifact from a CI Run
+
+The CI workflow generates an HTML report on every E2E run and uploads it as a build artifact.
+
+1. Navigate to the GitHub Actions CI run (linked from the PR checks).
+2. Scroll to the **Artifacts** section at the bottom of the run summary.
+3. Download the `playwright-report` artifact (zip).
+4. Extract the archive and open `index.html` in a browser.
+
+Artifacts are retained for 30 days.
+
+### File an E2E Defect Report
+
+Use the **E2E Defect Report** issue template to report failures discovered through E2E testing.
+
+1. Navigate to **Issues → New Issue → E2E Defect Report**.
+2. Fill in all required fields:
+   - **Failing Test Name** — full test name from the Playwright report (e.g., `recipe-crud.spec.ts > Create Recipe > should save a new recipe`)
+   - **Failing Step** — the specific step or assertion that failed
+   - **Expected Behavior** — what should have happened
+   - **Actual Behavior** — what actually happened, including error messages
+   - **CI Run or Artifact Link** — link to the GitHub Actions run or HTML report artifact
+   - **Environment** — browser, OS, and relevant context (e.g., `Chromium, Ubuntu (CI)`)
+3. The template auto-applies the `[E2E]` title prefix and `bug` label.
