@@ -74,6 +74,7 @@ Add Playwright as the E2E testing framework, installed in the frontend project. 
 
 - [#61: [Post-Mortem] Document E2E auth bypass strategy in ENG-DESIGN.md](https://github.com/travisfrels/skiploom/issues/61)
 - [#62: [Post-Mortem] Establish test cleanup patterns as a documented convention](https://github.com/travisfrels/skiploom/issues/62)
+- [#64: [Post-Mortem] Update post-mortem convention to match refined skill output](https://github.com/travisfrels/skiploom/issues/64)
 
 ### Pull Requests
 

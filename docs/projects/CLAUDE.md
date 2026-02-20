@@ -15,7 +15,10 @@ Product initiative definitions (a.k.a. Projects).
 | **Done** | All exit criteria met |
 | **Paused** | Temporarily halted; note the reason |
 
-Transitions: Draft → Active → Done. Any status may transition to Paused and back.
+Transitions:
+- Draft → Active → Done.
+- Any status may transition to Paused and back.
+- Transitions are appended to the status table.
 
 ## Template
 
