@@ -94,6 +94,8 @@ Togglz is the most widely adopted feature flag library in the Java/Spring ecosys
 
 ### Pull Requests
 
+- [PR #79: #78 Create V0.8 Feature Flagging project definition](https://github.com/travisfrels/skiploom/pull/79)
+
 ### Design References
 
 - [Togglz Spring Boot Starter](https://www.togglz.org/documentation/spring-boot-starter)
