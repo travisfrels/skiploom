@@ -15,7 +15,10 @@ Product initiative definitions (a.k.a. Projects).
 | **Done** | All exit criteria met |
 | **Paused** | Temporarily halted; note the reason |
 
-Transitions: Draft → Active → Done. Any status may transition to Paused and back.
+Transitions:
+- Draft → Active → Done.
+- Any status may transition to Paused and back.
+- Transitions are appended to the status table.
 
 ## Template
 
@@ -32,16 +35,7 @@ Each project has a corresponding GitHub Milestone:
 
 ## Post-Mortem Format
 
-Added to the project file at completion, with four subsections:
-
-- **Summary** — High-level outcome: issues planned, PRs merged, follow-ups identified, overall assessment.
-- **What Went Well** — What succeeded and why.
-- **What Went Wrong** — What failed and why, with a root-cause table:
-
-  | Issue | Root Cause | Category |
-  |-------|-----------|----------|
-
-- **Recommendations** — Actionable improvements for future projects.
+Added to the project file using the project-post-mortem skill at project completion, as determined by the finish-issue skill.
 
 ## Skills
 

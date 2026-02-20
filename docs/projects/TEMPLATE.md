@@ -1,8 +1,8 @@
 # {Version} {Initiative Name}
 
-| Status | Created | Updated |
-|--------|---------|---------|
-| {Status} | {YYYY-MM-DD} | {YYYY-MM-DD} |
+| Status | Set On |
+|--------|--------|
+| {Status} | {YYYY-MM-DD} |
 
 ## Context
 
