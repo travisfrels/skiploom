@@ -27,8 +27,15 @@ See [`.env.example`](../../.env.example) at the repository root for a template.
 2. Navigate to **APIs & Services > Credentials**.
 3. Click **Create Credentials > OAuth client ID**.
 4. Select **Web application** as the application type.
-5. Under **Authorized redirect URIs**, add: `http://localhost:8080/login/oauth2/code/google`
-6. Copy the generated **Client ID** and **Client Secret** into your `.env` file.
+5. Enter a **Name** for the client (e.g. "Skiploom"). This is only used for identification in the console.
+6. Under **Authorized JavaScript origins**, add:
+   - `http://localhost:8080` (backend)
+   - `http://localhost:5173` (frontend dev via Vite)
+   - `http://localhost:5174` (frontend staging via Docker)
+7. Under **Authorized redirect URIs**, add:
+   - `http://localhost:8080/login/oauth2/code/google` (development)
+   - `http://localhost:5174/login/oauth2/code/google` (staging via Docker)
+8. Copy the generated **Client ID** and **Client Secret** into your `.env` file.
 
 #### Startup Validation
 
