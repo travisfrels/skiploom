@@ -2,7 +2,7 @@
 
 | Status | Last Updated | Author |
 |--------|--------------|--------|
-| Draft | 2026-02-06 | Engineering |
+| Draft | 2026-02-20 | Engineering |
 
 ## Overview
 
@@ -54,6 +54,31 @@ Three-tier application with clear separation of concerns.
 - **Frontend**: React/TypeScript SPA
 - **Backend**: Kotlin/Spring REST API (CQRS, Clean Architecture)
 - **Persistence**: PostgreSQL (see ADR-OP-PERSISTENCE-20260205)
+
+#### E2E Testing
+
+E2E tests run against the full Docker Compose stack and require authenticated sessions. Since the real OAuth2 provider (Google) is unavailable in automated test environments, the backend provides a profile-gated authentication bypass.
+
+**Auth Bypass Pattern**
+
+The `e2e` Spring profile activates two classes that are inert in all other environments:
+
+- `E2eSecurityConfig` (`@Profile("e2e")`, `@Configuration`): Registers a high-priority security filter chain scoped to `/api/e2e/**` that permits unauthenticated access and disables CSRF. Also provides the `HttpSessionSecurityContextRepository` bean used to persist the synthesized session.
+- `E2eLoginController` (`@Profile("e2e")`, `@RestController`): Exposes `POST /api/e2e/login`. On each call it saves a fixed test user via the domain `UserWriter`, builds an `OAuth2AuthenticationToken` backed by a synthetic OIDC ID token, and stores the resulting security context in the HTTP session. The caller receives a session cookie and is authenticated for subsequent requests.
+
+**Compose Override**
+
+`compose.e2e.yml` overrides the `backend-staging` service to set `SPRING_PROFILES_ACTIVE: staging,e2e`, activating the bypass classes alongside the staging configuration. Include this override when running E2E tests against the Docker Compose stack:
+
+```
+docker compose -f compose.yml -f compose.e2e.yml up -d
+```
+
+**Security Boundaries**
+
+- The bypass is strictly gated behind `@Profile("e2e")` — neither `E2eSecurityConfig` nor `E2eLoginController` loads unless the profile is active.
+- The `/api/e2e/**` namespace is isolated from production API routes (`/api/commands/**`, `/api/queries/**`, `/api/health`).
+- The compose override only applies when explicitly included (`-f compose.e2e.yml`); the base `compose.yml` never activates the `e2e` profile.
 
 ### API Style
 
