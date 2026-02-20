@@ -84,6 +84,7 @@ Add Playwright as the E2E testing framework, installed in the frontend project. 
 - [#58: Create GitHub issue template for E2E defect reports](https://github.com/travisfrels/skiploom/pull/58)
 - [#59: Document E2E test execution and defect reporting in runbook](https://github.com/travisfrels/skiploom/pull/59)
 - [#63: Post-mortem: V0.6 E2E Testing](https://github.com/travisfrels/skiploom/pull/63)
+- [#65: Document E2E auth bypass pattern in ENG-DESIGN.md](https://github.com/travisfrels/skiploom/pull/65)
 
 ### Design References
 
