@@ -23,6 +23,8 @@ E2E tests:
 npm run test:e2e
 ```
 
+E2E test data lifecycle conventions (required cleanup patterns, helper functions) are documented in `docs/ENG-DESIGN.md` under E2E Testing.
+
 ## Run
 
 ```bash

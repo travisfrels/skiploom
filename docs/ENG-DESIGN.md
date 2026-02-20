@@ -80,6 +80,28 @@ docker compose -f compose.yml -f compose.e2e.yml up -d
 - The `/api/e2e/**` namespace is isolated from production API routes (`/api/commands/**`, `/api/queries/**`, `/api/health`).
 - The compose override only applies when explicitly included (`-f compose.e2e.yml`); the base `compose.yml` never activates the `e2e` profile.
 
+**Test Data Lifecycle**
+
+Every `test.describe` block that creates persistent data must include a `test.afterEach` hook that deletes that data. This ensures test isolation regardless of whether assertions pass or fail — no test should leave behind data that could affect subsequent tests.
+
+Three cleanup patterns cover all current test scenarios:
+
+| Pattern | When to Use | Example Block |
+|---------|-------------|---------------|
+| Standard | `beforeEach` creates data via API; test reads or modifies but does not delete | Recipe List, Recipe Detail, Recipe Update |
+| Conditional | Test itself creates data through the UI; cleanup runs only if creation succeeded | Recipe Create |
+| Guarded | `beforeEach` creates data via API; test deletes it as the action under test; `afterEach` wraps delete in `try/catch` to handle the already-deleted case | Recipe Delete |
+
+*Standard* — `beforeEach` creates a recipe via the API helper; `afterEach` unconditionally deletes it. The test only reads or modifies the data, so the recipe always exists when cleanup runs.
+
+*Conditional* — No `beforeEach`. The test creates data through the UI as the action under test. `afterEach` checks whether a recipe ID was captured (i.e., creation succeeded) and deletes only if so. This avoids a 404 error when the creation step itself failed.
+
+*Guarded* — `beforeEach` creates a recipe via the API helper. The test deletes the recipe as the action under test. `afterEach` wraps the delete call in `try/catch` because the recipe may already have been deleted by a successful test. Without the guard, a passing test would trigger a 404 cleanup error.
+
+**Helper Functions**
+
+Setup and teardown use direct API calls (not UI interactions) via a CSRF-aware wrapper (`apiPost`) for speed and decoupling from the UI layer. Current helpers (`createTestRecipe`, `deleteTestRecipe`) are defined inline in `recipes.spec.ts`. Extract them to a shared module (e.g., `e2e/helpers.ts`) when a second spec file needs them.
+
 ### API Style
 
 - REST endpoints under `/api`
