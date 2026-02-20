@@ -1,6 +1,6 @@
 ---
 name: plan-project
-description: Plan a project by investigating the problem space, drafting project definition content, and preparing for project creation. Use when starting a new project initiative. Uses the design and assess-alternatives skills.
+description: Plan a project by investigating the problem space, drafting project definition content, and preparing for project creation. Use when starting a new project initiative. Uses the design, assess-alternatives, and create-project skills.
 ---
 
 Plan a project around $ARGUMENTS
