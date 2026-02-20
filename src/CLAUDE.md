@@ -14,6 +14,13 @@ Skiploom source code is split into directories by tier is stored within this dir
     - **Backend API**: Container Hosted REST API
     - **Persistence**: Container Hosted RDBMS
 
+## Development Standards
+
+- **SOLID Principles**: Implemented code follows SOLID principles.
+- **Don't Repeat Yourself (DRY)**: Avoid duplicating knowledge; define each concept once.
+- See `backend/CLAUDE.md` for backend development standards.
+- See `frontend/CLAUDE.md` for frontend development standards.
+
 ## Testing
 
 - See `backend/CLAUDE.md` for backend testing instructions.
