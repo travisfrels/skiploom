@@ -11,8 +11,8 @@ REST API written in Kotlin using the Spring framework.
 
 ## Development Standards
 
-- **Clean Architecture Pattern**: code is organized in concentric layers where dependencies always point inward.
-- **Command Query Responsibility Segregation (CQRS) as REST**: commands mutate state via POST, queries fetch data via GET.
+- **Clean Architecture Pattern**: Code is organized in concentric layers where dependencies always point inward.
+- **Command Query Responsibility Segregation (CQRS) as REST**: Commands mutate state via POST, queries fetch data via GET.
 
 ## Testing
 

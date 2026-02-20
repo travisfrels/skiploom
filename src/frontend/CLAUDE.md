@@ -11,7 +11,7 @@ frameworks.
 
 ## Development Standards
 
-- **FLUX Pattern**: unidirectional data flow architecture (Action → Dispatcher → Store → View)
+- **FLUX Pattern**: Unidirectional data flow architecture (Action → Dispatcher → Store → View).
 
 ## Testing
 

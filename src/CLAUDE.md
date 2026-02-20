@@ -16,7 +16,7 @@ Skiploom source code is split into directories by tier is stored within this dir
 
 ## Development Standards
 
-- **SOLID Principles**: Implemented code follows SOLID principles.
+- **SOLID Principles**: Single responsibility, open-closed, Liskov substitution, interface segregation, and dependency inversion.
 - **Don't Repeat Yourself (DRY)**: Avoid duplicating knowledge; define each concept once.
 - See `backend/CLAUDE.md` for backend development standards.
 - See `frontend/CLAUDE.md` for frontend development standards.
