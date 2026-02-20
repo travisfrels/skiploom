@@ -19,9 +19,11 @@ Skiploom is a recipe management system.
 
 ## Development Standards
 
-- **Test-Driven Development**: Code changes follow TDD, but if no code changes, then no tests.
+- **Principle of Least Astonishment**: System should be implemented and behave in commonly expected ways.
+- **You aren't going to need it (YAGNI) Principle**: Don't build functionality until it's needed.
+- **Test-Driven Development (TDD)**: Code changes follow TDD, but if no code changes, then no tests.
   - All tests must pass prior to committing changes.
-- **SOLID Principles**: Implemented code follows SOLID principles
+- See `src/CLAUDE.md` for source development standards.
 
 ## Testing
 

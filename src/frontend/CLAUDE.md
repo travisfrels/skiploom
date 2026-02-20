@@ -1,13 +1,17 @@
 # Skiploom Frontend
 
 Single-page application (SPA) written in TypeScript using the React-Redux + Vite and Tailwind
-frameworks implementing the FLUX pattern.
+frameworks.
 
 ## Directory Structure
 
 - `src/`: Skiploom frontend source code
 - `public/`: Static resources included when building the frontend
 - `e2e/`: End-to-end test files (Playwright)
+
+## Development Standards
+
+- **FLUX Pattern**: Unidirectional data flow architecture (Action → Dispatcher → Store → View).
 
 ## Testing
 
