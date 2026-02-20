@@ -1,6 +1,6 @@
 ---
 name: create-project
-description: Create a local project file. Use when the asked to create a project.
+description: Create a local project file and GitHub Milestone. Use when creating a project, typically after using the plan-project skill.
 ---
 
 Create project within a local project file (docs/projects) around $ARGUMENTS.
@@ -10,9 +10,12 @@ Create project within a local project file (docs/projects) around $ARGUMENTS.
 1. Create a GitHub Milestone matching the project title using `gh api repos/{owner}/{repo}/milestones -f title="V{VERSION} {Initiative Name}"`
    * The milestone title must match the project title exactly (e.g., `V0.7 Project Workflow`).
 
-2. Create the project file at `docs/projects/V{VERSION}-{INITIATIVE}.md` using the template in `docs/projects/TEMPLATE.md`. Include the milestone URL in the `## References` section:
-   ```markdown
-   - [Milestone: V{VERSION} {Initiative Name}](https://github.com/{owner}/{repo}/milestone/{number})
-   ```
+2. Create the project file at `docs/projects/V{VERSION}-{INITIATIVE}.md` using the template in `docs/projects/TEMPLATE.md`.
+   * If invoked after the plan-project skill, populate template sections from the confirmed research brief.
+   * If design references were collected, populate the `### Design References` section.
+   * Include the milestone URL in the `## References` section:
+     ```markdown
+     - [Milestone: V{VERSION} {Initiative Name}](https://github.com/{owner}/{repo}/milestone/{number})
+     ```
 
 3. ADRs and tasks are created during project execution, not pre-defined.

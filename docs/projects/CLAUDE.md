@@ -41,6 +41,7 @@ Added to the project file using the project-post-mortem skill at project complet
 
 | Skill | When to use |
 |-------|-------------|
+| `/plan-project` | Plan a new project: investigate the problem space, draft project definition content, and feed into `/create-project`. |
 | `/create-project` | Create a new project definition file with milestone. |
 | `/create-issue` | Create a GitHub issue for a task within a project. |
 | `/project-post-mortem` | Perform post-mortem analysis after project completion. |
