@@ -20,32 +20,13 @@ The script automates the full rotation lifecycle:
 
 ## Staging Deploy
 
-After merging a PR to `main`, rebuild and restart the staging containers to deploy the latest code:
+After merging a PR to `main`, deploy the latest code to the staging stack:
 
 ```bash
-docker compose --profile staging up -d --build
+bash scripts/deploy-staging.sh
 ```
 
-This rebuilds the backend and frontend Docker images from source and restarts the staging services. The `--profile staging` flag targets only the staging services (`backend-staging`, `frontend-staging`) without affecting the development PostgreSQL instance.
-
-### Verify
-
-1. **Check containers are healthy**:
-   ```bash
-   docker compose --profile staging ps
-   ```
-   All staging services should show `healthy` or `running` status.
-
-2. **Check backend health endpoint**:
-   ```bash
-   curl -s http://localhost:8081/api/health
-   ```
-
-3. **Check frontend is serving**:
-   ```bash
-   curl -s -o /dev/null -w "%{http_code}" http://localhost:5174
-   ```
-   Should return `200`.
+The script rebuilds and restarts the staging containers, then verifies all services are healthy.
 
 ### Ports
 
