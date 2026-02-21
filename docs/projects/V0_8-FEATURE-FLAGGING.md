@@ -28,11 +28,11 @@ Adopt **Togglz** (`togglz-spring-boot-starter` v4.6.1) as the feature flag libra
 Togglz is the most widely adopted feature flag library in the Java/Spring ecosystem. Version 4.6.1 (released Feb 14, 2025) explicitly supports Spring Boot 4.0.2 — the exact version in Skiploom's `build.gradle.kts`. It provides:
 
 - **CRUD via admin console** (`/togglz-console`) — satisfies the create/update/delete requirement with zero custom UI
-- **JPA state repository** — persists flag state in existing PostgreSQL, managed by Flyway
+- **JDBC state repository** — persists flag state in existing PostgreSQL, managed by Flyway
 - **Type-safe feature enum** — compile-time discoverable, IDE autocompletion, exhaustive `when` checks
 - **Built-in activation strategies** — gradual rollout, user-based, date-based, server IP
 - **Spring Security integration** — admin console access control via existing auth
-- **Actuator endpoint** — exposes flag state as JSON for frontend consumption
+- **Actuator endpoint** — can expose flag state as JSON (not configured in initial integration; frontend consumption addressed separately via REST query endpoint)
 
 #### Alternatives not chosen
 
@@ -44,9 +44,9 @@ Togglz is the most widely adopted feature flag library in the Java/Spring ecosys
 
 | Decision | Choice | Rationale |
 |----------|--------|-----------|
-| Feature flag library | Togglz `togglz-spring-boot-starter` v4.6.1 | Mature library with Spring Boot 4.0.2 support. Admin console, JPA persistence, and activation strategies included. Single dependency, no new infrastructure. |
-| State persistence | JPA state repository (existing PostgreSQL) | Flyway migration creates Togglz state table. Uses existing database — no new infrastructure. |
-| Feature definition | Kotlin enum implementing Togglz `Feature` interface | Type-safe, compile-time discoverable. Consistent with Skiploom's type-safe patterns (data classes for DTOs, enums for domain values). Lives in application layer. |
+| Feature flag library | Togglz `togglz-spring-boot-starter` v4.6.1 | Mature library with Spring Boot 4.0.2 support. Admin console, JDBC persistence, and activation strategies included. Three dependencies (`togglz-spring-boot-starter`, `togglz-kotlin` for Kotlin enum bridge, `togglz-spring-security` for UserProvider auto-configuration), no new infrastructure. |
+| State persistence | JDBC state repository (existing PostgreSQL) | Flyway migration creates Togglz state table. `JDBCStateRepository` backed by `DataSource`. Uses existing database — no new infrastructure. |
+| Feature definition | Plain Kotlin enum with `togglz-kotlin` `EnumClassFeatureProvider` bridge | Type-safe, compile-time discoverable. Kotlin enums cannot implement Togglz `Feature` interface (`name()` method clashes with Kotlin `Enum.name` property). Lives in infrastructure layer (uses Togglz `@Label` annotation). Domain access via framework-free `FeatureReader` interface. |
 | Admin console access | All authenticated users | ~5 trusted community members. Role-based restriction is YAGNI. Console path added to existing `SecurityConfig.kt` auth rules. |
 | Frontend flag consumption | Backend REST endpoint returning flag state JSON | Follows existing query pattern (`fetchAllRecipes()`, `fetchRecipeById()`). Actuator endpoint or thin custom query endpoint. No new frontend library dependencies. |
 | Toggle categories | Release toggles + ops toggles only | Experiment toggles (A/B testing) and permissioning toggles are YAGNI for ~5 users with equal access. |
@@ -54,7 +54,7 @@ Togglz is the most widely adopted feature flag library in the Java/Spring ecosys
 
 ## Goals
 
-- Togglz integrated as the feature flag library with JPA persistence and admin console
+- Togglz integrated as the feature flag library with JDBC persistence and admin console
 - Feature flag strategy documented in `ENG-DESIGN.md` covering toggle categories, lifecycle, and naming conventions
 - Feature flag lifecycle guidance documented: create, implement, roll out, manage, deprecate
 - Frontend can consume feature flag state from the backend
@@ -72,7 +72,7 @@ Togglz is the most widely adopted feature flag library in the Java/Spring ecosys
 
 - [ ] Togglz dependencies added to `build.gradle.kts` and configured in `application.yml`
 - [ ] Flyway migration creates Togglz state table in PostgreSQL
-- [ ] Feature enum created in the application layer with at least one example flag
+- [ ] Feature enum created in the infrastructure layer with at least one example flag
 - [ ] Togglz admin console accessible to authenticated users
 - [ ] Feature flag state exposed to the frontend via REST endpoint
 - [ ] Frontend consumes and uses feature flag state (query function, Redux slice, hook)
@@ -95,6 +95,7 @@ Togglz is the most widely adopted feature flag library in the Java/Spring ecosys
 ### Pull Requests
 
 - [PR #79: #78 Create V0.8 Feature Flagging project definition](https://github.com/travisfrels/skiploom/pull/79)
+- [PR #80: #74 Integrate Togglz backend with JPA persistence and admin console](https://github.com/travisfrels/skiploom/pull/80)
 
 ### Design References
 
