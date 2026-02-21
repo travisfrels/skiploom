@@ -1,5 +1,6 @@
 import type { Recipe, User, ValidationError } from '../types';
 import { store } from './index';
+import * as featureFlagSlice from './featureFlagSlice';
 import * as slice from './recipeSlice';
 import * as userSlice from './userSlice';
 
@@ -57,4 +58,20 @@ export function clearValidationErrors(): void {
 
 export function setUser(user: User | null): void {
   store.dispatch(userSlice.setUser(user));
+}
+
+export function setFeatureFlags(flags: Record<string, boolean>): void {
+  store.dispatch(featureFlagSlice.setFeatureFlags(flags));
+}
+
+export function setFeatureFlagsLoaded(loaded: boolean): void {
+  store.dispatch(featureFlagSlice.setFeatureFlagsLoaded(loaded));
+}
+
+export function setFeatureFlagLoading(loading: boolean): void {
+  store.dispatch(featureFlagSlice.setFeatureFlagLoading(loading));
+}
+
+export function setFeatureFlagError(error: string | null): void {
+  store.dispatch(featureFlagSlice.setFeatureFlagError(error));
 }

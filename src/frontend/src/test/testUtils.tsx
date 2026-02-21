@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import { store } from '../store';
+import * as featureFlagSlice from '../store/featureFlagSlice';
 import * as slice from '../store/recipeSlice';
 import * as userSlice from '../store/userSlice';
 import type { Recipe, User, ValidationError } from '../types';
@@ -22,8 +23,16 @@ interface UserState {
   user: User | null;
 }
 
+interface FeatureFlagState {
+  featureFlags: Record<string, boolean>;
+  featureFlagsLoaded: boolean;
+  loading: boolean;
+  error: string | null;
+}
+
 interface RenderOptions {
   preloadedState?: {
+    featureFlags?: Partial<FeatureFlagState>;
     recipes?: Partial<RecipeState>;
     user?: Partial<UserState>;
   };
@@ -31,6 +40,10 @@ interface RenderOptions {
 }
 
 function resetStore() {
+  store.dispatch(featureFlagSlice.setFeatureFlags({}));
+  store.dispatch(featureFlagSlice.setFeatureFlagsLoaded(false));
+  store.dispatch(featureFlagSlice.setFeatureFlagLoading(false));
+  store.dispatch(featureFlagSlice.setFeatureFlagError(null));
   store.dispatch(slice.setRecipes([]));
   store.dispatch(slice.setRecipesLoaded(false));
   store.dispatch(slice.setCurrentRecipeId(null));
@@ -51,6 +64,22 @@ export function renderWithProviders(
 ) {
   // Reset and populate the global store
   resetStore();
+
+  if (preloadedState?.featureFlags) {
+    const state = preloadedState.featureFlags;
+    if (state.featureFlags !== undefined) {
+      store.dispatch(featureFlagSlice.setFeatureFlags(state.featureFlags));
+    }
+    if (state.featureFlagsLoaded !== undefined) {
+      store.dispatch(featureFlagSlice.setFeatureFlagsLoaded(state.featureFlagsLoaded));
+    }
+    if (state.loading !== undefined) {
+      store.dispatch(featureFlagSlice.setFeatureFlagLoading(state.loading));
+    }
+    if (state.error !== undefined) {
+      store.dispatch(featureFlagSlice.setFeatureFlagError(state.error));
+    }
+  }
 
   if (preloadedState?.recipes) {
     const state = preloadedState.recipes;

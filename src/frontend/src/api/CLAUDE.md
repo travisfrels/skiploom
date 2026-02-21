@@ -6,7 +6,7 @@ HTTP client functions for backend communication.
 
 - **shared.ts**: `API_BASE_URL` constant, `postCommand` helper for POST+JSON commands, `handleResponse` for response/error parsing
 - **commands.ts**: Command functions (`createRecipe`, `updateRecipe`, `deleteRecipe`) delegating to `postCommand`
-- **queries.ts**: Query functions (`fetchAllRecipes`, `fetchRecipeById`)
+- **queries.ts**: Query functions (`fetchAllRecipes`, `fetchFeatureFlags`, `fetchRecipeById`)
 - **index.ts**: Barrel re-export of commands and queries
 
 ## Conventions

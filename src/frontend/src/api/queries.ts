@@ -1,5 +1,6 @@
 import type {
     FetchAllRecipesResponse,
+    FetchFeatureFlagsResponse,
     FetchRecipeByIdQuery,
     FetchRecipeByIdResponse,
     User
@@ -18,5 +19,10 @@ export async function fetchRecipeById({ id }: FetchRecipeByIdQuery): Promise<Fet
 
 export async function fetchMe(): Promise<User> {
   const response = await fetch(`${API_BASE_URL}/me`);
+  return handleResponse(response);
+}
+
+export async function fetchFeatureFlags(): Promise<FetchFeatureFlagsResponse> {
+  const response = await fetch(`${API_BASE_URL}/queries/fetch_feature_flags`);
   return handleResponse(response);
 }
