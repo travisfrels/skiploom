@@ -18,6 +18,6 @@ Plan the GitHub issue $ARGUMENTS
 5. Checkout a working branch from `main` using `git checkout main && git checkout -b issue-$ARGUMENTS-{slugified_issue_title}`.
 6. Push the branch to origin using `git push --set-upstream origin issue-$ARGUMENTS-{slugified_issue_title}`.
 7. Post a step-by-step implementation plan using `gh issue comment $ARGUMENTS --body '{Implementation_Plan}'`.
-8. Set project status to "Active".
+8. Set project status to "Active": If the issue has a milestone, find the matching project file in `docs/projects/` and append an Active row to its status table. Skip if already Active or Done, or if the issue has no milestone. See `docs/projects/CLAUDE.md` for status conventions.
 9. Implement the plan.
 10. Use the finish-issue skill to complete the issue.
