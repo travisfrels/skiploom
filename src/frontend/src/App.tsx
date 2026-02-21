@@ -11,6 +11,7 @@ import * as ops from './operations';
 
 function App() {
   const recipesLoaded = useAppSelector((state) => state.recipes.recipesLoaded);
+  const featureFlagsLoaded = useAppSelector((state) => state.featureFlags.featureFlagsLoaded);
 
   useEffect(() => {
     ops.loadUser();
@@ -19,6 +20,10 @@ function App() {
   useEffect(() => {
     if (!recipesLoaded) { ops.loadRecipes(); }
   }, [recipesLoaded]);
+
+  useEffect(() => {
+    if (!featureFlagsLoaded) { ops.loadFeatureFlags(); }
+  }, [featureFlagsLoaded]);
 
   return (
     <BrowserRouter>

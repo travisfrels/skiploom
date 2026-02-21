@@ -5,6 +5,11 @@ export interface FetchAllRecipesResponse {
     message: string;
 }
 
+export interface FetchFeatureFlagsResponse {
+    featureFlags: Record<string, boolean>;
+    message: string;
+}
+
 export interface FetchRecipeByIdQuery {
     id: string;
 }

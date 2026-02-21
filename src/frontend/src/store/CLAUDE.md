@@ -6,12 +6,15 @@ Redux Toolkit state management.
 
 - **index.ts**: Store configuration, `RootState` and `AppDispatch` types
 - **hooks.ts**: Typed `useAppSelector` and `useAppDispatch` hooks
+- **featureFlagSlice.ts**: Feature flag state with reducers
 - **recipeSlice.ts**: Recipe state with reducers
 - **userSlice.ts**: User state with reducers
 - **actions.ts**: Dispatch wrappers for simple action calls
 
 ## Conventions
 
+- **featureFlags**: `Record<string, boolean>` — feature flags indexed by name
+- **featureFlagsLoaded**: `boolean` — whether feature flags have been loaded
 - **recipes**: `Record<string, Recipe>` — recipes indexed by ID
 - **recipesLoaded**: `boolean` — whether recipes have been loaded
 - **currentRecipeId**: `string | null` — currently selected recipe

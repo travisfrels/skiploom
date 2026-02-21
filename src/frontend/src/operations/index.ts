@@ -1,5 +1,6 @@
 export { loadUser } from './loadUser';
 export { loadRecipes } from './loadRecipes';
+export { loadFeatureFlags } from './loadFeatureFlags';
 export { loadRecipeById } from './loadRecipeById';
 export { setCurrentRecipeId } from './setCurrentRecipeId';
 export { clearCurrentRecipeId } from './clearCurrentRecipeId';

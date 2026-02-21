@@ -24,6 +24,7 @@ Components call operations, operations handle exceptions and mutate state.
 import * as ops from '../operations';
 
 // Queries
+ops.loadFeatureFlags();
 ops.loadRecipes();
 ops.loadRecipeById(id);
 ops.setCurrentRecipeId(id);

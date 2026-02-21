@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
+import featureFlagReducer from './featureFlagSlice';
 import recipeReducer from './recipeSlice';
 import userReducer from './userSlice';
 
 export const store = configureStore({
   reducer: {
+    featureFlags: featureFlagReducer,
     recipes: recipeReducer,
     user: userReducer,
   },
