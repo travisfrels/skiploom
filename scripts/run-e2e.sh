@@ -34,7 +34,9 @@ HEALTH_POLL_INTERVAL=2
 HEALTH_TIMEOUT=60
 
 BACKEND_PID=""
+BACKEND_WINPID=""
 FRONTEND_PID=""
+FRONTEND_WINPID=""
 
 usage() {
   echo "Usage: bash scripts/run-e2e.sh [--development|--staging]"
@@ -45,17 +47,35 @@ usage() {
   echo "Defaults to --staging when no flag is provided."
 }
 
+get_winpid() {
+  local pid="$1"
+  if [ -f "/proc/${pid}/winpid" ]; then
+    cat "/proc/${pid}/winpid"
+  else
+    echo ""
+  fi
+}
+
+stop_process() {
+  local pid="$1"
+  local winpid="$2"
+  local label="$3"
+  echo "Stopping ${label}..."
+  if [ -n "${winpid}" ] && command -v taskkill &> /dev/null; then
+    taskkill //F //T //PID "${winpid}" > /dev/null 2>&1 || true
+  else
+    kill "${pid}" 2>/dev/null || true
+  fi
+  wait "${pid}" 2>/dev/null || true
+}
+
 cleanup() {
   if [ -n "${BACKEND_PID}" ]; then
     echo ""
-    echo "Stopping backend (PID ${BACKEND_PID})..."
-    kill "${BACKEND_PID}" 2>/dev/null || true
-    wait "${BACKEND_PID}" 2>/dev/null || true
+    stop_process "${BACKEND_PID}" "${BACKEND_WINPID}" "backend"
   fi
   if [ -n "${FRONTEND_PID}" ]; then
-    echo "Stopping frontend (PID ${FRONTEND_PID})..."
-    kill "${FRONTEND_PID}" 2>/dev/null || true
-    wait "${FRONTEND_PID}" 2>/dev/null || true
+    stop_process "${FRONTEND_PID}" "${FRONTEND_WINPID}" "frontend"
   fi
 }
 
@@ -172,8 +192,9 @@ if [ "${ENV}" = "development" ]; then
   if ! curl -s "${BACKEND_HEALTH_URL}" 2>/dev/null | grep -q '"status":"UP"'; then
     echo "  Backend is not running. Starting..."
     cd "${BACKEND_DIR}"
-    ./gradlew bootRun --args='--spring.profiles.active=development,e2e' > "${BACKEND_LOG}" 2>&1 &
+    ./gradlew bootRun --no-daemon --args='--spring.profiles.active=development,e2e' > "${BACKEND_LOG}" 2>&1 &
     BACKEND_PID=$!
+    BACKEND_WINPID=$(get_winpid "${BACKEND_PID}")
     cd "${REPO_ROOT}"
     wait_for_health "${BACKEND_HEALTH_URL}" "Backend" "json"
   else
@@ -186,6 +207,7 @@ if [ "${ENV}" = "development" ]; then
     cd "${FRONTEND_DIR}"
     npm run dev > "${FRONTEND_LOG}" 2>&1 &
     FRONTEND_PID=$!
+    FRONTEND_WINPID=$(get_winpid "${FRONTEND_PID}")
     cd "${REPO_ROOT}"
     wait_for_health "${FRONTEND_URL}" "Frontend" "http"
   else
@@ -225,6 +247,8 @@ else
 fi
 
 # --- Run tests ---
+
+cd "${FRONTEND_DIR}"
 
 echo ""
 echo "=== Running E2E tests ==="
