@@ -2,8 +2,8 @@
 #
 # Run Playwright E2E tests against the development or staging environment.
 #
-# Validates preconditions, installs frontend dependencies and Playwright
-# browsers, then executes the E2E test suite.
+# Installs frontend dependencies and Playwright browsers, then starts or
+# verifies services and executes the E2E test suite.
 #
 # In development mode, the script auto-starts the backend and frontend dev
 # servers if they are not already running, and stops them on exit.
@@ -145,7 +145,25 @@ if ! command -v curl &> /dev/null; then
   exit 1
 fi
 
+# --- Install dependencies ---
+
+echo ""
+echo "=== Installing frontend dependencies ==="
+
+cd "${FRONTEND_DIR}"
+
+npm ci
+
+# --- Install Playwright browsers ---
+
+echo ""
+echo "=== Installing Playwright browsers ==="
+
+npx playwright install --with-deps chromium
+
 # --- Start or verify services ---
+
+echo ""
 
 if [ "${ENV}" = "development" ]; then
   trap cleanup EXIT
@@ -205,22 +223,6 @@ else
     exit 1
   fi
 fi
-
-# --- Install dependencies ---
-
-echo ""
-echo "=== Installing frontend dependencies ==="
-
-cd "${FRONTEND_DIR}"
-
-npm ci
-
-# --- Install Playwright browsers ---
-
-echo ""
-echo "=== Installing Playwright browsers ==="
-
-npx playwright install --with-deps chromium
 
 # --- Run tests ---
 
