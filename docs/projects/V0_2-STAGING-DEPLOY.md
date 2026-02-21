@@ -64,6 +64,7 @@ Build Docker images for the backend and frontend, define staging services in `co
 - Issue #36: Deploy-staging fails: docker:27 image lacks Node.js for actions/checkout (Forgejo — destroyed)
 - Issue #38: Deploy-staging fails: job container lacks Docker socket mount (Forgejo — destroyed)
 - Issue #40: Staging frontend proxy strips /api prefix, causing 404s (Forgejo — destroyed)
+- [Issue #94: Encapsulate staging deploy procedure in a script](https://github.com/travisfrels/skiploom/issues/94)
 
 ### Pull Requests
 
@@ -77,6 +78,7 @@ Build Docker images for the backend and frontend, define staging services in `co
 - PR #39: #38 Mount Docker socket in job containers via docker_host automount (Forgejo — destroyed)
 - PR #41: #40 Remove trailing slash from staging BACKEND_URL to fix proxy path stripping (Forgejo — destroyed)
 - PR #42: #31 Add healthcheck to backend-staging and wait for readiness (Forgejo — destroyed)
+- [PR #95: #94 Encapsulate staging deploy procedure in a script](https://github.com/travisfrels/skiploom/pull/95)
 
 ## Post-Mortem
 
