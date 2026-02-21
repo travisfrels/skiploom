@@ -32,3 +32,4 @@ Skiploom is a recipe management system.
 
 - See `src/CLAUDE.md` for testing instructions.
 - New features that affect user-facing behavior require E2E tests (see `src/frontend/CLAUDE.md`).
+- Run E2E tests locally before committing: `bash scripts/run-e2e.sh --development`
