@@ -6,6 +6,7 @@ REST controllers and exception handling for HTTP interactions.
 
 - **FeatureFlagQueryController.kt**: Query endpoint for feature flag state (`GET /api/queries/fetch_feature_flags`)
 - **HealthController.kt**: Health check endpoint (`GET /api/health`)
+- **MeController.kt**: Authenticated user endpoint (`GET /api/me`); returns current user profile from OIDC principal
 - **RecipeCommandController.kt**: Command endpoints for recipe mutations (`POST /api/commands/...`)
 - **RecipeQueryController.kt**: Query endpoints for recipe reads (`GET /api/queries/...`)
 - **ValidationExceptionHandler.kt**: `@ControllerAdvice` adding field-level `{field, message}` errors to validation ProblemDetail responses
