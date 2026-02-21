@@ -86,12 +86,13 @@ if [ "${GCLOUD_AVAILABLE}" = true ] \
 
   echo "Attempting automated rotation via gcloud..."
 
+  GCLOUD_STDERR=$(mktemp)
   if NEW_CLIENT_SECRET=$(gcloud iam oauth-clients credentials create \
     --oauth-client="${GCLOUD_OAUTH_CLIENT_ID}" \
     --display-name="rotated-$(date +%Y%m%d-%H%M%S)" \
     --location=global \
     --project="${GCLOUD_PROJECT_ID}" \
-    --format='value(clientSecret)' 2>&1); then
+    --format='value(clientSecret)' 2>"${GCLOUD_STDERR}"); then
 
     echo -n "${NEW_CLIENT_SECRET}" > "${SECRETS_DIR}/spring.security.oauth2.client.registration.google.client-secret"
     echo "Google OAuth2 client secret rotated via gcloud."
@@ -101,8 +102,9 @@ if [ "${GCLOUD_AVAILABLE}" = true ] \
     echo "  gcloud iam oauth-clients credentials list --oauth-client=${GCLOUD_OAUTH_CLIENT_ID} --location=global --project=${GCLOUD_PROJECT_ID}"
   else
     echo "WARNING: gcloud credential creation failed. Falling back to manual rotation."
-    echo "  ${NEW_CLIENT_SECRET}"
+    cat "${GCLOUD_STDERR}"
   fi
+  rm -f "${GCLOUD_STDERR}"
 fi
 
 if [ "${OAUTH2_STATUS}" = "skipped" ]; then
