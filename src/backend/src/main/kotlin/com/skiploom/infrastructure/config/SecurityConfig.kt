@@ -56,6 +56,10 @@ class SecurityConfig {
                     HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
                     PathPatternRequestMatcher.pathPattern("/api/**")
                 )
+                exceptions.defaultAuthenticationEntryPointFor(
+                    HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
+                    PathPatternRequestMatcher.pathPattern("/togglz-console/**")
+                )
             }
             .cors(Customizer.withDefaults())
             .csrf { csrf ->
