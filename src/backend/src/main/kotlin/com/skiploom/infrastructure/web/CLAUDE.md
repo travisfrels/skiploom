@@ -4,6 +4,7 @@ REST controllers and exception handling for HTTP interactions.
 
 ## Contents
 
+- **FeatureFlagQueryController.kt**: Query endpoint for feature flag state (`GET /api/queries/fetch_feature_flags`)
 - **HealthController.kt**: Health check endpoint (`GET /api/health`)
 - **RecipeCommandController.kt**: Command endpoints for recipe mutations (`POST /api/commands/...`)
 - **RecipeQueryController.kt**: Query endpoints for recipe reads (`GET /api/queries/...`)
