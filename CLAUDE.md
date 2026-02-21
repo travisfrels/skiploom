@@ -16,6 +16,7 @@ Skiploom is a recipe management system.
   - No changes are allowed against `main`.
 - **Issue References**: Commits reference GitHub issues.
 - **Pull Requests**: Pull-requests close GitHub issues.
+- **Title Accuracy**: Update issue and PR titles when the implementation approach diverges from the original plan.
 
 ## Development Standards
 

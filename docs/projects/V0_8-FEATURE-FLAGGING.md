@@ -87,7 +87,7 @@ Togglz is the most widely adopted feature flag library in the Java/Spring ecosys
 
 - [Milestone: V0.8 Feature Flagging](https://github.com/travisfrels/skiploom/milestone/3)
 - [Issue #78: Create V0.8 Feature Flagging project definition](https://github.com/travisfrels/skiploom/issues/78)
-- [Issue #74: Integrate Togglz backend with JPA persistence and admin console](https://github.com/travisfrels/skiploom/issues/74)
+- [Issue #74: Integrate Togglz backend with JDBC persistence and admin console](https://github.com/travisfrels/skiploom/issues/74)
 - [Issue #75: Expose feature flag state via REST query endpoint](https://github.com/travisfrels/skiploom/issues/75)
 - [Issue #76: Consume feature flags in frontend](https://github.com/travisfrels/skiploom/issues/76)
 - [Issue #77: Document feature flag strategy and lifecycle in ENG-DESIGN.md](https://github.com/travisfrels/skiploom/issues/77)
@@ -101,7 +101,7 @@ Togglz is the most widely adopted feature flag library in the Java/Spring ecosys
 ### Pull Requests
 
 - [PR #79: #78 Create V0.8 Feature Flagging project definition](https://github.com/travisfrels/skiploom/pull/79)
-- [PR #80: #74 Integrate Togglz backend with JPA persistence and admin console](https://github.com/travisfrels/skiploom/pull/80)
+- [PR #80: #74 Integrate Togglz backend with JDBC persistence and admin console](https://github.com/travisfrels/skiploom/pull/80)
 - [PR #81: #75 Expose feature flag state via REST query endpoint](https://github.com/travisfrels/skiploom/pull/81)
 - [PR #82: #76 Consume feature flags in frontend](https://github.com/travisfrels/skiploom/pull/82)
 - [PR #83: #77 Document feature flag strategy and lifecycle in ENG-DESIGN.md](https://github.com/travisfrels/skiploom/pull/83)
