@@ -42,4 +42,22 @@ class TogglzFeatureReaderTest {
             featureReader.isEnabled("NONEXISTENT_FEATURE")
         }
     }
+
+    @Test
+    fun `fetchAll returns all features with correct enabled state`() {
+        featureManager.enable(Feature { SkiploomFeatures.EXAMPLE_FEATURE.name })
+
+        val result = featureReader.fetchAll()
+
+        assertEquals(mapOf("EXAMPLE_FEATURE" to true), result)
+    }
+
+    @Test
+    fun `fetchAll returns all features with correct disabled state`() {
+        featureManager.disable(Feature { SkiploomFeatures.EXAMPLE_FEATURE.name })
+
+        val result = featureReader.fetchAll()
+
+        assertEquals(mapOf("EXAMPLE_FEATURE" to false), result)
+    }
 }

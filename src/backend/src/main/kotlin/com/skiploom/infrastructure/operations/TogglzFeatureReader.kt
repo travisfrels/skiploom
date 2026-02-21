@@ -15,4 +15,10 @@ class TogglzFeatureReader(
         val enumValue = SkiploomFeatures.valueOf(featureName)
         return featureManager.isActive(Feature { enumValue.name })
     }
+
+    override fun fetchAll(): Map<String, Boolean> {
+        return SkiploomFeatures.entries.associate { feature ->
+            feature.name to featureManager.isActive(Feature { feature.name })
+        }
+    }
 }
