@@ -105,6 +105,7 @@ Togglz is the most widely adopted feature flag library in the Java/Spring ecosys
 - [PR #81: #75 Expose feature flag state via REST query endpoint](https://github.com/travisfrels/skiploom/pull/81)
 - [PR #82: #76 Consume feature flags in frontend](https://github.com/travisfrels/skiploom/pull/82)
 - [PR #83: #77 Document feature flag strategy and lifecycle in ENG-DESIGN.md](https://github.com/travisfrels/skiploom/pull/83)
+- [PR #89: #85 Add title accuracy convention to source control standards](https://github.com/travisfrels/skiploom/pull/89)
 
 ### Design References
 
