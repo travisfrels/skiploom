@@ -1,7 +1,7 @@
 import { chromium } from '@playwright/test'
 import path from 'path'
 
-export const BASE_URL = 'http://localhost:5174'
+export const BASE_URL = process.env.BASE_URL || 'http://localhost:5174'
 export const AUTH_STATE_PATH = path.join('e2e', '.auth', 'user.json')
 
 export default async function globalSetup() {

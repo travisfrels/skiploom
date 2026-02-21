@@ -77,29 +77,26 @@ End-to-end tests use Playwright to exercise the application through a browser ag
 
 ### Run E2E Tests Locally
 
-**Prerequisites**
+The `run-e2e.sh` script installs frontend dependencies and Playwright browsers, then executes the test suite. It accepts `--development` or `--staging` to target the corresponding environment (defaults to `--staging`).
 
-- Docker Compose staging stack running with the `e2e` Spring profile
-- Secrets generated via `bash scripts/generate-secrets.sh`
-
-**Steps**
+#### Against the staging stack
 
 1. Start the staging stack with the E2E profile:
    ```bash
    SPRING_PROFILES_ACTIVE=staging,e2e docker compose --profile staging up -d --wait --build
    ```
-2. Install frontend dependencies (from `src/frontend/`):
+2. Run the E2E tests:
    ```bash
-   npm ci
+   bash scripts/run-e2e.sh --staging
    ```
-3. Install Playwright browsers (from `src/frontend/`):
-   ```bash
-   npx playwright install --with-deps chromium
-   ```
-4. Run the tests (from `src/frontend/`):
-   ```bash
-   npx playwright test
-   ```
+
+#### Against the development environment
+
+```bash
+bash scripts/run-e2e.sh --development
+```
+
+The script auto-starts the backend (with the `e2e` Spring profile) and frontend dev server if they are not already running, and stops them on exit. If the servers are already running, the script uses them as-is.
 
 ### View the Local HTML Report
 
