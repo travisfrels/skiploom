@@ -92,18 +92,11 @@ The `run-e2e.sh` script installs frontend dependencies and Playwright browsers, 
 
 #### Against the development environment
 
-1. Start the backend with the E2E profile:
-   ```bash
-   ./gradlew bootRun --args='--spring.profiles.active=development,e2e'
-   ```
-2. Start the frontend dev server:
-   ```bash
-   cd src/frontend && npm run dev
-   ```
-3. Run the E2E tests:
-   ```bash
-   bash scripts/run-e2e.sh --development
-   ```
+```bash
+bash scripts/run-e2e.sh --development
+```
+
+The script auto-starts the backend (with the `e2e` Spring profile) and frontend dev server if they are not already running, and stops them on exit. If the servers are already running, the script uses them as-is.
 
 ### View the Local HTML Report
 
