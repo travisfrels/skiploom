@@ -4,6 +4,7 @@
 |--------|--------|
 | Draft | 2026-02-20 |
 | Active | 2026-02-21 |
+| Done | 2026-02-21 |
 
 ## Context
 
@@ -71,16 +72,16 @@ Togglz is the most widely adopted feature flag library in the Java/Spring ecosys
 
 ## Exit Criteria
 
-- [ ] Togglz dependencies added to `build.gradle.kts` and configured in `application.yml`
-- [ ] Flyway migration creates Togglz state table in PostgreSQL
-- [ ] Feature enum created in the infrastructure layer with at least one example flag
-- [ ] Togglz admin console accessible to authenticated users
-- [ ] Feature flag state exposed to the frontend via REST endpoint
-- [ ] Frontend consumes and uses feature flag state (query function, Redux slice, hook)
-- [ ] Feature flag strategy documented in `ENG-DESIGN.md` (toggle categories, naming conventions, lifecycle)
-- [ ] Feature flag lifecycle guidance documented (create, implement, roll out, manage, deprecate)
-- [ ] Example feature flag works end-to-end: toggle via admin console, backend respects flag, frontend reflects state
-- [ ] All existing tests pass with Togglz integrated
+- [x] Togglz dependencies added to `build.gradle.kts` and configured in `application.yml`
+- [x] Flyway migration creates Togglz state table in PostgreSQL
+- [x] Feature enum created in the infrastructure layer with at least one example flag
+- [x] Togglz admin console accessible to authenticated users
+- [x] Feature flag state exposed to the frontend via REST endpoint
+- [x] Frontend consumes and uses feature flag state (query function, Redux slice, hook)
+- [x] Feature flag strategy documented in `ENG-DESIGN.md` (toggle categories, naming conventions, lifecycle)
+- [x] Feature flag lifecycle guidance documented (create, implement, roll out, manage, deprecate)
+- [x] Example feature flag works end-to-end: toggle via admin console, backend respects flag, frontend reflects state
+- [x] All existing tests pass with Togglz integrated
 
 ## References
 
@@ -92,6 +93,10 @@ Togglz is the most widely adopted feature flag library in the Java/Spring ecosys
 - [Issue #77: Document feature flag strategy and lifecycle in ENG-DESIGN.md](https://github.com/travisfrels/skiploom/issues/77)
 
 ### Follow-Up Issues
+
+- [Issue #85: [Post-Mortem] Update issue titles when implementation approach changes](https://github.com/travisfrels/skiploom/issues/85)
+- [Issue #86: [Post-Mortem] Validate architectural assumptions in acceptance criteria](https://github.com/travisfrels/skiploom/issues/86)
+- [Issue #87: [Post-Mortem] Avoid cross-issue deliverable modifications in PRs](https://github.com/travisfrels/skiploom/issues/87)
 
 ### Pull Requests
 
@@ -110,3 +115,59 @@ Togglz is the most widely adopted feature flag library in the Java/Spring ecosys
 - [CloudBees — Feature Flag Lifecycle](https://www.cloudbees.com/blog/feature-flag-lifecycle)
 - [Octopus — 4 Types of Feature Flags](https://octopus.com/devops/feature-flags/)
 - [OpenFeature Specification](https://openfeature.dev/docs/reference/intro/)
+
+## Post-Mortem
+
+V0.8 delivered all 5 planned issues (#74–#78) across 5 PRs (#79–#83) within a single milestone cycle. The initial integration issue (#74) absorbed all technical uncertainty — Kotlin/Togglz compatibility, dependency gaps, and naming drift — leaving the remaining three implementation issues (#75–#77) to execute cleanly with zero rework. All exit criteria are met.
+
+### Timeline
+
+| When | Event |
+|------|-------|
+| 2026-02-20 17:53 | Issues #74–#77 created (implementation backlog) |
+| 2026-02-20 17:56 | Issue #78 created (project definition) |
+| 2026-02-20 18:04 | PR #79 merged — project definition complete |
+| 2026-02-21 14:03 | PR #80 opened — Togglz backend integration |
+| 2026-02-21 14:07 | PR #80 first review — 3 observations (project file overlap, enum placement, console auth behavior) |
+| 2026-02-21 14:26 | PR #80 second review — naming drift observation (JPA→JDBC), FeatureReader string-safety observation |
+| 2026-02-21 14:47 | PR #80 third review — retracted string-safety observation |
+| 2026-02-21 14:50 | PR #80 merged — backend integration complete with 3 rework items resolved |
+| 2026-02-21 15:33 | PR #81 merged — REST query endpoint (zero findings) |
+| 2026-02-21 15:58 | PR #82 merged — frontend consumption (zero findings) |
+| 2026-02-21 16:19 | PR #83 merged — documentation (zero findings) |
+
+### Impact
+
+- **Milestone duration**: ~22.4 hours elapsed (2026-02-20 17:53 → 2026-02-21 16:19). Cycle time is elapsed time, not active work time.
+- **Issue cycle times**: #78: 8m, #74: ~21h, #75: ~21.6h, #76: ~22h, #77: ~22.4h. Issues #74–#77 were created simultaneously; their cycle times reflect sequential execution, not parallel effort.
+- **PR cycle times**: #79: 6m, #80: 47m, #81: 16m, #82: 8m, #83: 7m.
+- **PR review iterations**: #80: 3 reviews; #79, #81, #82, #83: 1 review each (zero findings).
+- **Scope changes**: 3 in issue #74 (added `togglz-kotlin` and `togglz-spring-security` dependencies; changed from `@Repository` to `@Component`). Zero in all other issues.
+- **Rework**: 3 items in issue #74 (Kotlin/Togglz `name()` clash, missing `UserProvider` bean, `@Repository` exception translation). Zero in all other issues.
+
+### What Went Well
+
+- **Concern-boundary decomposition isolated complexity.** The 4-issue split (backend integration → API endpoint → frontend → docs) concentrated all Togglz-specific uncertainty in #74. Once #74 was merged, #75–#77 executed with zero rework, zero scope changes, and zero review findings. Front-loading integration risk into the first issue is effective.
+- **Rework was documented transparently.** Issue #74's implementation summary explicitly cataloged all 3 rework items and 3 scope changes. This transparency enabled the post-mortem to reconstruct events accurately from artifacts alone.
+- **PR review quality was high.** PR #80's review caught real observations (project file overlap, enum placement, naming drift). The retraction in the third review demonstrates intellectual honesty — correcting a finding when further analysis showed the implementation was correct.
+- **Quick PR cycle times for issues #75–#83.** Average 9 minutes (excluding #80). Clean PRs with zero findings merged efficiently.
+
+### What Went Wrong
+
+Three issues emerged, all concentrated in the initial integration work (issue #74 / PR #80).
+
+| Issue | Contributing Factors | Category |
+|-------|---------------------|----------|
+| Issue #74 acceptance criteria said "application layer" but correct placement was infrastructure layer | Acceptance criteria drafted before implementation revealed that `@Label` annotation makes the enum an infrastructure concern. No mechanism to update acceptance criteria when understanding evolves during implementation. | Specification drift |
+| Issue #74 and PR #80 title says "JPA" but implementation correctly uses JDBC | Project decision changed from JPA to JDBC during planning, and the project document was updated, but issue/PR titles retained the original "JPA" wording. No convention for updating titles when the approach changes. | Naming drift |
+| PR #80 included `V0_8-FEATURE-FLAGGING.md` changes that overlap with PR #79 | The project file was modified during #74 work (adding PR references, updating decisions) while PR #79 was the dedicated deliverable for that file. No convention preventing a PR from modifying deliverables owned by another issue. | Scope overlap |
+
+### Recommendations
+
+Actionable improvements for future projects, highest priority first.
+
+| Priority | Recommendation | Issue |
+|----------|---------------|-------|
+| Medium | Update issue titles when the implementation approach diverges from the original plan. The title is the most visible artifact — stale titles create confusion during review and post-mortem analysis. | [#85](https://github.com/travisfrels/skiploom/issues/85) |
+| Low | When acceptance criteria reference architectural layers, validate the placement assumption against the actual framework constraints before finalizing the criteria. For library integrations, the correct layer may not be clear until dependencies are analyzed. | [#86](https://github.com/travisfrels/skiploom/issues/86) |
+| Low | Avoid modifying deliverables owned by another issue's PR. If a file needs updates during work on a different issue, defer those changes to the owning PR or create a follow-up commit on the owning branch. | [#87](https://github.com/travisfrels/skiploom/issues/87) |
