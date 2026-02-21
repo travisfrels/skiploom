@@ -17,6 +17,12 @@ spring:
   flyway:
     enabled: true
 
+togglz:
+  console:
+    enabled: true
+    secured: true
+    use-management-port: false
+
 logging:
   level:
     root: INFO

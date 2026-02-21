@@ -45,6 +45,7 @@ class SecurityConfig {
                 auth
                     .requestMatchers("/api/health").permitAll()
                     .requestMatchers("/api/**").authenticated()
+                    .requestMatchers("/togglz-console/**").authenticated()
                     .anyRequest().permitAll()
             }
             .oauth2Login { oauth2 ->
