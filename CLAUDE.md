@@ -18,6 +18,7 @@ Skiploom is a recipe management system.
 - **Pull Requests**: Pull-requests close GitHub issues.
 - **Title Accuracy**: Update issue and PR titles when the implementation approach diverges from the original plan.
 - **Criteria Accuracy**: When acceptance criteria reference architectural layers or framework-specific placement, validate assumptions against actual framework constraints during implementation. Update criteria and note the reason if the correct approach differs.
+- **Deliverable Ownership**: Avoid modifying deliverables owned by another issue's PR. Defer changes to the owning PR or create a follow-up commit on the owning branch.
 
 ## Development Standards
 
