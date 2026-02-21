@@ -88,18 +88,12 @@ End-to-end tests use Playwright to exercise the application through a browser ag
    ```bash
    SPRING_PROFILES_ACTIVE=staging,e2e docker compose --profile staging up -d --wait --build
    ```
-2. Install frontend dependencies (from `src/frontend/`):
+2. Run the E2E tests:
    ```bash
-   npm ci
+   bash scripts/run-e2e.sh
    ```
-3. Install Playwright browsers (from `src/frontend/`):
-   ```bash
-   npx playwright install --with-deps chromium
-   ```
-4. Run the tests (from `src/frontend/`):
-   ```bash
-   npx playwright test
-   ```
+
+The script installs frontend dependencies and Playwright browsers, then executes the test suite.
 
 ### View the Local HTML Report
 
