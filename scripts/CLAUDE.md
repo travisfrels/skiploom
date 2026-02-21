@@ -7,4 +7,4 @@ Scripts for automation and tooling.
 - `deploy-staging.sh`: Deploys and verifies the staging stack.
 - `generate-secrets.sh`: Generates skiploom secrets in the `../secrets` directory.
 - `rotate-secrets.sh`: Rotates skiploom secrets for a running system.
-- `run-e2e.sh`: Runs Playwright E2E tests against the staging stack.
+- `run-e2e.sh`: Runs Playwright E2E tests against the development or staging environment (`--development`/`--staging`).
