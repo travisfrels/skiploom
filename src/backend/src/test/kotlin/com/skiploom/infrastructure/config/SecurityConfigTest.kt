@@ -83,6 +83,19 @@ class SecurityConfigTest {
     }
 
     @Test
+    fun `unauthenticated GET to togglz-console returns 401`() {
+        mockMvc.perform(get("/togglz-console"))
+            .andExpect(status().isUnauthorized)
+    }
+
+    @Test
+    @WithMockUser
+    fun `authenticated GET to togglz-console is permitted`() {
+        mockMvc.perform(get("/togglz-console"))
+            .andExpect(status().isNotFound)
+    }
+
+    @Test
     @WithMockUser
     fun `POST with CSRF token is permitted`() {
         mockMvc.perform(

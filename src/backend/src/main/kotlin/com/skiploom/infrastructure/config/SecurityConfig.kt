@@ -45,6 +45,7 @@ class SecurityConfig {
                 auth
                     .requestMatchers("/api/health").permitAll()
                     .requestMatchers("/api/**").authenticated()
+                    .requestMatchers("/togglz-console/**").authenticated()
                     .anyRequest().permitAll()
             }
             .oauth2Login { oauth2 ->
@@ -54,6 +55,10 @@ class SecurityConfig {
                 exceptions.defaultAuthenticationEntryPointFor(
                     HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
                     PathPatternRequestMatcher.pathPattern("/api/**")
+                )
+                exceptions.defaultAuthenticationEntryPointFor(
+                    HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
+                    PathPatternRequestMatcher.pathPattern("/togglz-console/**")
                 )
             }
             .cors(Customizer.withDefaults())

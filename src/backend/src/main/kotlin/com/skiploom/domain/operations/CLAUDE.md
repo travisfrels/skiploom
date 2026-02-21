@@ -6,6 +6,7 @@ Interfaces defining all the ways to fetch or atomically mutate entities.
 
 - **RecipeReader.kt**: Read operations for fetching recipe data
 - **RecipeWriter.kt**: Write operations for mutating recipe data
+- **FeatureReader.kt**: Read operations for checking feature flag state
 
 ## Conventions
 
