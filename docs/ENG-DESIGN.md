@@ -2,7 +2,7 @@
 
 | Status | Last Updated | Author |
 |--------|--------------|--------|
-| Draft | 2026-02-20 | Engineering |
+| Draft | 2026-02-21 | Engineering |
 
 ## Overview
 
@@ -209,6 +209,50 @@ Secrets are managed through file-based secrets, never hardcoded in source-contro
 - **Staging**: Configtree reads from `/run/secrets/`. Non-secret config (`DATABASE_URL`, `DATABASE_USERNAME`) uses environment variables.
 - **Production**: Configtree reads from `/run/secrets/` with `${ENV_VAR}` fallbacks for environments not yet using file-based secrets.
 - **Test/CI**: Configtree reads from checked-in test secret files (`src/test/resources/secrets/`) containing well-known disposable values. A test-scoped `application.properties` sets `spring.profiles.active=test` for all tests. Testcontainers with `@ServiceConnection` provides a disposable PostgreSQL instance — no external database required locally or in CI.
+
+### Feature Flagging
+
+Togglz provides a feature flag system for controlled rollout and operational safety. Feature flags are defined as Kotlin enum entries, persisted in PostgreSQL via JDBC, and exposed to the frontend through a REST query endpoint.
+
+#### Toggle Categories
+
+Skiploom uses two toggle categories:
+
+- **Release Toggles**: Hide incomplete features during development. Short-lived — removed after the feature is stable in production. Example: guarding a new recipe import feature behind `RECIPE_IMPORT` while the UI is still under development.
+- **Ops Toggles**: Enable graceful degradation without redeployment. Longer-lived — remain until the operational concern is resolved. Example: disabling a non-critical integration during an outage.
+
+**Not used**: Experiment toggles (A/B testing) and permissioning toggles (role-based access). These categories serve scale concerns — statistical experiments and per-user feature gating — that are unnecessary for a ~5-user community application.
+
+#### Naming Conventions
+
+Feature flag enum entries in `SkiploomFeatures.kt` follow these conventions:
+
+- **Case**: `SCREAMING_SNAKE_CASE` (standard Kotlin enum convention)
+- **Names**: Descriptive of the feature or capability (e.g., `RECIPE_IMPORT`, `SEARCH_V2`)
+- **Labels**: Each entry has a `@Label` annotation with a human-readable description displayed in the admin console
+
+#### Feature Flag Lifecycle
+
+1. **Create**: Add an enum entry to `SkiploomFeatures.kt` with a `@Label` annotation. The flag defaults to disabled. Togglz discovers it automatically via `EnumClassFeatureProvider`.
+2. **Implement**: Guard new code paths with feature flag checks. Backend code reads flag state through the `FeatureReader` domain interface. Frontend code reads flags from the Redux store, which loads all flags on app startup via `GET /api/queries/fetch_feature_flags`.
+3. **Roll out**: Enable the flag via the Togglz admin console. For release toggles, create a cleanup issue at this point (see [Cleanup Convention](#cleanup-convention)).
+4. **Manage**: Monitor the feature in production. Ops toggles may be toggled on and off as needed for operational concerns. Release toggles remain enabled once the feature is validated.
+5. **Deprecate**: Remove the enum entry from `SkiploomFeatures.kt`, all conditional code paths in both backend and frontend, and any frontend flag checks. The `togglz` table row for the removed flag becomes orphaned and can be deleted manually or ignored.
+
+#### Cleanup Convention
+
+Release toggles are short-lived by design. To prevent accumulation:
+
+- When a release toggle is **enabled in production**, create a GitHub issue to track its removal.
+- The cleanup issue should reference the original feature issue and describe the code paths to remove.
+- Cleanup involves: removing the enum entry, removing all conditional branches in backend and frontend code, and verifying that no references to the flag remain.
+
+#### Togglz Admin Console
+
+- **URL**: `/togglz-console/` on the backend (e.g., `http://localhost:8080/togglz-console/` in development)
+- **Access**: Requires OAuth2 authentication — all authenticated users can manage flags
+- **Capabilities**: View all defined flags, enable or disable flags, and configure activation strategies (e.g., gradual rollout, server IP filtering)
+- **Persistence**: Flag state is stored in the `togglz` table in PostgreSQL via `JDBCStateRepository`. The table schema is managed by Flyway (migration V4).
 
 ## Local Development
 
