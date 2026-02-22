@@ -79,6 +79,7 @@ No CSS configuration changes are needed. `@import "tailwindcss"` in `index.css` 
 - [PR #106: #100 Add dark mode foundation and Layout dark styling](https://github.com/travisfrels/skiploom/pull/106)
 - [PR #107: #101 Add dark mode to shared UI components](https://github.com/travisfrels/skiploom/pull/107)
 - [PR #108: #102 Add dark mode to recipe content components](https://github.com/travisfrels/skiploom/pull/108)
+- [PR #109: #103 Add E2E dark mode smoke test](https://github.com/travisfrels/skiploom/pull/109)
 
 ### Design References
 
