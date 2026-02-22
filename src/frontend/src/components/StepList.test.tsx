@@ -47,4 +47,14 @@ describe('StepList', () => {
     render(<StepList steps={[]} />);
     expect(screen.getByText('Instructions')).toBeInTheDocument();
   });
+
+  it('applies dark mode classes', () => {
+    render(<StepList steps={mockSteps} />);
+    const heading = screen.getByText('Instructions');
+    expect(heading.className).toContain('dark:text-slate-100');
+    const stepCircle = screen.getByText('1');
+    expect(stepCircle.className).toContain('dark:bg-blue-600');
+    const instruction = screen.getByText('Preheat oven to 350°F');
+    expect(instruction.className).toContain('dark:text-slate-300');
+  });
 });

@@ -33,4 +33,14 @@ describe('IngredientList', () => {
     render(<IngredientList ingredients={[]} />);
     expect(screen.getByText('Ingredients')).toBeInTheDocument();
   });
+
+  it('applies dark mode classes', () => {
+    render(<IngredientList ingredients={mockIngredients} />);
+    const heading = screen.getByText('Ingredients');
+    expect(heading.className).toContain('dark:text-slate-100');
+    const amountUnit = screen.getByText('2 cups');
+    expect(amountUnit.className).toContain('dark:text-slate-200');
+    const name = screen.getByText('flour');
+    expect(name.className).toContain('dark:text-slate-300');
+  });
 });

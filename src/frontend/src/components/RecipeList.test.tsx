@@ -42,4 +42,12 @@ describe('RecipeList', () => {
     const links = screen.getAllByRole('link');
     expect(links).toHaveLength(2);
   });
+
+  it('applies dark mode classes to empty state text', () => {
+    renderWithProviders(<RecipeList />, {
+      preloadedState: { recipes: { recipes: {}, recipesLoaded: true } },
+    });
+    const text = screen.getByText('No recipes found.');
+    expect(text.className).toContain('dark:text-slate-400');
+  });
 });

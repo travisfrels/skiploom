@@ -140,7 +140,7 @@ function RecipeForm({ mode }: RecipeFormProps) {
     <div>
       <BackLink to="/recipes">Back to Recipes</BackLink>
 
-      <h2 className="text-2xl font-semibold text-slate-800 mb-6">
+      <h2 className="text-2xl font-semibold text-slate-800 dark:text-slate-100 mb-6">
         {mode === 'edit' ? 'Edit Recipe' : 'New Recipe'}
       </h2>
 
@@ -149,7 +149,7 @@ function RecipeForm({ mode }: RecipeFormProps) {
           <div>
             <label
               htmlFor="title"
-              className="block text-sm font-medium text-slate-700 mb-1"
+              className="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1"
             >
               Title *
             </label>
@@ -158,18 +158,18 @@ function RecipeForm({ mode }: RecipeFormProps) {
               id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-800"
               placeholder="Recipe title"
             />
             {getFieldError('title') && (
-              <p className="mt-1 text-sm text-red-600">{getFieldError('title')}</p>
+              <p className="mt-1 text-sm text-red-600 dark:text-red-400">{getFieldError('title')}</p>
             )}
           </div>
 
           <div>
             <label
               htmlFor="description"
-              className="block text-sm font-medium text-slate-700 mb-1"
+              className="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1"
             >
               Description
             </label>
@@ -178,7 +178,7 @@ function RecipeForm({ mode }: RecipeFormProps) {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={3}
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-800"
               placeholder="A brief description of the recipe"
             />
           </div>
@@ -186,20 +186,20 @@ function RecipeForm({ mode }: RecipeFormProps) {
 
         <Card>
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-semibold text-slate-800">
+            <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-100">
               Ingredients *
             </h3>
             <button
               type="button"
               onClick={addIngredient}
-              className="text-blue-600 hover:text-blue-800 font-medium text-sm"
+              className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium text-sm"
             >
               + Add Ingredient
             </button>
           </div>
 
           {getFieldError('ingredients') && (
-            <p className="mb-4 text-sm text-red-600">{getFieldError('ingredients')}</p>
+            <p className="mb-4 text-sm text-red-600 dark:text-red-400">{getFieldError('ingredients')}</p>
           )}
 
           <div className="space-y-3">
@@ -216,7 +216,7 @@ function RecipeForm({ mode }: RecipeFormProps) {
                         parseFloat(e.target.value) || 0
                       )
                     }
-                    className={`w-20 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${getFieldError(`ingredients[${index}].amount`) ? 'border-red-500' : 'border-slate-300'}`}
+                    className={`w-20 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-800 ${getFieldError(`ingredients[${index}].amount`) ? 'border-red-500 dark:border-red-400' : 'border-slate-300 dark:border-slate-600'}`}
                     placeholder="Amt"
                     min="0"
                     step="0.25"
@@ -227,7 +227,7 @@ function RecipeForm({ mode }: RecipeFormProps) {
                     onChange={(e) =>
                       updateIngredient(ingredient.orderIndex, 'unit', e.target.value)
                     }
-                    className={`w-24 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${getFieldError(`ingredients[${index}].unit`) ? 'border-red-500' : 'border-slate-300'}`}
+                    className={`w-24 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-800 ${getFieldError(`ingredients[${index}].unit`) ? 'border-red-500 dark:border-red-400' : 'border-slate-300 dark:border-slate-600'}`}
                     placeholder="Unit"
                   />
                   <input
@@ -236,13 +236,13 @@ function RecipeForm({ mode }: RecipeFormProps) {
                     onChange={(e) =>
                       updateIngredient(ingredient.orderIndex, 'name', e.target.value)
                     }
-                    className={`flex-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${getFieldError(`ingredients[${index}].name`) ? 'border-red-500' : 'border-slate-300'}`}
+                    className={`flex-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-800 ${getFieldError(`ingredients[${index}].name`) ? 'border-red-500 dark:border-red-400' : 'border-slate-300 dark:border-slate-600'}`}
                     placeholder="Ingredient name"
                   />
                   <button
                     type="button"
                     onClick={() => removeIngredient(ingredient.orderIndex)}
-                    className="p-2 text-slate-400 hover:text-red-600"
+                    className="p-2 text-slate-400 dark:text-slate-500 hover:text-red-600 dark:hover:text-red-400"
                     disabled={ingredients.length === 1}
                   >
                     <svg
@@ -261,13 +261,13 @@ function RecipeForm({ mode }: RecipeFormProps) {
                   </button>
                 </div>
                 {getFieldError(`ingredients[${index}].amount`) && (
-                  <p className="mt-1 text-sm text-red-600">{getFieldError(`ingredients[${index}].amount`)}</p>
+                  <p className="mt-1 text-sm text-red-600 dark:text-red-400">{getFieldError(`ingredients[${index}].amount`)}</p>
                 )}
                 {getFieldError(`ingredients[${index}].unit`) && (
-                  <p className="mt-1 text-sm text-red-600">{getFieldError(`ingredients[${index}].unit`)}</p>
+                  <p className="mt-1 text-sm text-red-600 dark:text-red-400">{getFieldError(`ingredients[${index}].unit`)}</p>
                 )}
                 {getFieldError(`ingredients[${index}].name`) && (
-                  <p className="mt-1 text-sm text-red-600">{getFieldError(`ingredients[${index}].name`)}</p>
+                  <p className="mt-1 text-sm text-red-600 dark:text-red-400">{getFieldError(`ingredients[${index}].name`)}</p>
                 )}
               </div>
             ))}
@@ -276,40 +276,40 @@ function RecipeForm({ mode }: RecipeFormProps) {
 
         <Card>
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-semibold text-slate-800">
+            <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-100">
               Instructions *
             </h3>
             <button
               type="button"
               onClick={addStep}
-              className="text-blue-600 hover:text-blue-800 font-medium text-sm"
+              className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium text-sm"
             >
               + Add Step
             </button>
           </div>
 
           {getFieldError('steps') && (
-            <p className="mb-4 text-sm text-red-600">{getFieldError('steps')}</p>
+            <p className="mb-4 text-sm text-red-600 dark:text-red-400">{getFieldError('steps')}</p>
           )}
 
           <div className="space-y-3">
             {steps.map((step, index) => (
               <div key={step.orderIndex}>
                 <div className="flex gap-3 items-start">
-                  <span className="flex-shrink-0 w-8 h-8 bg-slate-800 text-white rounded-full flex items-center justify-center font-medium text-sm">
+                  <span className="flex-shrink-0 w-8 h-8 bg-slate-800 dark:bg-blue-600 text-white rounded-full flex items-center justify-center font-medium text-sm">
                     {step.orderIndex}
                   </span>
                   <textarea
                     value={step.instruction}
                     onChange={(e) => updateStep(step.orderIndex, e.target.value)}
                     rows={2}
-                    className={`flex-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${getFieldError(`steps[${index}].instruction`) ? 'border-red-500' : 'border-slate-300'}`}
+                    className={`flex-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-800 ${getFieldError(`steps[${index}].instruction`) ? 'border-red-500 dark:border-red-400' : 'border-slate-300 dark:border-slate-600'}`}
                     placeholder="Describe this step"
                   />
                   <button
                     type="button"
                     onClick={() => removeStep(step.orderIndex)}
-                    className="p-2 text-slate-400 hover:text-red-600"
+                    className="p-2 text-slate-400 dark:text-slate-500 hover:text-red-600 dark:hover:text-red-400"
                     disabled={steps.length === 1}
                   >
                     <svg
@@ -328,7 +328,7 @@ function RecipeForm({ mode }: RecipeFormProps) {
                   </button>
                 </div>
                 {getFieldError(`steps[${index}].instruction`) && (
-                  <p className="mt-1 text-sm text-red-600">{getFieldError(`steps[${index}].instruction`)}</p>
+                  <p className="mt-1 text-sm text-red-600 dark:text-red-400">{getFieldError(`steps[${index}].instruction`)}</p>
                 )}
               </div>
             ))}
