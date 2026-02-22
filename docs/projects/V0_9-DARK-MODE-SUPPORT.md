@@ -77,6 +77,7 @@ No CSS configuration changes are needed. `@import "tailwindcss"` in `index.css` 
 
 - [PR #105: #104 Create V0.9 Dark Mode Support project definition](https://github.com/travisfrels/skiploom/pull/105)
 - [PR #106: #100 Add dark mode foundation and Layout dark styling](https://github.com/travisfrels/skiploom/pull/106)
+- [PR #107: #101 Add dark mode to shared UI components](https://github.com/travisfrels/skiploom/pull/107)
 
 ### Design References
 

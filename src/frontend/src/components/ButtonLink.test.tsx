@@ -28,5 +28,8 @@ describe('ButtonLink', () => {
     renderWithRouter(<ButtonLink variant="secondary" to="/test">Secondary</ButtonLink>);
     const link = screen.getByRole('link', { name: 'Secondary' });
     expect(link.className).toContain('bg-slate-200');
+    expect(link.className).toContain('dark:bg-slate-700');
+    expect(link.className).toContain('dark:hover:bg-slate-600');
+    expect(link.className).toContain('dark:text-slate-100');
   });
 });

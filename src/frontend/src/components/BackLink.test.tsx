@@ -24,4 +24,11 @@ describe('BackLink', () => {
     const svg = link.querySelector('svg');
     expect(svg).toBeInTheDocument();
   });
+
+  it('applies dark mode classes', () => {
+    renderWithRouter(<BackLink to="/test">Back</BackLink>);
+    const link = screen.getByRole('link', { name: /Back/ });
+    expect(link.className).toContain('dark:text-blue-400');
+    expect(link.className).toContain('dark:hover:text-blue-300');
+  });
 });

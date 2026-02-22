@@ -2,8 +2,8 @@ import type { ButtonHTMLAttributes } from 'react';
 
 const variantClasses = {
   primary: 'bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white',
-  secondary: 'bg-slate-200 hover:bg-slate-300 text-slate-800',
-  danger: 'bg-red-100 hover:bg-red-200 text-red-700',
+  secondary: 'bg-slate-200 hover:bg-slate-300 text-slate-800 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-100',
+  danger: 'bg-red-100 hover:bg-red-200 text-red-700 dark:bg-red-900/30 dark:hover:bg-red-900/50 dark:text-red-400',
 } as const;
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
