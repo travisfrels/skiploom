@@ -10,7 +10,7 @@ function RecipeList() {
   if (loading) {
     return (
       <div className="text-center py-12">
-        <p className="text-slate-500 text-lg">Loading...</p>
+        <p className="text-slate-500 dark:text-slate-400 text-lg">Loading...</p>
       </div>
     );
       }
@@ -18,7 +18,7 @@ function RecipeList() {
   if (recipes.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-slate-500 text-lg">No recipes found.</p>
+        <p className="text-slate-500 dark:text-slate-400 text-lg">No recipes found.</p>
       </div>
     );
   }

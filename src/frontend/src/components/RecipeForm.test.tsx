@@ -81,6 +81,51 @@ describe('RecipeForm', () => {
     });
   });
 
+  describe('Dark mode', () => {
+    it('applies dark mode classes to form heading', () => {
+      renderWithProviders(
+        <Routes>
+          <Route path="/recipes/new" element={<RecipeForm mode="new" />} />
+        </Routes>,
+        { initialEntries: ['/recipes/new'] }
+      );
+      const heading = screen.getByText('New Recipe');
+      expect(heading.className).toContain('dark:text-slate-100');
+    });
+
+    it('applies dark mode classes to form inputs', () => {
+      renderWithProviders(
+        <Routes>
+          <Route path="/recipes/new" element={<RecipeForm mode="new" />} />
+        </Routes>,
+        { initialEntries: ['/recipes/new'] }
+      );
+      const titleInput = screen.getByPlaceholderText('Recipe title');
+      expect(titleInput.className).toContain('dark:bg-slate-800');
+      expect(titleInput.className).toContain('dark:border-slate-600');
+    });
+
+    it('applies dark mode error border when validation fails', async () => {
+      const { store } = renderWithProviders(
+        <Routes>
+          <Route path="/recipes/new" element={<RecipeForm mode="new" />} />
+        </Routes>,
+        { initialEntries: ['/recipes/new'] }
+      );
+
+      act(() => {
+        store.dispatch(slice.setValidationErrors([
+          { field: 'ingredients[0].amount', message: 'Amount is required' },
+        ]));
+      });
+
+      await waitFor(() => {
+        const amountInput = screen.getByPlaceholderText('Amt');
+        expect(amountInput.className).toContain('dark:border-red-400');
+      });
+    });
+  });
+
   describe('Edit mode', () => {
     it('shows not found when recipe does not exist', () => {
       renderWithProviders(

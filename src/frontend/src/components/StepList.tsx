@@ -10,14 +10,14 @@ function StepList({ steps }: StepListProps) {
 
   return (
     <Card>
-      <h3 className="text-lg font-semibold text-slate-800 mb-4">Instructions</h3>
+      <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-100 mb-4">Instructions</h3>
       <ol className="space-y-4">
         {sortedSteps.map((step) => (
           <li key={step.orderIndex} className="flex gap-4">
-            <span className="flex-shrink-0 w-8 h-8 bg-slate-800 text-white rounded-full flex items-center justify-center font-medium">
+            <span className="flex-shrink-0 w-8 h-8 bg-slate-800 dark:bg-blue-600 text-white rounded-full flex items-center justify-center font-medium">
               {step.orderIndex}
             </span>
-            <p className="text-slate-600 pt-1">{step.instruction}</p>
+            <p className="text-slate-600 dark:text-slate-300 pt-1">{step.instruction}</p>
           </li>
         ))}
       </ol>

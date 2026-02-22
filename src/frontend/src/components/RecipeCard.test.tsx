@@ -55,4 +55,16 @@ describe('RecipeCard', () => {
     expect(screen.getByText('Test Recipe')).toBeInTheDocument();
     expect(screen.queryByText('A delicious test recipe')).not.toBeInTheDocument();
   });
+
+  it('applies dark mode classes', () => {
+    renderWithRouter(<RecipeCard recipe={mockRecipe} />);
+    const link = screen.getByRole('link');
+    expect(link.className).toContain('dark:bg-slate-800');
+    const title = screen.getByText('Test Recipe');
+    expect(title.className).toContain('dark:text-slate-100');
+    const description = screen.getByText('A delicious test recipe');
+    expect(description.className).toContain('dark:text-slate-300');
+    const stats = screen.getByText('2 ingredients').parentElement!;
+    expect(stats.className).toContain('dark:text-slate-400');
+  });
 });

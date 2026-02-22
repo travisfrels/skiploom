@@ -129,4 +129,40 @@ describe('RecipeDetail', () => {
       expect(screen.getByText('Back to Recipes')).toBeInTheDocument();
     });
   });
+
+  it('applies dark mode classes to not found state', async () => {
+    renderWithProviders(
+      <Routes>
+        <Route path="/recipes/:id" element={<RecipeDetail />} />
+      </Routes>,
+      {
+        initialEntries: ['/recipes/invalid-id'],
+        preloadedState: { recipes: { recipes: {}, currentRecipeId: 'invalid-id', recipesLoaded: true } },
+      }
+    );
+    await waitFor(() => {
+      const heading = screen.getByText('Recipe Not Found');
+      expect(heading.className).toContain('dark:text-slate-100');
+      const message = screen.getByText("The recipe you're looking for doesn't exist.");
+      expect(message.className).toContain('dark:text-slate-300');
+    });
+  });
+
+  it('applies dark mode classes to recipe detail', async () => {
+    renderWithProviders(
+      <Routes>
+        <Route path="/recipes/:id" element={<RecipeDetail />} />
+      </Routes>,
+      {
+        initialEntries: ['/recipes/1'],
+        preloadedState: { recipes: { recipes: { '1': testRecipe }, currentRecipeId: '1', recipesLoaded: true } },
+      }
+    );
+    await waitFor(() => {
+      const title = screen.getByText("Grandma's Chocolate Chip Cookies");
+      expect(title.className).toContain('dark:text-slate-100');
+      const description = screen.getByText(/The classic family recipe/);
+      expect(description.className).toContain('dark:text-slate-300');
+    });
+  });
 });

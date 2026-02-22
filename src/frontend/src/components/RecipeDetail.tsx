@@ -30,15 +30,15 @@ function RecipeDetail() {
   if (!recipe) {
     return (
       <div className="text-center py-12">
-        <h2 className="text-2xl font-semibold text-slate-800 mb-4">
+        <h2 className="text-2xl font-semibold text-slate-800 dark:text-slate-100 mb-4">
           Recipe Not Found
         </h2>
-        <p className="text-slate-600 mb-6">
+        <p className="text-slate-600 dark:text-slate-300 mb-6">
           The recipe you're looking for doesn't exist.
         </p>
         <Link
           to="/recipes"
-          className="text-blue-600 hover:text-blue-800 font-medium"
+          className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium"
         >
           Back to Recipes
         </Link>
@@ -53,11 +53,11 @@ function RecipeDetail() {
       <div className="mb-8">
         <div className="flex justify-between items-start">
           <div>
-            <h2 className="text-3xl font-bold text-slate-800 mb-2">
+            <h2 className="text-3xl font-bold text-slate-800 dark:text-slate-100 mb-2">
               {recipe.title}
             </h2>
             {recipe.description && (
-              <p className="text-lg text-slate-600">{recipe.description}</p>
+              <p className="text-lg text-slate-600 dark:text-slate-300">{recipe.description}</p>
             )}
           </div>
           <div className="flex gap-2">
