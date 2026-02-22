@@ -102,6 +102,12 @@ Three cleanup patterns cover all current test scenarios:
 
 Setup and teardown use direct API calls (not UI interactions) via a CSRF-aware wrapper (`apiPost`) for speed and decoupling from the UI layer. Shared helpers (`createTestRecipe`, `deleteTestRecipe`) live in `e2e/helpers.ts` and are imported by each spec file. Each spec defines its own `TEST_RECIPE` constant and passes it to `createTestRecipe`.
 
+**Color Assertions**
+
+Tailwind CSS v4 uses the oklch color space internally, and modern Chromium preserves this format in computed styles rather than converting to RGB. A `getComputedStyle(el).backgroundColor` call may return `oklch(0.208 0.042 265.755)` instead of the historically expected `rgb(r, g, b)`.
+
+E2E tests that assert on color values should parse oklch first with an RGB fallback. The `isDarkBackground()` helper in `dark-mode.spec.ts` establishes this pattern: it extracts the oklch lightness value (0 = black, 1 = white) and compares against a threshold, falling back to RGB channel parsing when oklch is not present.
+
 ### API Style
 
 - REST endpoints under `/api`
