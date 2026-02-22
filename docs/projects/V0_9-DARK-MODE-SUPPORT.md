@@ -3,6 +3,7 @@
 | Status | Set On |
 |--------|--------|
 | Draft | 2026-02-22 |
+| Active | 2026-02-22 |
 
 ## Context
 
@@ -75,6 +76,7 @@ No CSS configuration changes are needed. `@import "tailwindcss"` in `index.css` 
 ### Pull Requests
 
 - [PR #105: #104 Create V0.9 Dark Mode Support project definition](https://github.com/travisfrels/skiploom/pull/105)
+- [PR #106: #100 Add dark mode foundation and Layout dark styling](https://github.com/travisfrels/skiploom/pull/106)
 
 ### Design References
 
