@@ -19,12 +19,18 @@ describe('Button', () => {
     render(<Button variant="secondary">Secondary</Button>);
     const button = screen.getByRole('button', { name: 'Secondary' });
     expect(button.className).toContain('bg-slate-200');
+    expect(button.className).toContain('dark:bg-slate-700');
+    expect(button.className).toContain('dark:hover:bg-slate-600');
+    expect(button.className).toContain('dark:text-slate-100');
   });
 
   it('renders danger variant', () => {
     render(<Button variant="danger">Danger</Button>);
     const button = screen.getByRole('button', { name: 'Danger' });
     expect(button.className).toContain('bg-red-100');
+    expect(button.className).toContain('dark:bg-red-900/30');
+    expect(button.className).toContain('dark:hover:bg-red-900/50');
+    expect(button.className).toContain('dark:text-red-400');
   });
 
   it('defaults to type="button"', () => {

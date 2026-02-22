@@ -10,7 +10,7 @@ function BackLink({ to, children }: BackLinkProps) {
   return (
     <Link
       to={to}
-      className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-6"
+      className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 mb-6"
     >
       <svg
         className="w-4 h-4 mr-2"

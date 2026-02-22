@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 
 const variantClasses = {
   primary: 'bg-blue-600 hover:bg-blue-700 text-white',
-  secondary: 'bg-slate-200 hover:bg-slate-300 text-slate-800',
+  secondary: 'bg-slate-200 hover:bg-slate-300 text-slate-800 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-100',
 } as const;
 
 interface ButtonLinkProps {

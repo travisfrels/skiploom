@@ -12,6 +12,7 @@ describe('Card', () => {
     render(<Card><p>Content</p></Card>);
     const card = screen.getByText('Content').parentElement!;
     expect(card.className).toContain('bg-white');
+    expect(card.className).toContain('dark:bg-slate-800');
     expect(card.className).toContain('rounded-lg');
     expect(card.className).toContain('shadow');
     expect(card.className).toContain('p-6');
