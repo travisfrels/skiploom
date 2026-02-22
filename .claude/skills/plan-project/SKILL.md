@@ -18,5 +18,6 @@ Plan a project around $ARGUMENTS
    * **Non-Goals**: What the project explicitly does not attempt.
    * **Exit Criteria**: Verifiable conditions that define "done." For infrastructure or workflow projects, include at least one criterion that exercises the integrated system end-to-end.
    * **Design References**: External documentation URLs consulted during research.
-7. Iterate on user feedback until the research brief is confirmed.
-8. Use the create-project skill to create the project definition file and GitHub Milestone from the confirmed research brief.
+7. Evaluate each decision in the Approach section against the ADR eligibility criteria in `docs/adrs/CLAUDE.md`. For decisions that meet the criteria, use the create-adr skill to create the ADR. Link the ADR in the research brief's Design References.
+8. Iterate on user feedback until the research brief is confirmed.
+9. Use the create-project skill to create the project definition file and GitHub Milestone from the confirmed research brief.
