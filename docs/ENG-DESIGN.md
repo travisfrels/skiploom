@@ -100,7 +100,7 @@ Three cleanup patterns cover all current test scenarios:
 
 **Helper Functions**
 
-Setup and teardown use direct API calls (not UI interactions) via a CSRF-aware wrapper (`apiPost`) for speed and decoupling from the UI layer. Current helpers (`createTestRecipe`, `deleteTestRecipe`) are defined inline in `recipes.spec.ts`. Extract them to a shared module (e.g., `e2e/helpers.ts`) when a second spec file needs them.
+Setup and teardown use direct API calls (not UI interactions) via a CSRF-aware wrapper (`apiPost`) for speed and decoupling from the UI layer. Shared helpers (`createTestRecipe`, `deleteTestRecipe`) live in `e2e/helpers.ts` and are imported by each spec file. Each spec defines its own `TEST_RECIPE` constant and passes it to `createTestRecipe`.
 
 ### API Style
 
