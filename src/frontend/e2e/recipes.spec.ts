@@ -1,5 +1,5 @@
-import { test, expect, type BrowserContext } from '@playwright/test'
-import { BASE_URL } from './global-setup'
+import { test, expect } from '@playwright/test'
+import { createTestRecipe, deleteTestRecipe } from './helpers'
 
 test.use({ storageState: 'e2e/.auth/user.json' })
 
@@ -10,40 +10,10 @@ const TEST_RECIPE = {
     steps: [{ orderIndex: 1, instruction: 'Mix the ingredients.' }]
 }
 
-async function apiPost<T>(context: BrowserContext, path: string, body: unknown): Promise<T> {
-    // CookieCsrfTokenRepository only writes XSRF-TOKEN when a request triggers
-    // CsrfTokenMaterializingFilter. A GET to any API endpoint materializes the
-    // cookie so the token is available for the subsequent mutating request.
-    await context.request.get(`${BASE_URL}/api/queries/fetch_all_recipes`)
-    const cookies = await context.cookies()
-    const csrfCookie = cookies.find(c => c.name === 'XSRF-TOKEN')
-    const csrfToken = csrfCookie ? decodeURIComponent(csrfCookie.value) : ''
-    const response = await context.request.post(`${BASE_URL}/api${path}`, {
-        headers: {
-            'Content-Type': 'application/json',
-            'X-XSRF-TOKEN': csrfToken,
-        },
-        data: body,
-    })
-    if (!response.ok()) throw new Error(`API ${path} failed: ${response.status()}`)
-    return response.json()
-}
-
-async function createTestRecipe(context: BrowserContext): Promise<string> {
-    const result = await apiPost<{ recipe: { id: string } }>(
-        context, '/commands/create_recipe', { recipe: { ...TEST_RECIPE, id: '' } }
-    )
-    return result.recipe.id
-}
-
-async function deleteTestRecipe(context: BrowserContext, id: string): Promise<void> {
-    await apiPost(context, '/commands/delete_recipe', { id })
-}
-
 test.describe('Recipe List', () => {
     let recipeId: string
 
-    test.beforeEach(async ({ page }) => { recipeId = await createTestRecipe(page.context()) })
+    test.beforeEach(async ({ page }) => { recipeId = await createTestRecipe(page.context(), TEST_RECIPE) })
     test.afterEach(async ({ page }) => { await deleteTestRecipe(page.context(), recipeId) })
 
     test('shows created recipe in the list', async ({ page }) => {
@@ -59,7 +29,7 @@ test.describe('Recipe List', () => {
 test.describe('Recipe Detail', () => {
     let recipeId: string
 
-    test.beforeEach(async ({ page }) => { recipeId = await createTestRecipe(page.context()) })
+    test.beforeEach(async ({ page }) => { recipeId = await createTestRecipe(page.context(), TEST_RECIPE) })
     test.afterEach(async ({ page }) => { await deleteTestRecipe(page.context(), recipeId) })
 
     test('shows recipe title and description on detail page', async ({ page }) => {
@@ -110,7 +80,7 @@ test.describe('Recipe Create', () => {
 test.describe('Recipe Update', () => {
     let recipeId: string
 
-    test.beforeEach(async ({ page }) => { recipeId = await createTestRecipe(page.context()) })
+    test.beforeEach(async ({ page }) => { recipeId = await createTestRecipe(page.context(), TEST_RECIPE) })
     test.afterEach(async ({ page }) => { await deleteTestRecipe(page.context(), recipeId) })
 
     test('updates recipe title via form and shows updated title on detail page', async ({ page }) => {
@@ -134,7 +104,7 @@ test.describe('Recipe Update', () => {
 test.describe('Recipe Delete', () => {
     let recipeId: string
 
-    test.beforeEach(async ({ page }) => { recipeId = await createTestRecipe(page.context()) })
+    test.beforeEach(async ({ page }) => { recipeId = await createTestRecipe(page.context(), TEST_RECIPE) })
     test.afterEach(async ({ page }) => {
         try {
             await deleteTestRecipe(page.context(), recipeId)
