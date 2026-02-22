@@ -74,6 +74,8 @@ No CSS configuration changes are needed. `@import "tailwindcss"` in `index.css` 
 
 ### Pull Requests
 
+- [PR #105: #104 Create V0.9 Dark Mode Support project definition](https://github.com/travisfrels/skiploom/pull/105)
+
 ### Design References
 
 - [Tailwind CSS v4 Dark Mode](https://tailwindcss.com/docs/dark-mode)
