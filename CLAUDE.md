@@ -20,6 +20,11 @@ Skiploom is a recipe management system.
 - **Criteria Accuracy**: When acceptance criteria reference architectural layers or framework-specific placement, validate assumptions against actual framework constraints during implementation. Update criteria and note the reason if the correct approach differs.
 - **Deliverable Ownership**: Avoid modifying deliverables owned by another issue's PR. Defer changes to the owning PR or create a follow-up commit on the owning branch.
 
+## Command Style
+
+- **No compound commands** in Bash tool calls — no `&&`, `;`, `|`, or `2>&1` shell operators. Issue each command as a separate Bash tool call.
+- **Use parallel tool calls** for independent commands instead of chaining them sequentially.
+
 ## Development Standards
 
 - **Principle of Least Astonishment**: System should be implemented and behave in commonly expected ways.
