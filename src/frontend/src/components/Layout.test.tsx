@@ -1,10 +1,29 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { screen } from '@testing-library/react';
 import { Routes, Route } from 'react-router-dom';
 import Layout from './Layout';
 import { renderWithProviders } from '../test/testUtils';
 
+const originalMatchMedia = window.matchMedia;
+
+function mockMatchMedia(prefersDark: boolean) {
+  window.matchMedia = vi.fn().mockReturnValue({
+    matches: prefersDark,
+    media: '(prefers-color-scheme: dark)',
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+  });
+}
+
 describe('Layout', () => {
+  beforeEach(() => {
+    mockMatchMedia(false);
+  });
+
+  afterEach(() => {
+    window.matchMedia = originalMatchMedia;
+  });
+
   it('renders the Skiploom header', () => {
     renderWithProviders(
       <Routes>
@@ -93,5 +112,29 @@ describe('Layout', () => {
       </Routes>,
     );
     expect(screen.queryByText('Test User')).not.toBeInTheDocument();
+  });
+
+  it('renders sun icon when OS prefers light color scheme', () => {
+    mockMatchMedia(false);
+    renderWithProviders(
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<div>Page</div>} />
+        </Route>
+      </Routes>,
+    );
+    expect(screen.getByTitle('Light mode active')).toBeInTheDocument();
+  });
+
+  it('renders moon icon when OS prefers dark color scheme', () => {
+    mockMatchMedia(true);
+    renderWithProviders(
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<div>Page</div>} />
+        </Route>
+      </Routes>,
+    );
+    expect(screen.getByTitle('Dark mode active')).toBeInTheDocument();
   });
 });
