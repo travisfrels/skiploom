@@ -6,6 +6,7 @@ The source code for the frontend UX of skiploom.
 
 - `api/`: Backend API client
 - `components/`: React components
+- `hooks/`: Custom React hooks
 - `operations/`: Orchestration of API calls and state mutations
 - `store/`: Redux store, actions, and reducers
 - `test/`: Unit test configuration
