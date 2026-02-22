@@ -14,6 +14,7 @@ Plan the GitHub issue $ARGUMENTS
     * Use the assess-alternatives skill to evaluate them.
     * Present the analysis and recommendation to the user and get explicit confirmation before proceeding.
     * If the user rejects the recommendation, refine the alternatives and re-present.
+    * After the user confirms the recommendation, evaluate the decision against the ADR eligibility criteria in `docs/adrs/CLAUDE.md`. For decisions that meet the criteria, use the create-adr skill to create the ADR.
 4. Assign the issue using `gh issue edit $ARGUMENTS --add-assignee @me`.
 5. Checkout a working branch from `main` using `git checkout main && git checkout -b issue-$ARGUMENTS-{slugified_issue_title}`.
 6. Push the branch to origin using `git push --set-upstream origin issue-$ARGUMENTS-{slugified_issue_title}`.

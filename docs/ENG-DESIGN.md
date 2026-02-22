@@ -57,7 +57,7 @@ Three-tier application with clear separation of concerns.
 
 #### E2E Testing
 
-E2E tests run against the full Docker Compose stack and require authenticated sessions. Since the real OAuth2 provider (Google) is unavailable in automated test environments, the backend provides a profile-gated authentication bypass.
+E2E tests run against the full Docker Compose stack and require authenticated sessions. Since the real OAuth2 provider (Google) is unavailable in automated test environments, the backend provides a profile-gated authentication bypass (see [ADR-DEV-E2EAUTHBYPASS-20260218](adrs/ADR-DEV-E2EAUTHBYPASS-20260218.md)).
 
 **Auth Bypass Pattern**
 
@@ -185,7 +185,7 @@ Infrastructure, search, and backup/restore details are covered in the ADR.
 
 ### Secrets Management
 
-Secrets are managed through file-based secrets, never hardcoded in source-controlled files.
+Secrets are managed through file-based secrets, never hardcoded in source-controlled files (see [ADR-OP-SECRETS-20260215](adrs/ADR-OP-SECRETS-20260215.md)).
 
 #### Workflow
 
@@ -212,7 +212,7 @@ Secrets are managed through file-based secrets, never hardcoded in source-contro
 
 ### Feature Flagging
 
-Togglz provides a feature flag system for controlled rollout and operational safety. Feature flags are defined as Kotlin enum entries, persisted in PostgreSQL via JDBC, and exposed to the frontend through a REST query endpoint.
+Togglz provides a feature flag system for controlled rollout and operational safety (see [ADR-OP-FEATUREFLAGGING-20260220](adrs/ADR-OP-FEATUREFLAGGING-20260220.md)). Feature flags are defined as Kotlin enum entries, persisted in PostgreSQL via JDBC, and exposed to the frontend through a REST query endpoint.
 
 #### Toggle Categories
 
