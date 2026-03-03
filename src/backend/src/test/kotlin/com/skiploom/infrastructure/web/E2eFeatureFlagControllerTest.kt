@@ -43,6 +43,15 @@ class E2eFeatureFlagControllerTest {
     }
 
     @Test
+    fun `POST returns 400 for unknown feature flag`() {
+        mockMvc.perform(
+            post("/api/e2e/feature-flags/NONEXISTENT_FLAG")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""{"enabled": true}""")
+        ).andExpect(status().isBadRequest)
+    }
+
+    @Test
     fun `POST disables a feature flag`() {
         featureManager.enable(Feature { SkiploomFeatures.FRACTION_AMOUNTS.name })
 

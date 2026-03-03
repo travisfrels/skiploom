@@ -22,7 +22,10 @@ class E2eFeatureFlagController(
         @PathVariable featureName: String,
         @RequestBody request: FeatureFlagRequest
     ): ResponseEntity<Void> {
-        val feature = Feature { SkiploomFeatures.valueOf(featureName).name }
+        if (SkiploomFeatures.entries.none { it.name == featureName }) {
+            return ResponseEntity.badRequest().build()
+        }
+        val feature = Feature { featureName }
         if (request.enabled) {
             featureManager.enable(feature)
         } else {
