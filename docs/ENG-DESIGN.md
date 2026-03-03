@@ -74,9 +74,13 @@ The `e2e` Spring profile activates two classes that are inert in all other envir
 docker compose -f compose.yml -f compose.e2e.yml up -d
 ```
 
+**Feature Flag Toggle**
+
+`E2eFeatureFlagController` (`@Profile("e2e")`, `@RestController`): Exposes `POST /api/e2e/feature-flags/{featureName}` with a JSON body `{ "enabled": true|false }`. Delegates to the injected `FeatureManager` to enable or disable the named flag in the Togglz JDBC state repository. Tests use the `setFeatureFlag` helper in `e2e/helpers.ts` to toggle flags in `beforeAll`/`afterAll` hooks, scoping flag state to individual spec files without affecting other test suites.
+
 **Security Boundaries**
 
-- The bypass is strictly gated behind `@Profile("e2e")` — neither `E2eSecurityConfig` nor `E2eLoginController` loads unless the profile is active.
+- The bypass is strictly gated behind `@Profile("e2e")` — neither `E2eSecurityConfig` nor `E2eLoginController` loads unless the profile is active. `E2eFeatureFlagController` uses the same profile gate.
 - The `/api/e2e/**` namespace is isolated from production API routes (`/api/commands/**`, `/api/queries/**`, `/api/health`).
 - The compose override only applies when explicitly included (`-f compose.e2e.yml`); the base `compose.yml` never activates the `e2e` profile.
 
@@ -100,7 +104,7 @@ Three cleanup patterns cover all current test scenarios:
 
 **Helper Functions**
 
-Setup and teardown use direct API calls (not UI interactions) via a CSRF-aware wrapper (`apiPost`) for speed and decoupling from the UI layer. Shared helpers (`createTestRecipe`, `deleteTestRecipe`) live in `e2e/helpers.ts` and are imported by each spec file. Each spec defines its own `TEST_RECIPE` constant and passes it to `createTestRecipe`.
+Setup and teardown use direct API calls (not UI interactions) via a CSRF-aware wrapper (`apiPost`) for speed and decoupling from the UI layer. Shared helpers (`createTestRecipe`, `deleteTestRecipe`, `setFeatureFlag`) live in `e2e/helpers.ts` and are imported by each spec file. Each spec defines its own `TEST_RECIPE` constant and passes it to `createTestRecipe`.
 
 **Color Assertions**
 
