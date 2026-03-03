@@ -11,7 +11,9 @@ Review GitHub pull request $ARGUMENTS
 2. Fetch PR comments using `gh pr view $ARGUMENTS --comments`
 3. Fetch PR reviews using `gh pr view $ARGUMENTS --json reviews --jq '.reviews'`
 4. Fetch PR diff using `gh pr diff $ARGUMENTS`
-5. Fetch related issue using `gh issue view {related-issue} && gh issue view {related-issue} --comments`
+5. Fetch related issue using:
+  - `gh issue view {related-issue}`
+  - `gh issue view {related-issue} --comments`
 
 ## Review the Pull Request
 
@@ -39,8 +41,8 @@ Review GitHub pull request $ARGUMENTS
    * Are there stale README.md, CLAUDE.md, or RUNBOOK.md files?
    * If the change introduces or modifies an operational capability, does the runbook cover it?
 6. Determine if this body of work stays true to the intent of the issue, associated project document (docs/projects), and eng-design (docs/ENG-DESIGN.md).
-   * If yes, clearly state that the pull request is acceptable and explain why.
-   * If no, explain the specific deficiencies, calling out anti-patterns by name if applicable. For each deficiency, propose a concrete alternative.
+   * If yes, then use a comment to clearly state that the pull request is acceptable and explain why.
+   * If no, then use a comment explain the specific deficiencies, calling out anti-patterns by name if applicable. For each deficiency, propose a concrete alternative.
 
 ## Classify Findings
 
