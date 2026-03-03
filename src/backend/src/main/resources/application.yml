@@ -20,7 +20,7 @@ spring:
 togglz:
   console:
     enabled: true
-    secured: true
+    secured: false
     use-management-port: false
 
 logging:
