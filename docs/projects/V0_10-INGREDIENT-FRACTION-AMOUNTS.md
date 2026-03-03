@@ -39,7 +39,7 @@ The conversion utility handles a bounded set of recipe fractions: halves, thirds
 |----------|--------|-----------|
 | Conversion layer | Frontend only | Fraction display is a view concern. The underlying numeric storage is correct. No backend or database changes needed. |
 | Fraction format | Text fractions ("1/2") | Consistent format for both input and display. Unicode vulgar fractions add encoding complexity without clear value for ~5 users. YAGNI. |
-| Supported fractions | Halves, thirds, quarters, eighths | Covers the standard recipe fraction set. Values outside this set fall back to decimal display. |
+| Supported fractions | Whole numbers, halves, thirds, quarters, eighths, and mixed numbers | Covers the standard recipe fraction set. Values outside this set fall back to decimal display. |
 | Feature flag type | Release toggle | Short-lived flag to guard incomplete work during development. Remove after feature is stable in production per existing cleanup convention. |
 
 ## Goals
@@ -62,7 +62,7 @@ The conversion utility handles a bounded set of recipe fractions: halves, thirds
 
 - [ ] `FRACTION_AMOUNTS` feature flag added to `SkiploomFeatures.kt` and available via feature flags endpoint
 - [ ] Fraction conversion utility converts decimals to fraction strings for the supported set (halves, thirds, quarters, eighths, mixed numbers, whole numbers)
-- [ ] Fraction conversion utility parses fraction strings to decimals (e.g., "1/2" → 0.5, "1 1/3" → 1.333...)
+- [ ] Fraction conversion utility parses fraction strings to decimals (e.g., "1/2" → 0.5, "1 1/3" → ≈ 1.333)
 - [ ] Values outside the supported fraction set fall back to decimal display
 - [ ] `IngredientList` displays amounts as fractions when `FRACTION_AMOUNTS` flag is enabled
 - [ ] `IngredientList` displays amounts as decimals when `FRACTION_AMOUNTS` flag is disabled (current behavior)
