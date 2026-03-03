@@ -90,7 +90,7 @@ The conversion utility handles a bounded set of recipe fractions: whole numbers,
 
 ### Pull Requests
 
-(none yet)
+- [PR #129: #123 Create fraction conversion utility](https://github.com/travisfrels/skiploom/pull/129)
 
 ### Design References
 

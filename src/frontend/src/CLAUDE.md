@@ -11,6 +11,7 @@ The source code for the frontend UX of skiploom.
 - `store/`: Redux store, actions, and reducers
 - `test/`: Unit test configuration
 - `types/`: TypeScript interfaces
+- `utils/`: Pure utility functions
 
 ## Coding Standards
 
