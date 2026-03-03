@@ -1,21 +1,18 @@
 ---
 name: create-project
-description: Create a local project file and GitHub Milestone. Use when creating a project, typically after using the plan-project skill.
+description: Create a local project file and GitHub Milestone. Use when creating a project after using the plan-project skill.
 ---
 
 Create project within a local project file (docs/projects) around $ARGUMENTS.
 
 ## Workflow
 
-1. Create a GitHub Milestone matching the project title using `gh api repos/{owner}/{repo}/milestones -f title="V{VERSION} {Initiative Name}"`
+1. Create a GitHub issue the represent project creation.
+2. Create a working branch to use with the project creation GitHub issue.
+3. Create a GitHub Milestone matching the project title using `gh api repos/{owner}/{repo}/milestones -f title="V{VERSION} {Initiative Name}"`
    * The milestone title must match the project title exactly (e.g., `V0.7 Project Workflow`).
-
-2. Create the project file at `docs/projects/V{VERSION}-{INITIATIVE}.md` using the template in `docs/projects/TEMPLATE.md`.
-   * If invoked after the plan-project skill, populate template sections from the confirmed research brief.
-   * If design references were collected, populate the `### Design References` section.
-   * Include the milestone URL in the `## References` section:
-     ```markdown
-     - [Milestone: V{VERSION} {Initiative Name}](https://github.com/{owner}/{repo}/milestone/{number})
-     ```
-
-3. ADRs and tasks are created during project execution, not pre-defined.
+4. Create the project file at `docs/projects/V{VERSION}-{INITIATIVE}.md` using the template in `docs/projects/TEMPLATE.md`.
+   * Populate template sections from the confirmed research brief.
+   * Populate the `### Design References` section from the collected design references.
+   * Include the milestone URL in the `## References` section.
+5. Use the `create-issue` skill to create the GitHub issues.
