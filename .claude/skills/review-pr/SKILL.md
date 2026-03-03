@@ -33,10 +33,11 @@ Review GitHub pull request $ARGUMENTS
    * Do the tests effectively validate functionality, handle edge cases, and objectively follow best practices for testing?
    * Are there any redundant, missing, or ineffective tests?
    * Are tests each covering one-and-only-one behavior?
-5. Assess documentation coverage and quality including README.md, CLAUDE.md, and project files.
+5. Assess documentation coverage and quality including README.md, CLAUDE.md, RUNBOOK.md, and project files.
    * Is the documentation clear, concise, comprehensive, up-to-date, and audience appropriate?
    * Does the documentation effectively communicate the purpose, intention, and usage of the code?
-   * Are there stale README.md or CLAUDE.md files?
+   * Are there stale README.md, CLAUDE.md, or RUNBOOK.md files?
+   * If the change introduces or modifies an operational capability, does the runbook cover it?
 6. Determine if this body of work stays true to the intent of the issue, associated project document (docs/projects), and eng-design (docs/ENG-DESIGN.md).
    * If yes, clearly state that the pull request is acceptable and explain why.
    * If no, explain the specific deficiencies, calling out anti-patterns by name if applicable. For each deficiency, propose a concrete alternative.

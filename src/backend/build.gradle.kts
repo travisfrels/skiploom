@@ -30,6 +30,7 @@ dependencies {
     implementation("org.togglz:togglz-spring-boot-starter:4.6.1")
     implementation("org.togglz:togglz-kotlin:4.6.1")
     implementation("org.togglz:togglz-spring-security:4.6.1")
+    implementation("org.togglz:togglz-console:4.6.1")
     implementation("org.flywaydb:flyway-database-postgresql")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("tools.jackson.module:jackson-module-kotlin")
