@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAppSelector } from '../store/hooks';
 import * as ops from '../operations';
 import type { Ingredient, Step } from '../types';
+import { decimalToFractionString, fractionStringToDecimal } from '../utils/fractions';
 import BackLink from './BackLink';
 import Button from './Button';
 import ButtonLink from './ButtonLink';
@@ -21,6 +22,9 @@ function RecipeForm({ mode }: RecipeFormProps) {
     : null
   );
 
+  const fractionAmounts = useAppSelector(
+    (state) => state.featureFlags.featureFlags.FRACTION_AMOUNTS ?? false
+  );
   const submitting = useAppSelector((state) => state.recipes.submitting);
   const validationErrors = useAppSelector((state) => state.recipes.validationErrors);
 
@@ -29,6 +33,7 @@ function RecipeForm({ mode }: RecipeFormProps) {
   const [ingredients, setIngredients] = useState<Ingredient[]>([
     { orderIndex: 1, amount: 1, unit: '', name: '' }
   ]);
+  const [amountText, setAmountText] = useState<Record<number, string>>({ 1: '1' });
   const [steps, setSteps] = useState<Step[]>([
     { orderIndex: 1, instruction: '' },
   ]);
@@ -51,24 +56,40 @@ function RecipeForm({ mode }: RecipeFormProps) {
       setDescription(currentRecipe.description || '');
       setIngredients(structuredClone(currentRecipe.ingredients));
       setSteps(structuredClone(currentRecipe.steps));
+      const textMap: Record<number, string> = {};
+      for (const ing of currentRecipe.ingredients) {
+        textMap[ing.orderIndex] = fractionAmounts
+          ? decimalToFractionString(ing.amount)
+          : String(ing.amount);
+      }
+      setAmountText(textMap);
     }
-  }, [currentRecipe]);
+  }, [currentRecipe, fractionAmounts]);
 
   const addIngredient = () => {
+    const newOrderIndex = ingredients.length + 1;
     setIngredients([
       ...ingredients,
-      { orderIndex: ingredients.length + 1, amount: 1, unit: '', name: '' },
+      { orderIndex: newOrderIndex, amount: 1, unit: '', name: '' },
     ]);
+    setAmountText((prev) => ({ ...prev, [newOrderIndex]: '1' }));
   };
 
   const removeIngredient = (orderIndex: number) => {
     if (ingredients.length > 1) {
-      setIngredients(
-        ingredients
-          .filter((i) => i.orderIndex !== orderIndex)
-          .map((i, index) => ({ ...i, orderIndex: index + 1 }))
-      );
+      const filtered = ingredients.filter((i) => i.orderIndex !== orderIndex);
+      const reindexed = filtered.map((i, index) => ({ ...i, orderIndex: index + 1 }));
+      setIngredients(reindexed);
+      const newText: Record<number, string> = {};
+      filtered.forEach((original, index) => {
+        newText[index + 1] = amountText[original.orderIndex] ?? String(original.amount);
+      });
+      setAmountText(newText);
     }
+  };
+
+  const updateAmountText = (orderIndex: number, text: string) => {
+    setAmountText((prev) => ({ ...prev, [orderIndex]: text }));
   };
 
   const updateIngredient = (
@@ -105,12 +126,22 @@ function RecipeForm({ mode }: RecipeFormProps) {
     e.preventDefault();
 
     const submittedIngredients = ingredients
-      .map((i, index) => ({
-        orderIndex: index + 1,
-        amount: i.amount,
-        unit: i.unit.trim(),
-        name: i.name.trim(),
-      }));
+      .map((i, index) => {
+        let amount: number;
+        if (fractionAmounts) {
+          const text = amountText[i.orderIndex] ?? '';
+          const parsed = fractionStringToDecimal(text);
+          amount = Number.isNaN(parsed) ? 0 : parsed;
+        } else {
+          amount = i.amount;
+        }
+        return {
+          orderIndex: index + 1,
+          amount,
+          unit: i.unit.trim(),
+          name: i.name.trim(),
+        };
+      });
 
     const submittedSteps = steps
       .map((s, index) => ({
@@ -206,21 +237,31 @@ function RecipeForm({ mode }: RecipeFormProps) {
             {ingredients.map((ingredient, index) => (
               <div key={ingredient.orderIndex}>
                 <div className="flex gap-3 items-start">
-                  <input
-                    type="number"
-                    value={ingredient.amount}
-                    onChange={(e) =>
-                      updateIngredient(
-                        ingredient.orderIndex,
-                        'amount',
-                        parseFloat(e.target.value) || 0
-                      )
-                    }
-                    className={`w-20 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-800 ${getFieldError(`ingredients[${index}].amount`) ? 'border-red-500 dark:border-red-400' : 'border-slate-300 dark:border-slate-600'}`}
-                    placeholder="Amt"
-                    min="0"
-                    step="0.25"
-                  />
+                  {fractionAmounts ? (
+                    <input
+                      type="text"
+                      value={amountText[ingredient.orderIndex] ?? ''}
+                      onChange={(e) => updateAmountText(ingredient.orderIndex, e.target.value)}
+                      className={`w-20 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-800 ${getFieldError(`ingredients[${index}].amount`) ? 'border-red-500 dark:border-red-400' : 'border-slate-300 dark:border-slate-600'}`}
+                      placeholder="Amt"
+                    />
+                  ) : (
+                    <input
+                      type="number"
+                      value={ingredient.amount}
+                      onChange={(e) =>
+                        updateIngredient(
+                          ingredient.orderIndex,
+                          'amount',
+                          parseFloat(e.target.value) || 0
+                        )
+                      }
+                      className={`w-20 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-800 ${getFieldError(`ingredients[${index}].amount`) ? 'border-red-500 dark:border-red-400' : 'border-slate-300 dark:border-slate-600'}`}
+                      placeholder="Amt"
+                      min="0"
+                      step="0.25"
+                    />
+                  )}
                   <input
                     type="text"
                     value={ingredient.unit}

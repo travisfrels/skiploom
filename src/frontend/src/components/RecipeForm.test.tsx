@@ -126,6 +126,138 @@ describe('RecipeForm', () => {
     });
   });
 
+  describe('Fraction amounts', () => {
+    it('renders text input for ingredient amount when FRACTION_AMOUNTS is enabled', () => {
+      renderWithProviders(
+        <Routes>
+          <Route path="/recipes/new" element={<RecipeForm mode="new" />} />
+        </Routes>,
+        {
+          initialEntries: ['/recipes/new'],
+          preloadedState: {
+            featureFlags: { featureFlags: { FRACTION_AMOUNTS: true } },
+          },
+        }
+      );
+      const amountInput = screen.getByPlaceholderText('Amt');
+      expect(amountInput).toHaveAttribute('type', 'text');
+    });
+
+    it('renders number input for ingredient amount when FRACTION_AMOUNTS is disabled', () => {
+      renderWithProviders(
+        <Routes>
+          <Route path="/recipes/new" element={<RecipeForm mode="new" />} />
+        </Routes>,
+        {
+          initialEntries: ['/recipes/new'],
+          preloadedState: {
+            featureFlags: { featureFlags: { FRACTION_AMOUNTS: false } },
+          },
+        }
+      );
+      const amountInput = screen.getByPlaceholderText('Amt');
+      expect(amountInput).toHaveAttribute('type', 'number');
+    });
+
+    it('renders number input for ingredient amount when flag is not set', () => {
+      renderWithProviders(
+        <Routes>
+          <Route path="/recipes/new" element={<RecipeForm mode="new" />} />
+        </Routes>,
+        { initialEntries: ['/recipes/new'] }
+      );
+      const amountInput = screen.getByPlaceholderText('Amt');
+      expect(amountInput).toHaveAttribute('type', 'number');
+    });
+
+    it('accepts fraction notation in text input when flag is enabled', async () => {
+      const user = userEvent.setup();
+      renderWithProviders(
+        <Routes>
+          <Route path="/recipes/new" element={<RecipeForm mode="new" />} />
+        </Routes>,
+        {
+          initialEntries: ['/recipes/new'],
+          preloadedState: {
+            featureFlags: { featureFlags: { FRACTION_AMOUNTS: true } },
+          },
+        }
+      );
+      const amountInput = screen.getByPlaceholderText('Amt');
+      await user.clear(amountInput);
+      await user.type(amountInput, '1/2');
+      expect(amountInput).toHaveValue('1/2');
+    });
+
+    it('pre-populates amount as fraction string when editing with flag enabled', async () => {
+      const testRecipe = {
+        id: 'test-1',
+        title: 'Test Recipe',
+        description: '',
+        ingredients: [{ orderIndex: 1, amount: 0.5, unit: 'cup', name: 'sugar' }],
+        steps: [{ orderIndex: 1, instruction: 'Mix' }],
+      };
+      renderWithProviders(
+        <Routes>
+          <Route path="/recipes/:id/edit" element={<RecipeForm mode="edit" />} />
+        </Routes>,
+        {
+          initialEntries: ['/recipes/test-1/edit'],
+          preloadedState: {
+            featureFlags: { featureFlags: { FRACTION_AMOUNTS: true } },
+            recipes: {
+              recipes: { 'test-1': testRecipe },
+              recipesLoaded: true,
+              currentRecipeId: 'test-1',
+              loading: false,
+              error: null,
+              validationErrors: [],
+              submitting: false,
+            },
+          },
+        }
+      );
+      await waitFor(() => {
+        const amountInput = screen.getByPlaceholderText('Amt');
+        expect(amountInput).toHaveValue('1/2');
+      });
+    });
+
+    it('pre-populates amount as decimal when editing with flag disabled', async () => {
+      const testRecipe = {
+        id: 'test-1',
+        title: 'Test Recipe',
+        description: '',
+        ingredients: [{ orderIndex: 1, amount: 0.5, unit: 'cup', name: 'sugar' }],
+        steps: [{ orderIndex: 1, instruction: 'Mix' }],
+      };
+      renderWithProviders(
+        <Routes>
+          <Route path="/recipes/:id/edit" element={<RecipeForm mode="edit" />} />
+        </Routes>,
+        {
+          initialEntries: ['/recipes/test-1/edit'],
+          preloadedState: {
+            featureFlags: { featureFlags: { FRACTION_AMOUNTS: false } },
+            recipes: {
+              recipes: { 'test-1': testRecipe },
+              recipesLoaded: true,
+              currentRecipeId: 'test-1',
+              loading: false,
+              error: null,
+              validationErrors: [],
+              submitting: false,
+            },
+          },
+        }
+      );
+      await waitFor(() => {
+        const amountInput = screen.getByPlaceholderText('Amt');
+        expect(amountInput).toHaveValue(0.5);
+      });
+    });
+  });
+
   describe('Edit mode', () => {
     it('shows not found when recipe does not exist', () => {
       renderWithProviders(
