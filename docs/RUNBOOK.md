@@ -35,6 +35,17 @@ The script rebuilds and restarts the staging containers, then verifies all servi
 | `backend-staging` | 8081 | 8080 |
 | `frontend-staging` | 5174 | 80 |
 
+## Feature Flags
+
+Feature flags are managed through the Togglz admin console.
+
+- **URL**: [Development Togglz Admin Console](http://localhost:8080/togglz-console/), [Staging Togglz Admin Console](http://localhost:8081/togglz-console/)
+- **Access**: Requires OAuth2 authentication — any authenticated user can manage flags
+- **Capabilities**: View all defined flags, enable/disable flags, and configure activation strategies
+- **Persistence**: Flag state is stored in the `togglz` table in PostgreSQL. Changes take effect immediately.
+
+The console is only accessible directly on the backend port. It is not proxied through the frontend.
+
 ## Branch Protection
 
 The `main` branch is protected with classic branch protection rules enforced for all users, including administrators. All changes must go through a pull request with passing CI (`Backend Tests` and `Frontend Tests`). No review approval is required.
