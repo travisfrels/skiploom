@@ -26,7 +26,7 @@ When the flag is **enabled**:
 
 When the flag is **disabled**: current behavior preserved exactly.
 
-The conversion utility handles a bounded set of recipe fractions: halves, thirds, quarters, eighths, and their mixed-number forms. Values outside this set fall back to decimal display.
+The conversion utility handles a bounded set of recipe fractions: whole numbers, halves, thirds, quarters, eighths, and their mixed-number forms. Values outside this set fall back to decimal display.
 
 #### Alternatives not chosen
 
