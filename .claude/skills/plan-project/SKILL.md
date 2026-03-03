@@ -23,4 +23,3 @@ Plan a project around $ARGUMENTS
 9. Evaluate each decision in the Approach section against the ADR eligibility criteria in `docs/adrs/CLAUDE.md`. For decisions that meet the criteria, use the create-adr skill to create the ADR. Link the ADR in the research brief's Design References.
 10. Use the `create-project` skill to create the project definition file and GitHub Milestone from the confirmed research brief.
   - Note the project file path for step 11.
-11. Use the `create-issue` skill to create GitHub issues from the Issue Decomposition using the create-issue skill. Assign each issue to the project milestone. Link created issues in the project file's References section using the project file path from step 10.
