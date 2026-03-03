@@ -1,6 +1,6 @@
 ---
 name: create-project
-description: Create a local project file and GitHub Milestone. Use when creating a project, typically after using the plan-project skill.
+description: Create a local project file and GitHub Milestone. Use when creating a project after using the plan-project skill.
 ---
 
 Create project within a local project file (docs/projects) around $ARGUMENTS.
@@ -17,5 +17,3 @@ Create project within a local project file (docs/projects) around $ARGUMENTS.
      ```markdown
      - [Milestone: V{VERSION} {Initiative Name}](https://github.com/{owner}/{repo}/milestone/{number})
      ```
-
-3. ADRs and tasks are created during project execution, not pre-defined.
