@@ -7,15 +7,19 @@ Create a GitHub Issue, using the GitHub (`gh`) CLI, about $ARGUMENTS
 
 ## Workflow
 
-1. **Determine milestone**: Scan `docs/projects/*.md` for files with `Status: Active` in their header table. For each match, extract the project title (the first `#` heading) — this is the milestone title.
-   - If one or more Active projects are found: present the list and ask the user to select a milestone or "none (standalone issue)".
-   - If no Active projects are found: proceed without a milestone.
+1. **Determine milestone**: Determine the milestone and project from context.
+   - If you were called from the `create-project` skill, then use that project.
+   - If you were called directly, then there is no milesone.
 2. **Draft the issue** following the `## Issue Structure` and `## Style` guidelines below.
 3. **Create the issue**: `gh issue create --title "{title}" --body "{body}"` — include `--milestone "{title}"` if a milestone was selected in step 1.
 
 ## Issue Structure:
 
 ```markdown
+## Project Reference
+
+[{project-title}]({project-file-location})
+
 ## What is wrong?
 
 Clearly and concisely describe the problem including any details about how to observe the problem directly. Explain the impact the problem is having on the system and/or stakeholders. Quantifying with data where it is possible to reference this data. Describe any workarounds currently used to compensate for the issue.
