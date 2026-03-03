@@ -23,9 +23,8 @@ Skiploom is a recipe management system.
 
 ## Command Style
 
-- **compound commands are strictly prohibited**: Compound commands require manual input because they cannot be evaluated using the `settings.local.json`.
+- **compound commands are strictly prohibited**: Compound commands require manual input because they cannot be evaluated using the `settings.local.json` file.
   - Issue each command as a separate Bash tool call.
-- **Use parallel tool calls** for independent commands instead of chaining them sequentially.
 
 ## Development Standards
 
