@@ -37,3 +37,22 @@ export async function createTestRecipe(context: BrowserContext, recipe: TestReci
 export async function deleteTestRecipe(context: BrowserContext, id: string): Promise<void> {
     await apiPost(context, '/commands/delete_recipe', { id })
 }
+
+// /api/e2e/** endpoints bypass CSRF and authentication (E2eSecurityConfig),
+// so no XSRF token handling is needed here.
+export async function setFeatureFlag(
+    context: BrowserContext,
+    featureName: string,
+    enabled: boolean
+): Promise<void> {
+    const response = await context.request.post(
+        `${BASE_URL}/api/e2e/feature-flags/${featureName}`,
+        {
+            headers: { 'Content-Type': 'application/json' },
+            data: { enabled },
+        }
+    )
+    if (!response.ok()) {
+        throw new Error(`Set feature flag ${featureName} failed: ${response.status()}`)
+    }
+}

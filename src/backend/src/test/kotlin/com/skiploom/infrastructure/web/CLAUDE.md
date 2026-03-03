@@ -4,6 +4,7 @@ Unit tests for REST controllers (`/main/**/infrastructure/web/`) verifying deleg
 
 ## Contents
 
+- **E2eFeatureFlagControllerTest.kt**: Tests for `E2eFeatureFlagController` (feature flag toggling via MockMvc)
 - **E2eLoginControllerTest.kt**: Tests for `E2eLoginController` (E2E login endpoint via MockMvc)
 - **FeatureFlagQueryControllerTest.kt**: Tests for `FeatureFlagQueryController` (fetch feature flags via MockMvc)
 - **HealthControllerTest.kt**: Tests for `HealthController` (health endpoint via MockMvc)

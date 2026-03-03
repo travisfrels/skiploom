@@ -42,6 +42,7 @@ The conversion utility handles a bounded set of recipe fractions: whole numbers,
 | Fraction format | Text fractions ("1/2") | Consistent format for both input and display. Unicode vulgar fractions add encoding complexity without clear value for ~5 users. YAGNI. |
 | Supported fractions | Whole numbers, halves, thirds, quarters, eighths, and mixed numbers | Covers the standard recipe fraction set. Values outside this set fall back to decimal display. |
 | Feature flag type | Release toggle | Short-lived flag to guard incomplete work during development. Remove after feature is stable in production per existing cleanup convention. |
+| E2E feature flag toggling | Custom E2E endpoint (`POST /api/e2e/feature-flags/{featureName}`) | Follows `E2eLoginController` pattern; reusable; per-test isolation; stable against Togglz upgrades. Alternatives rejected: Togglz admin console form POST (fragile coupling to internal URLs), database seeding (no per-test isolation). |
 
 ## Goals
 
