@@ -13,8 +13,9 @@ Analysis must focus on processes, tooling, and systemic conditions — not indiv
 
 1. Read `docs/ENG-DESIGN.md`.
 2. Read the project documentation in `docs/projects`.
-3. Read the project issue(s) and pull request(s):
+3. Read the project milestone, issue(s), and pull request(s):
    ```bash
+   gh api repos/travisfrels/skiploom/milestones/{milestone-id} --jq '{title: .title, state: .state, open_issues: .open_issues, closed_issues: .closed_issues}'
    gh issue view {issue_id}
    gh issue view {issue_id} --comments
    gh issue view {issue_id} --json createdAt,closedAt
