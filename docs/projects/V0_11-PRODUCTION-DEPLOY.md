@@ -76,6 +76,7 @@ Mirror the staging deploy pattern: add production services to `compose.yml` unde
 - [PR #154: #150 Create deploy-production.sh script](https://github.com/travisfrels/skiploom/pull/154)
 - [PR #156: #155 Inline sub-skill references to prevent turn-boundary orphaning](https://github.com/travisfrels/skiploom/pull/156)
 - [PR #157: #152 Document production deploy in Runbook](https://github.com/travisfrels/skiploom/pull/157)
+- [PR #161: #158 Post-Mortem: V0.11 Production Deploy](https://github.com/travisfrels/skiploom/pull/161)
 
 ### Design References
 
