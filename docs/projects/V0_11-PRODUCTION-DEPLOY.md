@@ -72,6 +72,7 @@ Mirror the staging deploy pattern: add production services to `compose.yml` unde
 ### Pull Requests
 
 - [PR #153: #149 Add production services to compose.yml](https://github.com/travisfrels/skiploom/pull/153)
+- [PR #154: #150 Create deploy-production.sh script](https://github.com/travisfrels/skiploom/pull/154)
 - [PR #156: #155 Inline sub-skill references to prevent turn-boundary orphaning](https://github.com/travisfrels/skiploom/pull/156)
 
 ### Design References
