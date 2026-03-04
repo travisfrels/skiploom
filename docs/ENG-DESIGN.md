@@ -130,7 +130,7 @@ Spring profiles control datasource configuration per environment. Each profile h
 - `application-development.yml` — local PostgreSQL (`skiploom-development`) with hardcoded non-secret values (`url`, `username`); secrets resolved via configtree from `/run/secrets/` (Docker) and `../../secrets/` (local Gradle run)
 - `application-test.yml` — secrets resolved via configtree from checked-in test secret files (`src/test/resources/secrets/`); datasource provided dynamically by Testcontainers `@ServiceConnection`
 - `application-staging.yml` — non-secret config (`url`, `username`) from environment variables; secrets resolved via configtree from `/run/secrets/`
-- `application-production.yml` — non-secret config (`url`, `username`) from environment variables; secrets resolved via configtree from `/run/secrets/` with `${ENV_VAR}` fallbacks
+- `application-production.yml` — non-secret config (`url`, `username`) from environment variables; secrets resolved via configtree from `/run/secrets/`
 
 Shared settings (server port, logging, application name) remain in the base `application.yml`.
 
