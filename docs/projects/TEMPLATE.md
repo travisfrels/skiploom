@@ -45,6 +45,12 @@ integrated system end-to-end (e.g., "Pipeline deploys to staging and serves traf
 Component-level criteria alone verify parts in isolation but not that the system functions
 as a whole.
 
+When a project introduces operational tooling (admin consoles, dashboards, management
+endpoints), include at least one criterion that exercises the tool end-to-end: navigate to
+it, authenticate, and perform the primary operation. Configuration-level checks (e.g.,
+"console accessible to authenticated users") are insufficient — they verify setup, not
+functionality.
+
 ## References
 
 - Links to the issues that were planned as part of this project's original scope.
