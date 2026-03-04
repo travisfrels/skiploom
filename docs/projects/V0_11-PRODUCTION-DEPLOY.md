@@ -3,6 +3,7 @@
 | Status | Set On |
 |--------|--------|
 | Draft | 2026-03-04 |
+| Active | 2026-03-04 |
 
 ## Context
 
@@ -70,7 +71,7 @@ Mirror the staging deploy pattern: add production services to `compose.yml` unde
 
 ### Pull Requests
 
-(none yet)
+- [PR #153: #149 Add production services to compose.yml](https://github.com/travisfrels/skiploom/pull/153)
 
 ### Design References
 
