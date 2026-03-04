@@ -48,7 +48,11 @@ Analyze the gathered context and participant input together. Artifact analysis a
    - **Title**: `[Post-Mortem] {opportunity summary}`
    - **Body**: contributing factors, category, priority (High / Medium / Low), and recommended action.
 3. **Append a `## Post-Mortem` section** to the project document with the analysis and links to the filed issues.
-4. Use the finish-issue skill to complete the post-mortem issue.
+4. **Complete the project:**
+   - Append a `| Done | {YYYY-MM-DD} |` row to the project document's status table.
+   - Close the GitHub milestone: `gh api repos/{owner}/{repo}/milestones/{number} --method PATCH -f state=closed`.
+   - Commit and push the project document update.
+5. Use the finish-issue skill to complete the post-mortem issue.
 
 ## Post-Mortem Template
 
