@@ -48,7 +48,7 @@ Analyze the gathered context and participant input together. Artifact analysis a
    - **Title**: `[Post-Mortem] {opportunity summary}`
    - **Body**: contributing factors, category, priority (High / Medium / Low), and recommended action.
 3. **Append a `## Post-Mortem` section** to the project document with the analysis and links to the filed issues.
-   - **Finish the Project Post-Mortem Issue**
+4. Use the finish-issue skill to complete the post-mortem issue.
 
 ## Post-Mortem Template
 
