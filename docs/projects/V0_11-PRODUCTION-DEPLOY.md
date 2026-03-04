@@ -60,6 +60,9 @@ Mirror the staging deploy pattern: add production services to `compose.yml` unde
 ## References
 
 - [Milestone: V0.11 Production Deploy](https://github.com/travisfrels/skiploom/milestone/6)
+- [Issue #149: Add production services to compose.yml](https://github.com/travisfrels/skiploom/issues/149)
+- [Issue #150: Create deploy-production.sh script](https://github.com/travisfrels/skiploom/issues/150)
+- [Issue #152: Document production deploy in Runbook](https://github.com/travisfrels/skiploom/issues/152)
 
 ### Follow-Up Issues
 
