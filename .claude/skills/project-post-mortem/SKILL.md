@@ -9,7 +9,7 @@ Perform a post-mortem analysis of project $ARGUMENTS
 
 Analysis must focus on processes, tooling, and systemic conditions — not individual decisions or behaviors. The goal is organizational learning, not accountability assignment. Do not frame findings as failures of people.
 
-## Gather Context
+## 1. Gather Post-Mortem Context
 
 1. Read `docs/ENG-DESIGN.md`.
 2. Read the project documentation in `docs/projects`.
@@ -25,7 +25,7 @@ Analysis must focus on processes, tooling, and systemic conditions — not indiv
    ```
 4. Ask the user: "Before analysis begins, please share any observations, surprises, or friction points you experienced during this project. This context is not visible in the artifacts."
 
-## Post-Mortem Analysis
+## 2. Post-Mortem Analysis
 
 Analyze the gathered context and participant input together. Artifact analysis alone is incomplete — weight participant observations accordingly.
 
@@ -35,10 +35,19 @@ Analyze the gathered context and participant input together. Artifact analysis a
    - **Successes** → What Went Well
    - **Failures** → What Went Wrong + contributing factors table (Issue | Contributing Factors | Category)
    - **Opportunities** → Recommendations, prioritized by impact (High / Medium / Low)
-4. **File GitHub issues** for each identified opportunity, ordered highest-priority first:
+
+## 3. Finish the Post-Mortem
+
+1. **Create a GitHub Issue**, to represent the project post-mortem.
+   - Assign the issue using `gh issue edit $ARGUMENTS --add-assignee @me`.
+   - Checkout a working branch from `main` using:
+      a. `git checkout main`
+      b. `git checkout -b issue-$ARGUMENTS-{slugified_issue_title}`
+2. **Create GitHub Issues** for each identified opportunity, ordered descending by priority:
    - **Title**: `[Post-Mortem] {opportunity summary}`
    - **Body**: contributing factors, category, priority (High / Medium / Low), and recommended action.
-5. **Append a `## Post-Mortem` section** to the project document with the analysis and links to the filed issues.
+3. **Append a `## Post-Mortem` section** to the project document with the analysis and links to the filed issues.
+   - **Finish the Project Post-Mortem Issue**
 
 ## Post-Mortem Template
 
