@@ -22,7 +22,7 @@ Transitions:
 
 ## Archive Convention
 
-When a major version milestone is reached, finalize the major version project document (status to Done, verify exit criteria, add narrative summary with references to all sub-projects), move completed project files from `docs/projects/` to `docs/projects/archive/`, update any external references to the archived paths, and close any stale GitHub milestones.
+Completed project files are archived to `docs/projects/archive/` at major version boundaries. Update any external references to the archived paths.
 
 ## Template
 

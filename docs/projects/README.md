@@ -49,6 +49,8 @@ Close out the project.
 - Conduct a post-mortem and record it in the project definition's Post-Mortem section.
 - Close the GitHub Milestone.
 
+When a major version milestone is reached, finalize the major version project document (status to Done, verify exit criteria, add narrative summary with references to all sub-projects), archive completed project files to `docs/projects/archive/`, update any external references to the archived paths, and close any stale GitHub milestones.
+
 ## Where Artifacts Live
 
 | Artifact | Location | Purpose |
