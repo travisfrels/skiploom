@@ -15,4 +15,4 @@ Create project within a local project file (docs/projects) around $ARGUMENTS.
    * Populate template sections from the confirmed research brief.
    * Populate the `### Design References` section from the collected design references.
    * Include the milestone URL in the `## References` section.
-5. Use the `create-issue` skill to create the GitHub issues.
+5. Create the GitHub issues for the project, each with `--milestone "{milestone title}"`. Follow the issue structure and style conventions in the `create-issue` skill definition.
