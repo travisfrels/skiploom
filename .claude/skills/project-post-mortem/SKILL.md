@@ -40,10 +40,10 @@ Analyze the gathered context and participant input together. Artifact analysis a
 ## 3. Finish the Post-Mortem
 
 1. **Create a GitHub Issue**, to represent the project post-mortem.
-   - Assign the issue using `gh issue edit $ARGUMENTS --add-assignee @me`.
+   - Assign the issue using `gh issue edit {issue-id} --add-assignee @me`.
    - Checkout a working branch from `main` using:
       a. `git checkout main`
-      b. `git checkout -b issue-$ARGUMENTS-{slugified_issue_title}`
+      b. `git checkout -b issue-{issue-id}-{slugified_issue_title}`
 2. **Create GitHub Issues** for each identified opportunity, ordered descending by priority:
    - **Title**: `[Post-Mortem] {opportunity summary}`
    - **Body**: contributing factors, category, priority (High / Medium / Low), and recommended action.
