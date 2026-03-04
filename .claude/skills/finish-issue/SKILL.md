@@ -21,6 +21,7 @@ Finish GitHub issue $ARGUMENTS
     - If this issue is a follow-up (not in the project's original scope), add the issue URL to the `### Follow-Up Issues` section.
     - Commit and push the project doc update.
 7. Check milestone progress:
+    - If the issue title starts with `Post-Mortem:`, skip this step (the project-post-mortem skill handles project completion).
     - Retrieve the issue's milestone: `gh issue view $ARGUMENTS --json milestone`.
     - If the issue has a milestone, query progress: `gh api repos/{owner}/{repo}/milestones/{number}`.
     - If `open_issues` is 1 (this is the last open issue in the milestone):
