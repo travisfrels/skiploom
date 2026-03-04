@@ -20,6 +20,10 @@ Transitions:
 - Any status may transition to Paused and back.
 - Transitions are appended to the status table.
 
+## Archive Convention
+
+When a major version milestone is reached, finalize the major version project document (status to Done, verify exit criteria, add narrative summary with references to all sub-projects), move completed project files from `docs/projects/` to `docs/projects/archive/`, update any external references to the archived paths, and close any stale GitHub milestones.
+
 ## Template
 
 See [`TEMPLATE.md`](TEMPLATE.md) for the full project file template.
