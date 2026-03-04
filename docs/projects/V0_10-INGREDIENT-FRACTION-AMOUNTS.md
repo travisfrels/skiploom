@@ -100,6 +100,7 @@ The conversion utility handles a bounded set of recipe fractions: whole numbers,
 - [PR #131: #124 Display ingredient amounts as fractions](https://github.com/travisfrels/skiploom/pull/131)
 - [PR #132: #125 Accept fraction input in recipe form](https://github.com/travisfrels/skiploom/pull/132)
 - [PR #133: #126 Add E2E test for fraction amounts](https://github.com/travisfrels/skiploom/pull/133)
+- [PR #143: #138 Post-mortem: V0.10 Ingredient Fraction Amounts](https://github.com/travisfrels/skiploom/pull/143)
 
 ### Design References
 
