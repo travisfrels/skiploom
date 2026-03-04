@@ -85,6 +85,6 @@ Each project definition file contains the following sections:
 
 These existing project files illustrate the workflow at different stages:
 
-- [V0.7 Project Workflow](V0_7-PROJECT-WORKFLOW.md) — Active project with milestone tracking
-- [V0.5 GitHub Migration](V0_5-GITHUB-MIGRATION.md) — Completed project with full post-mortem
-- [V0.1 Operational Persistence](V0_1-OP-PERSISTENCE.md) — Early completed project
+- [V0.7 Project Workflow](archive/V0_7-PROJECT-WORKFLOW.md) — Completed project with milestone tracking
+- [V0.5 GitHub Migration](archive/V0_5-GITHUB-MIGRATION.md) — Completed project with full post-mortem
+- [V0.1 Operational Persistence](archive/V0_1-OP-PERSISTENCE.md) — Early completed project
