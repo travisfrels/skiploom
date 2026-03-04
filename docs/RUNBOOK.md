@@ -35,11 +35,28 @@ The script rebuilds and restarts the staging containers, then verifies all servi
 | `backend-staging` | 8081 | 8080 |
 | `frontend-staging` | 5174 | 80 |
 
+## Production Deploy
+
+After merging a PR to `main`, deploy the latest code to the production stack:
+
+```bash
+bash scripts/deploy-production.sh
+```
+
+The script rebuilds and restarts the production containers, then verifies all services are healthy.
+
+### Ports
+
+| Service | Host Port | Container Port |
+|---------|-----------|----------------|
+| `backend-production` | 8082 | 8080 |
+| `frontend-production` | 5175 | 80 |
+
 ## Feature Flags
 
 Feature flags are managed through the Togglz admin console.
 
-- **URL**: [Development Togglz Admin Console](http://localhost:8080/togglz-console/), [Staging Togglz Admin Console](http://localhost:8081/togglz-console/)
+- **URL**: [Development Togglz Admin Console](http://localhost:8080/togglz-console/), [Staging Togglz Admin Console](http://localhost:8081/togglz-console/), [Production Togglz Admin Console](http://localhost:8082/togglz-console/)
 - **Access**: Requires OAuth2 authentication — any authenticated user can manage flags
 - **Capabilities**: View all defined flags, enable/disable flags, and configure activation strategies
 - **Persistence**: Flag state is stored in the `togglz` table in PostgreSQL. Changes take effect immediately.
