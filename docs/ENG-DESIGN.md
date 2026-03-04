@@ -217,7 +217,7 @@ Secrets are managed through file-based secrets, never hardcoded in source-contro
 
 - **Development**: Configtree reads from both `/run/secrets/` (Docker) and `../../secrets/` (local Gradle run).
 - **Staging**: Configtree reads from `/run/secrets/`. Non-secret config (`DATABASE_URL`, `DATABASE_USERNAME`) uses environment variables.
-- **Production**: Configtree reads from `/run/secrets/` with `${ENV_VAR}` fallbacks for environments not yet using file-based secrets.
+- **Production**: Configtree reads from `/run/secrets/`. Non-secret config (`DATABASE_URL`, `DATABASE_USERNAME`) uses environment variables.
 - **Test/CI**: Configtree reads from checked-in test secret files (`src/test/resources/secrets/`) containing well-known disposable values. A test-scoped `application.properties` sets `spring.profiles.active=test` for all tests. Testcontainers with `@ServiceConnection` provides a disposable PostgreSQL instance — no external database required locally or in CI.
 
 ### Feature Flagging
