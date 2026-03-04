@@ -49,6 +49,8 @@ Close out the project.
 - Conduct a post-mortem and record it in the project definition's Post-Mortem section.
 - Close the GitHub Milestone.
 
+When a major version milestone is reached, finalize the major version project document (status to Done, verify exit criteria, add narrative summary with references to all sub-projects), archive completed project files to `docs/projects/archive/`, update any external references to the archived paths, and close any stale GitHub milestones.
+
 ## Where Artifacts Live
 
 | Artifact | Location | Purpose |
@@ -80,11 +82,3 @@ Each project definition file contains the following sections:
 - **Exit Criteria** — Verifiable conditions that define "done." These are checkboxes verified against the running system at completion.
 - **References** — Links to related issues, follow-up issues, pull requests, and design references.
 - **Post-Mortem** — Added at completion. Includes a summary, what went well, what went wrong (with root-cause table), and recommendations.
-
-## Examples
-
-These existing project files illustrate the workflow at different stages:
-
-- [V0.7 Project Workflow](V0_7-PROJECT-WORKFLOW.md) — Active project with milestone tracking
-- [V0.5 GitHub Migration](V0_5-GITHUB-MIGRATION.md) — Completed project with full post-mortem
-- [V0.1 Operational Persistence](V0_1-OP-PERSISTENCE.md) — Early completed project

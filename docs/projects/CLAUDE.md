@@ -20,6 +20,10 @@ Transitions:
 - Any status may transition to Paused and back.
 - Transitions are appended to the status table.
 
+## Archive Convention
+
+Completed project files are archived to `docs/projects/archive/` at major version boundaries. Update any external references to the archived paths.
+
 ## Template
 
 See [`TEMPLATE.md`](TEMPLATE.md) for the full project file template.

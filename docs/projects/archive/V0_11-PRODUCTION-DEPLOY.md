@@ -80,7 +80,7 @@ Mirror the staging deploy pattern: add production services to `compose.yml` unde
 
 ### Design References
 
-- V0.2 Staging Deploy project: `docs/projects/V0_2-STAGING-DEPLOY.md`
+- V0.2 Staging Deploy project: `docs/projects/archive/V0_2-STAGING-DEPLOY.md`
 - [ADR-OP-SECRETS-20260215](../adrs/ADR-OP-SECRETS-20260215.md): Docker Compose file-based secrets pattern
 
 ## Post-Mortem

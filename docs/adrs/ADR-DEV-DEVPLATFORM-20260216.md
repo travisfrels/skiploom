@@ -58,5 +58,5 @@ Relies on behavioral rules to prevent recurrence. The risk is structural; behavi
 
 ## References
 
-- [V0.5 GitHub Migration Project](../projects/V0_5-GITHUB-MIGRATION.md)
+- [V0.5 GitHub Migration Project](../projects/archive/V0_5-GITHUB-MIGRATION.md)
 - Supersedes [ADR-DEV-DEVPLATFORM-20260206](ADR-DEV-DEVPLATFORM-20260206.md)
