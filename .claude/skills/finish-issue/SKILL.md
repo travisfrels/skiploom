@@ -14,11 +14,12 @@ Finish GitHub issue $ARGUMENTS
     - **Blockers**: what slowed or stopped progress, and what systemic condition caused it. None if unobstructed.
     - **Rework**: what had to be redone and why. None if not applicable.
     - **Scope changes**: what was added, dropped, or deferred from the original plan. None if unchanged.
-4. Update the project doc in `docs/projects/`:
-    - Add the PR URL to the `### Pull Requests` section.
+4. Check for stale CLAUDE.md files.
+5. Use the `create-pr` skill to create a GitHub pull request.
+6. Update the project doc in `docs/projects/`:
+    - Add the PR URL returned by the `create-pr` skill (step 5) to the `### Pull Requests` section.
     - If this issue is a follow-up (not in the project's original scope), add the issue URL to the `### Follow-Up Issues` section.
-5. Check for stale CLAUDE.md files.
-6. Use the `create-pr` skill to create a GitHub pull request.
+    - Commit and push the project doc update.
 7. Check milestone progress:
     - Retrieve the issue's milestone: `gh issue view $ARGUMENTS --json milestone`.
     - If the issue has a milestone, query progress: `gh api repos/{owner}/{repo}/milestones/{number}`.
