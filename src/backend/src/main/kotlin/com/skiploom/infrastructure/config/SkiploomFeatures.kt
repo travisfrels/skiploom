@@ -8,5 +8,8 @@ enum class SkiploomFeatures {
     EXAMPLE_FEATURE,
 
     @Label("Ingredient Fraction Amounts")
-    FRACTION_AMOUNTS
+    FRACTION_AMOUNTS,
+
+    @Label("Meal Planning")
+    MEAL_PLANNING
 }
