@@ -61,11 +61,11 @@ Frontend sends an `Idempotency-Key` HTTP header (UUID) with create requests. Bac
 
 ## References
 
-- https://github.com/travisfrels/skiploom/milestone/8
-- https://github.com/travisfrels/skiploom/issues/174
-- https://github.com/travisfrels/skiploom/issues/175
-- https://github.com/travisfrels/skiploom/issues/176
-- https://github.com/travisfrels/skiploom/issues/177
+- [V1.01 API Idempotent Claim Assertion Milestone](https://github.com/travisfrels/skiploom/milestone/8)
+- [#174 Add idempotency claim persistence layer](https://github.com/travisfrels/skiploom/issues/174)
+- [#175 Enforce idempotency in create recipe controller](https://github.com/travisfrels/skiploom/issues/175)
+- [#176 Send idempotency key header from frontend](https://github.com/travisfrels/skiploom/issues/176)
+- [#177 Add E2E test for recipe creation idempotency](https://github.com/travisfrels/skiploom/issues/177)
 
 ### Follow-Up Issues
 
@@ -73,7 +73,7 @@ Frontend sends an `Idempotency-Key` HTTP header (UUID) with create requests. Bac
 
 ### Pull Requests
 
-(none yet)
+- [#178 Create V1.01 API Idempotent Claim Assertion project](https://github.com/travisfrels/skiploom/pull/178)
 
 ### Design References
 
