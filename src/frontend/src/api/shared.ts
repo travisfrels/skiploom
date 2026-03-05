@@ -9,6 +9,7 @@ function getCsrfToken(): string | undefined {
 
 export async function postCommand<T>(path: string, body: unknown): Promise<T> {
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  headers['Idempotency-Key'] = crypto.randomUUID();
   const csrfToken = getCsrfToken();
   if (csrfToken) {
     headers['X-XSRF-TOKEN'] = csrfToken;
