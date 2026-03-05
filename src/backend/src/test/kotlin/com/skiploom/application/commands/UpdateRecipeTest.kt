@@ -5,6 +5,7 @@ import com.skiploom.application.dtos.RecipeDto
 import com.skiploom.application.dtos.StepDto
 import com.skiploom.application.exceptions.InvalidRecipeIdException
 import com.skiploom.application.exceptions.RecipeNotFoundException
+import com.skiploom.domain.entities.RecipeCategory
 import com.skiploom.domain.operations.RecipeReader
 import com.skiploom.domain.operations.RecipeWriter
 
@@ -30,9 +31,10 @@ class UpdateRecipeTest {
         id: String = existingId,
         title: String = "Updated Title",
         description: String? = "Updated description",
+        category: RecipeCategory? = null,
         ingredients: List<IngredientDto> = listOf(IngredientDto(1, 2.0, "cups", "sugar")),
         steps: List<StepDto> = listOf(StepDto(1, "Updated step"))
-    ) = RecipeDto(id, title, description, ingredients, steps)
+    ) = RecipeDto(id, title, description, category, ingredients, steps)
 
     @Test
     fun `execute updates existing recipe`() {
@@ -42,6 +44,16 @@ class UpdateRecipeTest {
 
         verify { recipeWriter.save(any()) }
         assertEquals(existingId, response.recipe.id)
+        assertEquals(UpdateRecipe.Response.SUCCESS_MESSAGE, response.message)
+    }
+
+    @Test
+    fun `execute updates recipe with category`() {
+        every { recipeReader.exists(UUID.fromString(existingId)) } returns true
+
+        val response = updateRecipe.execute(UpdateRecipe.Command(recipeDto(category = RecipeCategory.SOUP)))
+
+        verify { recipeWriter.save(match { it.category == RecipeCategory.SOUP }) }
         assertEquals(UpdateRecipe.Response.SUCCESS_MESSAGE, response.message)
     }
 

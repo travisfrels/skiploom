@@ -2,6 +2,7 @@ package com.skiploom.infrastructure.operations
 
 import com.skiploom.domain.entities.Ingredient
 import com.skiploom.domain.entities.Recipe
+import com.skiploom.domain.entities.RecipeCategory
 import com.skiploom.domain.entities.Step
 import com.skiploom.domain.operations.RecipeReader
 import com.skiploom.domain.operations.RecipeWriter
@@ -35,6 +36,7 @@ class PostgresRecipeRepositoryTest {
                 id = UUID.randomUUID(),
                 title = "Test Recipe",
                 description = "A test recipe",
+                category = RecipeCategory.MAIN,
                 ingredients = listOf(
                     Ingredient(1, 2.0, "cups", "flour"),
                     Ingredient(2, 1.0, "tsp", "salt")
@@ -72,6 +74,7 @@ class PostgresRecipeRepositoryTest {
         assertEquals(savedRecipe.id, recipe!!.id)
         assertEquals("Test Recipe", recipe.title)
         assertEquals("A test recipe", recipe.description)
+        assertEquals(RecipeCategory.MAIN, recipe.category)
         assertEquals(2, recipe.ingredients.size)
         assertEquals("flour", recipe.ingredients[0].name)
         assertEquals("salt", recipe.ingredients[1].name)
@@ -91,6 +94,7 @@ class PostgresRecipeRepositoryTest {
             id = UUID.randomUUID(),
             title = "New Recipe",
             description = null,
+            category = null,
             ingredients = listOf(Ingredient(1, 1.0, "cup", "sugar")),
             steps = listOf(Step(1, "Add sugar"))
         )
@@ -102,6 +106,7 @@ class PostgresRecipeRepositoryTest {
         assertNotNull(fetched)
         assertEquals("New Recipe", fetched!!.title)
         assertNull(fetched.description)
+        assertNull(fetched.category)
         assertEquals(1, fetched.ingredients.size)
         assertEquals(1, fetched.steps.size)
     }
@@ -146,6 +151,7 @@ class PostgresRecipeRepositoryTest {
             id = UUID.randomUUID(),
             title = "Return Test",
             description = null,
+            category = null,
             ingredients = listOf(Ingredient(1, 1.0, "cup", "flour")),
             steps = listOf(Step(1, "Mix"))
         )

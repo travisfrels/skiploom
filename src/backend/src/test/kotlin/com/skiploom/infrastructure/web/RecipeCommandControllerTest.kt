@@ -64,7 +64,7 @@ class RecipeCommandControllerTest {
         description: String? = "Description",
         ingredients: List<IngredientDto> = listOf(IngredientDto(1, 1.0, "cup", "flour")),
         steps: List<StepDto> = listOf(StepDto(1, "Mix"))
-    ) = RecipeDto(id, title, description, ingredients, steps)
+    ) = RecipeDto(id, title, description, null, ingredients, steps)
 
     @Test
     fun `POST create_recipe returns 200 with response`() {

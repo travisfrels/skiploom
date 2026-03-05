@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../store/hooks';
 import * as ops from '../operations';
+import { RECIPE_CATEGORIES } from '../types';
 import BackLink from './BackLink';
 import Button from './Button';
 import ButtonLink from './ButtonLink';
@@ -56,6 +57,11 @@ function RecipeDetail() {
             <h2 className="text-3xl font-bold text-slate-800 dark:text-slate-100 mb-2">
               {recipe.title}
             </h2>
+            {recipe.category && (
+              <span className="inline-block text-sm font-medium text-blue-700 dark:text-blue-300 bg-blue-100 dark:bg-blue-900 rounded px-2 py-0.5 mb-2">
+                {RECIPE_CATEGORIES.find((c) => c.value === recipe.category)?.label}
+              </span>
+            )}
             {recipe.description && (
               <p className="text-lg text-slate-600 dark:text-slate-300">{recipe.description}</p>
             )}

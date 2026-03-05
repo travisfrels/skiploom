@@ -32,11 +32,16 @@ Shared entity definitions between frontend and backend. Validation constants are
 - `orderIndex`: number (unique per recipe, contiguous starting at 1)
 - `instruction`: string (required, max 5000 characters)
 
+#### RecipeCategory
+
+Enum: `MAIN`, `SIDE`, `DESSERT`, `APPETIZER`, `SOUP`, `SALAD`, `BREAKFAST`, `SNACK`, `COCKTAIL`
+
 #### Recipe
 
 - `id`: UUID
 - `title`: string (required, max 100 characters)
 - `description`: string (optional, max 5000 characters)
+- `category`: RecipeCategory (optional)
 - `ingredients`: Ingredient[] (min 1, contiguous order starting at 1)
 - `steps`: Step[] (min 1, contiguous order starting at 1)
 
@@ -145,6 +150,7 @@ Tables map directly to the domain model.
 | `id` | UUID | PK |
 | `title` | string | NOT NULL |
 | `description` | string | |
+| `category` | string | |
 
 **ingredient**
 

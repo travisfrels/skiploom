@@ -5,6 +5,7 @@ Core business objects with unique identities, defined as Kotlin data classes.
 ## Contents
 
 - **Entities.kt**: Domain entity definitions (`Recipe`, `Ingredient`, `Step`)
+- **RecipeCategory.kt**: Recipe category enum (`MAIN`, `SIDE`, `DESSERT`, `APPETIZER`, `SOUP`, `SALAD`, `BREAKFAST`, `SNACK`, `COCKTAIL`)
 - **IdempotencyClaim.kt**: Idempotency claim entity for tracking processed idempotency keys
 
 ## Conventions

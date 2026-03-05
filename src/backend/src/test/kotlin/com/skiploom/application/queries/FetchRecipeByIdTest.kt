@@ -4,6 +4,7 @@ import com.skiploom.application.exceptions.InvalidRecipeIdException
 import com.skiploom.application.exceptions.RecipeNotFoundException
 import com.skiploom.domain.entities.Ingredient
 import com.skiploom.domain.entities.Recipe
+import com.skiploom.domain.entities.RecipeCategory
 import com.skiploom.domain.entities.Step
 import com.skiploom.domain.operations.RecipeReader
 import io.mockk.every
@@ -43,6 +44,7 @@ class FetchRecipeByIdTest {
             id = recipeId,
             title = "Test Recipe",
             description = "A description",
+            category = RecipeCategory.BREAKFAST,
             ingredients = listOf(Ingredient(1, 2.5, "cups", "flour")),
             steps = listOf(Step(1, "Mix well"))
         )

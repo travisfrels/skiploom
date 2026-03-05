@@ -48,6 +48,7 @@ class RecipeQueryControllerTest {
         id,
         title,
         description,
+        null,
         listOf(IngredientDto(1, 1.0, "cup", "flour")),
         listOf(StepDto(1, "Mix"))
     )

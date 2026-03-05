@@ -61,6 +61,7 @@ test.describe('Recipe Create', () => {
         await test.step('fill in recipe details', async () => {
             await page.getByLabel('Title').fill(TEST_RECIPE.title)
             await page.getByLabel('Description').fill(TEST_RECIPE.description)
+            await page.getByLabel('Category').selectOption('DESSERT')
             await page.getByPlaceholder('Amt').fill(String(TEST_RECIPE.ingredients[0].amount))
             await page.getByPlaceholder('Unit').fill(TEST_RECIPE.ingredients[0].unit)
             await page.getByPlaceholder('Ingredient name').fill(TEST_RECIPE.ingredients[0].name)
@@ -73,6 +74,9 @@ test.describe('Recipe Create', () => {
         })
         await test.step('verify the recipe detail page is shown', async () => {
             await expect(page.getByText(TEST_RECIPE.title)).toBeVisible()
+        })
+        await test.step('verify the category is displayed', async () => {
+            await expect(page.getByText('Dessert')).toBeVisible()
         })
     })
 })
