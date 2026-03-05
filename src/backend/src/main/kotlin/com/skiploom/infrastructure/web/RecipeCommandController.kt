@@ -5,6 +5,7 @@ import com.skiploom.application.commands.DeleteRecipe
 import com.skiploom.application.commands.UpdateRecipe
 import com.skiploom.application.dtos.toDto
 import com.skiploom.application.exceptions.IdempotencyConflictException
+import com.skiploom.application.exceptions.RecipeNotFoundException
 import com.skiploom.domain.entities.IdempotencyClaim
 import com.skiploom.domain.operations.IdempotencyClaimReader
 import com.skiploom.domain.operations.IdempotencyClaimWriter
@@ -60,7 +61,7 @@ class RecipeCommandController(
 
     private fun handleExistingClaim(claim: IdempotencyClaim): ResponseEntity<CreateRecipe.Response> {
         val recipeId = claim.recipeId ?: throw IdempotencyConflictException(claim.idempotencyKey)
-        val recipe = recipeReader.fetchById(recipeId)!!
+        val recipe = recipeReader.fetchById(recipeId) ?: throw RecipeNotFoundException(recipeId)
         return ResponseEntity.status(HttpStatus.OK).body(
             CreateRecipe.Response(recipe.toDto(), CreateRecipe.Response.SUCCESS_MESSAGE)
         )

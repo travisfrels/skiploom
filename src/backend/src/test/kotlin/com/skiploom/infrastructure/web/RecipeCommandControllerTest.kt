@@ -116,6 +116,8 @@ class RecipeCommandControllerTest {
             .andExpect(status().isOk)
             .andExpect(jsonPath("$.recipe.id").value("generated-id"))
             .andExpect(jsonPath("$.message").value(CreateRecipe.Response.SUCCESS_MESSAGE))
+
+        verify(exactly = 0) { idempotencyClaimReader.findByKey(any()) }
     }
 
     @Test
@@ -195,25 +197,6 @@ class RecipeCommandControllerTest {
                 .content(objectMapper.writeValueAsString(command))
         )
             .andExpect(status().isNotFound)
-    }
-
-    @Test
-    fun `POST create_recipe without Idempotency-Key header executes command normally`() {
-        val command = CreateRecipe.Command(recipeDto())
-        val createdRecipe = recipeDto(id = "generated-id")
-        val expectedResponse = CreateRecipe.Response(createdRecipe, CreateRecipe.Response.SUCCESS_MESSAGE)
-        every { createRecipe.execute(command) } returns expectedResponse
-
-        mockMvc.perform(
-            post("/api/commands/create_recipe")
-                .with(csrf())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(command))
-        )
-            .andExpect(status().isOk)
-            .andExpect(jsonPath("$.recipe.id").value("generated-id"))
-
-        verify(exactly = 0) { idempotencyClaimReader.findByKey(any()) }
     }
 
     @Test
