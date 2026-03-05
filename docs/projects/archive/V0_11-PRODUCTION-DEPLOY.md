@@ -69,6 +69,7 @@ Mirror the staging deploy pattern: add production services to `compose.yml` unde
 ### Follow-Up Issues
 
 - [Issue #155: Inline sub-skill references to prevent turn-boundary orphaning](https://github.com/travisfrels/skiploom/issues/155)
+- [Issue #160: Add documentation cross-reference check to review process](https://github.com/travisfrels/skiploom/issues/160)
 
 ### Pull Requests
 
@@ -77,6 +78,7 @@ Mirror the staging deploy pattern: add production services to `compose.yml` unde
 - [PR #156: #155 Inline sub-skill references to prevent turn-boundary orphaning](https://github.com/travisfrels/skiploom/pull/156)
 - [PR #157: #152 Document production deploy in Runbook](https://github.com/travisfrels/skiploom/pull/157)
 - [PR #161: #158 Post-Mortem: V0.11 Production Deploy](https://github.com/travisfrels/skiploom/pull/161)
+- [PR #186: #160 Add documentation cross-reference check to review process](https://github.com/travisfrels/skiploom/pull/186)
 
 ### Design References
 
