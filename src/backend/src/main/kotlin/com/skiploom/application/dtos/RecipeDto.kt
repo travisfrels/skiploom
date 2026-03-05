@@ -3,6 +3,7 @@ package com.skiploom.application.dtos
 import com.skiploom.application.exceptions.InvalidRecipeIdException
 import com.skiploom.application.validators.ContiguousOrder
 import com.skiploom.domain.entities.Recipe
+import com.skiploom.domain.entities.RecipeCategory
 import jakarta.validation.Valid
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotEmpty
@@ -26,6 +27,8 @@ data class RecipeDto(
     @field:Size(max = Recipe.DESCRIPTION_MAX_LENGTH, message = Recipe.DESCRIPTION_TOO_LONG_MESSAGE)
     val description: String?,
 
+    val category: RecipeCategory?,
+
     @field:NotEmpty(message = Recipe.INGREDIENT_REQUIRED_MESSAGE)
     @field:Valid
     @field:ContiguousOrder(message = Recipe.INGREDIENT_ORDER_REQUIRED_MESSAGE)
@@ -40,6 +43,7 @@ data class RecipeDto(
         id = id.toRecipeId(),
         title = title.trim(),
         description = description?.trim()?.takeIf { it.isNotBlank() },
+        category = category,
         ingredients = ingredients.sortedBy { it.orderIndex }.map { it.toDomain() },
         steps = steps.sortedBy { it.orderIndex }.map { it.toDomain() }
     )
@@ -49,6 +53,7 @@ fun Recipe.toDto() = RecipeDto(
     id = id.toString(),
     title = title,
     description = description,
+    category = category,
     ingredients = ingredients.sortedBy { it.orderIndex }.map { it.toDto() },
     steps = steps.sortedBy { it.orderIndex }.map { it.toDto() }
 )

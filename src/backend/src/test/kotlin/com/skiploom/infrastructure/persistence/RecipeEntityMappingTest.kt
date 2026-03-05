@@ -2,6 +2,7 @@ package com.skiploom.infrastructure.persistence
 
 import com.skiploom.domain.entities.Ingredient
 import com.skiploom.domain.entities.Recipe
+import com.skiploom.domain.entities.RecipeCategory
 import com.skiploom.domain.entities.Step
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -14,6 +15,7 @@ class RecipeEntityMappingTest {
         id = recipeId,
         title = "Test Recipe",
         description = "A test recipe",
+        category = RecipeCategory.MAIN,
         ingredients = listOf(
             Ingredient(1, 2.0, "cups", "flour"),
             Ingredient(2, 1.0, "tsp", "salt")
@@ -31,6 +33,7 @@ class RecipeEntityMappingTest {
         assertEquals(recipeId, entity.id)
         assertEquals("Test Recipe", entity.title)
         assertEquals("A test recipe", entity.description)
+        assertEquals(RecipeCategory.MAIN, entity.category)
     }
 
     @Test
@@ -40,6 +43,15 @@ class RecipeEntityMappingTest {
         val entity = recipeWithNullDesc.toRecipeEntity()
 
         assertNull(entity.description)
+    }
+
+    @Test
+    fun `toRecipeEntity preserves null category`() {
+        val recipeWithNullCategory = recipe.copy(category = null)
+
+        val entity = recipeWithNullCategory.toRecipeEntity()
+
+        assertNull(entity.category)
     }
 
     @Test
@@ -72,7 +84,7 @@ class RecipeEntityMappingTest {
 
     @Test
     fun `toDomain converts RecipeEntity with children to Recipe`() {
-        val recipeEntity = RecipeEntity(id = recipeId, title = "Test Recipe", description = "A test recipe")
+        val recipeEntity = RecipeEntity(id = recipeId, title = "Test Recipe", description = "A test recipe", category = RecipeCategory.MAIN)
         val ingredientEntities = listOf(
             IngredientEntity(recipeId, 1, 2.0, "cups", "flour"),
             IngredientEntity(recipeId, 2, 1.0, "tsp", "salt")
@@ -89,7 +101,7 @@ class RecipeEntityMappingTest {
 
     @Test
     fun `toDomain sorts ingredients and steps by orderIndex`() {
-        val recipeEntity = RecipeEntity(id = recipeId, title = "Test Recipe", description = "A test recipe")
+        val recipeEntity = RecipeEntity(id = recipeId, title = "Test Recipe", description = "A test recipe", category = RecipeCategory.MAIN)
         val ingredientEntities = listOf(
             IngredientEntity(recipeId, 2, 1.0, "tsp", "salt"),
             IngredientEntity(recipeId, 1, 2.0, "cups", "flour")

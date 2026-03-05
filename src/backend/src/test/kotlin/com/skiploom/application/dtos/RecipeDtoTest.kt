@@ -3,6 +3,7 @@ package com.skiploom.application.dtos
 import com.skiploom.application.exceptions.InvalidRecipeIdException
 import com.skiploom.domain.entities.Ingredient
 import com.skiploom.domain.entities.Recipe
+import com.skiploom.domain.entities.RecipeCategory
 import com.skiploom.domain.entities.Step
 
 import org.junit.jupiter.api.Assertions.*
@@ -19,13 +20,14 @@ class RecipeDtoTest {
         id: String = validId,
         title: String = "Pancakes",
         description: String? = "Fluffy pancakes",
+        category: RecipeCategory? = null,
         ingredients: List<IngredientDto> = listOf(
             IngredientDto(orderIndex = 1, amount = 2.0, unit = "cups", name = "flour")
         ),
         steps: List<StepDto> = listOf(
             StepDto(orderIndex = 1, instruction = "Mix ingredients")
         )
-    ) = RecipeDto(id, title, description, ingredients, steps)
+    ) = RecipeDto(id, title, description, category, ingredients, steps)
 
     @Nested
     inner class ToRecipeIdTest {
@@ -65,7 +67,7 @@ class RecipeDtoTest {
 
         @Test
         fun `toDomain maps all fields correctly`() {
-            val dto = recipeDto()
+            val dto = recipeDto(category = RecipeCategory.DESSERT)
             val recipe = dto.toDomain()
 
             assertEquals(
@@ -73,11 +75,20 @@ class RecipeDtoTest {
                     id = UUID.fromString(validId),
                     title = "Pancakes",
                     description = "Fluffy pancakes",
+                    category = RecipeCategory.DESSERT,
                     ingredients = listOf(Ingredient(orderIndex = 1, amount = 2.0, unit = "cups", name = "flour")),
                     steps = listOf(Step(orderIndex = 1, instruction = "Mix ingredients"))
                 ),
                 recipe
             )
+        }
+
+        @Test
+        fun `toDomain maps null category`() {
+            val dto = recipeDto(category = null)
+            val recipe = dto.toDomain()
+
+            assertNull(recipe.category)
         }
 
         @Test
@@ -202,6 +213,7 @@ class RecipeDtoTest {
                 id = id,
                 title = "Pancakes",
                 description = "Fluffy pancakes",
+                category = RecipeCategory.BREAKFAST,
                 ingredients = listOf(Ingredient(orderIndex = 1, amount = 2.0, unit = "cups", name = "flour")),
                 steps = listOf(Step(orderIndex = 1, instruction = "Mix ingredients"))
             )
@@ -212,6 +224,7 @@ class RecipeDtoTest {
                     id = id.toString(),
                     title = "Pancakes",
                     description = "Fluffy pancakes",
+                    category = RecipeCategory.BREAKFAST,
                     ingredients = listOf(IngredientDto(orderIndex = 1, amount = 2.0, unit = "cups", name = "flour")),
                     steps = listOf(StepDto(orderIndex = 1, instruction = "Mix ingredients"))
                 ),
@@ -226,6 +239,7 @@ class RecipeDtoTest {
                 id = id,
                 title = "Test",
                 description = null,
+                category = null,
                 ingredients = listOf(Ingredient(orderIndex = 1, amount = 1.0, unit = "cup", name = "water")),
                 steps = listOf(Step(orderIndex = 1, instruction = "Pour"))
             )
@@ -240,6 +254,7 @@ class RecipeDtoTest {
                 id = UUID.randomUUID(),
                 title = "Test",
                 description = null,
+                category = null,
                 ingredients = listOf(Ingredient(orderIndex = 1, amount = 1.0, unit = "cup", name = "water")),
                 steps = listOf(
                     Step(orderIndex = 3, instruction = "Third"),

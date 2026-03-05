@@ -35,6 +35,7 @@ data class Recipe(
     val id: UUID,
     val title: String,
     val description: String?,
+    val category: RecipeCategory?,
     val ingredients: List<Ingredient>,
     val steps: List<Step>
 ) {

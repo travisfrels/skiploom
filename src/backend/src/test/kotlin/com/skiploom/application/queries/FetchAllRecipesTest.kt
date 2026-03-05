@@ -2,6 +2,7 @@ package com.skiploom.application.queries
 
 import com.skiploom.domain.entities.Ingredient
 import com.skiploom.domain.entities.Recipe
+import com.skiploom.domain.entities.RecipeCategory
 import com.skiploom.domain.entities.Step
 import com.skiploom.domain.operations.RecipeReader
 import io.mockk.every
@@ -32,6 +33,7 @@ class FetchAllRecipesTest {
             id = UUID.fromString(recipeId),
             title = "Test Recipe",
             description = "A description",
+            category = RecipeCategory.MAIN,
             ingredients = listOf(
                 Ingredient(1, 1.0, "cup", "flour"),
                 Ingredient(2, 2.0, "cups", "sugar")
@@ -60,6 +62,7 @@ class FetchAllRecipesTest {
                 id = id1,
                 title = "Recipe 1",
                 description = null,
+                category = null,
                 ingredients = listOf(Ingredient(1, 1.0, "cup", "flour")),
                 steps = listOf(Step(1, "Mix"))
             ),
@@ -67,6 +70,7 @@ class FetchAllRecipesTest {
                 id = id2,
                 title = "Recipe 2",
                 description = "Second recipe",
+                category = RecipeCategory.SIDE,
                 ingredients = listOf(
                     Ingredient(1, 1.0, "cup", "flour"),
                     Ingredient(2, 1.0, "cup", "sugar")

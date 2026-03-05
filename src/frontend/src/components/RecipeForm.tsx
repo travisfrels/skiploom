@@ -3,7 +3,8 @@ import type { FormEvent } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppSelector } from '../store/hooks';
 import * as ops from '../operations';
-import type { Ingredient, Step } from '../types';
+import type { Ingredient, RecipeCategory, Step } from '../types';
+import { RECIPE_CATEGORIES } from '../types';
 import { decimalToFractionString, fractionStringToDecimal } from '../utils/fractions';
 import BackLink from './BackLink';
 import Button from './Button';
@@ -30,6 +31,7 @@ function RecipeForm({ mode }: RecipeFormProps) {
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [category, setCategory] = useState<RecipeCategory | ''>('');
   const [ingredients, setIngredients] = useState<Ingredient[]>([
     { orderIndex: 1, amount: 1, unit: '', name: '' }
   ]);
@@ -54,6 +56,7 @@ function RecipeForm({ mode }: RecipeFormProps) {
     if (currentRecipe) {
       setTitle(currentRecipe.title || '');
       setDescription(currentRecipe.description || '');
+      setCategory(currentRecipe.category || '');
       setIngredients(structuredClone(currentRecipe.ingredients));
       setSteps(structuredClone(currentRecipe.steps));
       const textMap: Record<number, string> = {};
@@ -153,6 +156,7 @@ function RecipeForm({ mode }: RecipeFormProps) {
       id: id || '',
       title: title.trim(),
       description: description.trim() || undefined,
+      category: category || undefined,
       ingredients: submittedIngredients,
       steps: submittedSteps,
     };
@@ -212,6 +216,26 @@ function RecipeForm({ mode }: RecipeFormProps) {
               className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-800"
               placeholder="A brief description of the recipe"
             />
+          </div>
+
+          <div>
+            <label
+              htmlFor="category"
+              className="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1"
+            >
+              Category
+            </label>
+            <select
+              id="category"
+              value={category}
+              onChange={(e) => setCategory(e.target.value as RecipeCategory | '')}
+              className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-800"
+            >
+              <option value="">None</option>
+              {RECIPE_CATEGORIES.map((cat) => (
+                <option key={cat.value} value={cat.value}>{cat.label}</option>
+              ))}
+            </select>
           </div>
         </Card>
 

@@ -17,6 +17,7 @@ class RecipeDtoValidationTest {
         id = "",
         title = "Test Recipe",
         description = "A description",
+        category = null,
         ingredients = listOf(IngredientDto(1, 1.0, "cup", "flour")),
         steps = listOf(StepDto(1, "Mix it"))
     )
