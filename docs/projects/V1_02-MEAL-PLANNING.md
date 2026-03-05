@@ -3,6 +3,7 @@
 | Status | Set On |
 |--------|--------|
 | Draft | 2026-03-05 |
+| Active | 2026-03-05 |
 
 ## Context
 
@@ -96,6 +97,7 @@ Add a nullable `category` enum column to the `recipe` table (always visible, not
 ### Pull Requests
 
 - [#164 Create V1.02 Meal Planning project](https://github.com/travisfrels/skiploom/pull/179)
+- [#166 Add MEAL_PLANNING feature flag](https://github.com/travisfrels/skiploom/pull/183)
 
 ### Design References
 
