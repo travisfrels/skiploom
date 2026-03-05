@@ -97,6 +97,7 @@ Add a nullable `category` enum column to the `recipe` table (always visible, not
 ### Pull Requests
 
 - [#164 Create V1.02 Meal Planning project](https://github.com/travisfrels/skiploom/pull/179)
+- [#167 Create meal plan entry domain and persistence](https://github.com/travisfrels/skiploom/pull/185)
 
 ### Design References
 
