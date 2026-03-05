@@ -9,6 +9,8 @@ Interfaces defining all the ways to fetch or atomically mutate entities.
 - **RecipeWriter.kt**: Write operations for mutating recipe data
 - **UserReader.kt**: Read operations for fetching user data
 - **UserWriter.kt**: Write operations for mutating user data
+- **IdempotencyClaimReader.kt**: Read operations for looking up idempotency claims by key
+- **IdempotencyClaimWriter.kt**: Write operations for persisting idempotency claims
 
 ## Conventions
 
