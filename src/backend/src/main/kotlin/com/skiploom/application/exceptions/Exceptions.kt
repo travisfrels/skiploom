@@ -12,3 +12,6 @@ class RecipeIdNotAllowedException :
 
 class RecipeNotFoundException(id: UUID) :
     ResponseStatusException(HttpStatus.NOT_FOUND, "Recipe not found: $id")
+
+class IdempotencyConflictException(key: UUID) :
+    ResponseStatusException(HttpStatus.CONFLICT, "Request with idempotency key $key is already being processed")

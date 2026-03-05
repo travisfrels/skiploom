@@ -7,7 +7,7 @@ REST controllers and exception handling for HTTP interactions.
 - **FeatureFlagQueryController.kt**: Query endpoint for feature flag state (`GET /api/queries/fetch_feature_flags`)
 - **HealthController.kt**: Health check endpoint (`GET /api/health`)
 - **MeController.kt**: Authenticated user endpoint (`GET /api/me`); returns current user profile from OIDC principal
-- **RecipeCommandController.kt**: Command endpoints for recipe mutations (`POST /api/commands/...`)
+- **RecipeCommandController.kt**: Command endpoints for recipe mutations (`POST /api/commands/...`); `create_recipe` enforces idempotency via optional `Idempotency-Key` header and claim persistence
 - **RecipeQueryController.kt**: Query endpoints for recipe reads (`GET /api/queries/...`)
 - **ValidationExceptionHandler.kt**: `@ControllerAdvice` adding field-level `{field, message}` errors to validation ProblemDetail responses
 - **E2eFeatureFlagController.kt**: E2E-only feature flag toggle endpoint (`POST /api/e2e/feature-flags/{featureName}`); enables or disables a feature flag via `FeatureManager` (`@Profile("e2e")` — not active in production)
