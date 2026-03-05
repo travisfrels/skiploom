@@ -3,6 +3,7 @@
 | Status | Set On |
 |--------|--------|
 | Draft | 2026-03-05 |
+| Active | 2026-03-05 |
 
 ## Context
 
@@ -74,6 +75,7 @@ Frontend sends an `Idempotency-Key` HTTP header (UUID) with create requests. Bac
 ### Pull Requests
 
 - [#178 Create V1.01 API Idempotent Claim Assertion project](https://github.com/travisfrels/skiploom/pull/178)
+- [#180 Send idempotency key header from frontend](https://github.com/travisfrels/skiploom/pull/180)
 
 ### Design References
 

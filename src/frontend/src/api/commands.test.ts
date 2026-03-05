@@ -26,7 +26,7 @@ describe('commands', () => {
         '/api/commands/create_recipe',
         {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: expect.objectContaining({ 'Content-Type': 'application/json' }),
           body: JSON.stringify({ recipe: testRecipe }),
         }
       );
@@ -49,7 +49,7 @@ describe('commands', () => {
         '/api/commands/update_recipe',
         {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: expect.objectContaining({ 'Content-Type': 'application/json' }),
           body: JSON.stringify({ recipe: testRecipe }),
         }
       );
@@ -72,7 +72,7 @@ describe('commands', () => {
         '/api/commands/delete_recipe',
         {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: expect.objectContaining({ 'Content-Type': 'application/json' }),
           body: JSON.stringify({ id: '1' }),
         }
       );

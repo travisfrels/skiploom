@@ -135,6 +135,11 @@ describe('handleResponse', () => {
 
 describe('postCommand', () => {
   const originalCookie = Object.getOwnPropertyDescriptor(document, 'cookie');
+  const TEST_UUID = '550e8400-e29b-41d4-a716-446655440000';
+
+  beforeEach(() => {
+    vi.spyOn(crypto, 'randomUUID').mockReturnValue(TEST_UUID);
+  });
 
   afterEach(() => {
     if (originalCookie) {
@@ -152,7 +157,10 @@ describe('postCommand', () => {
       '/api/commands/test',
       {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Idempotency-Key': TEST_UUID,
+        },
         body: JSON.stringify({ name: 'test' }),
       }
     );
@@ -175,10 +183,24 @@ describe('postCommand', () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Idempotency-Key': TEST_UUID,
           'X-XSRF-TOKEN': 'test-csrf-token',
         },
         body: JSON.stringify({ name: 'test' }),
       }
+    );
+  });
+
+  it('includes Idempotency-Key header with UUID value', async () => {
+    vi.mocked(global.fetch).mockResolvedValueOnce(mockResponse(200, {}));
+
+    await postCommand('/commands/test', {});
+
+    const callArgs = vi.mocked(global.fetch).mock.calls[0];
+    const headers = (callArgs[1] as RequestInit).headers as Record<string, string>;
+    expect(headers['Idempotency-Key']).toBe(TEST_UUID);
+    expect(TEST_UUID).toMatch(
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
     );
   });
 
