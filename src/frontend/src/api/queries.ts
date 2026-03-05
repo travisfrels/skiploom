@@ -1,6 +1,8 @@
 import type {
     FetchAllRecipesResponse,
     FetchFeatureFlagsResponse,
+    FetchMealPlanEntriesQuery,
+    FetchMealPlanEntriesResponse,
     FetchRecipeByIdQuery,
     FetchRecipeByIdResponse,
     User
@@ -24,5 +26,10 @@ export async function fetchMe(): Promise<User> {
 
 export async function fetchFeatureFlags(): Promise<FetchFeatureFlagsResponse> {
   const response = await fetch(`${API_BASE_URL}/queries/fetch_feature_flags`);
+  return handleResponse(response);
+}
+
+export async function fetchMealPlanEntries({ startDate, endDate }: FetchMealPlanEntriesQuery): Promise<FetchMealPlanEntriesResponse> {
+  const response = await fetch(`${API_BASE_URL}/queries/fetch_meal_plan_entries?startDate=${startDate}&endDate=${endDate}`);
   return handleResponse(response);
 }
