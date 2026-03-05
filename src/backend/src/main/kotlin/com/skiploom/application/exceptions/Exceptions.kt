@@ -12,3 +12,12 @@ class RecipeIdNotAllowedException :
 
 class RecipeNotFoundException(id: UUID) :
     ResponseStatusException(HttpStatus.NOT_FOUND, "Recipe not found: $id")
+
+class InvalidMealPlanEntryIdException(id: String) :
+    ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid meal plan entry id: $id")
+
+class MealPlanEntryIdNotAllowedException :
+    ResponseStatusException(HttpStatus.BAD_REQUEST, "Meal plan entry id must not be provided when creating a meal plan entry")
+
+class MealPlanEntryNotFoundException(id: UUID) :
+    ResponseStatusException(HttpStatus.NOT_FOUND, "Meal plan entry not found: $id")
