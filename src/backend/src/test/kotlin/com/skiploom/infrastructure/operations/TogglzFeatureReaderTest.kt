@@ -50,7 +50,7 @@ class TogglzFeatureReaderTest {
         val result = featureReader.fetchAll()
 
         assertEquals(
-            mapOf("EXAMPLE_FEATURE" to true, "FRACTION_AMOUNTS" to false),
+            mapOf("EXAMPLE_FEATURE" to true, "FRACTION_AMOUNTS" to false, "MEAL_PLANNING" to false),
             result
         )
     }
@@ -62,7 +62,7 @@ class TogglzFeatureReaderTest {
         val result = featureReader.fetchAll()
 
         assertEquals(
-            mapOf("EXAMPLE_FEATURE" to false, "FRACTION_AMOUNTS" to false),
+            mapOf("EXAMPLE_FEATURE" to false, "FRACTION_AMOUNTS" to false, "MEAL_PLANNING" to false),
             result
         )
     }
