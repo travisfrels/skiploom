@@ -9,6 +9,9 @@ function Layout() {
   const error = useAppSelector((state) => state.recipes.error);
   const success = useAppSelector((state) => state.recipes.success);
   const colorScheme = useColorScheme();
+  const mealPlanningEnabled = useAppSelector(
+    (state) => state.featureFlags.featureFlags.MEAL_PLANNING ?? false
+  );
 
   useEffect(() => {
     if (!success) return;
@@ -52,6 +55,14 @@ function Layout() {
             >
               Recipes
             </Link>
+            {mealPlanningEnabled && (
+              <Link
+                to="/meal-planning"
+                className="text-lg px-4 py-2 rounded hover:bg-slate-700 transition-colors"
+              >
+                Meal Planning
+              </Link>
+            )}
           </nav>
         </div>
       </header>

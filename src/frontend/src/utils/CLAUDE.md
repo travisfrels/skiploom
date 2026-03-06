@@ -5,6 +5,7 @@ Pure utility functions with no framework dependencies.
 ## Contents
 
 - **fractions.ts**: Converts between decimal numbers and fraction strings for ingredient amounts.
+- **weekDates.ts**: Week start calculation and ISO date formatting for meal planning calendar.
 
 ## Conventions
 
