@@ -7,16 +7,26 @@ import com.skiploom.application.dtos.IngredientDto
 import com.skiploom.application.dtos.RecipeDto
 import com.skiploom.application.dtos.StepDto
 import com.skiploom.application.exceptions.RecipeNotFoundException
+import com.skiploom.domain.entities.IdempotencyClaim
+import com.skiploom.domain.entities.Ingredient
 import com.skiploom.domain.entities.Recipe
+import com.skiploom.domain.entities.Step
+import com.skiploom.domain.operations.IdempotencyClaimReader
+import com.skiploom.domain.operations.IdempotencyClaimWriter
+import com.skiploom.domain.operations.RecipeReader
+import io.mockk.clearMocks
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verify
 import org.hamcrest.Matchers.hasItem
 import org.hamcrest.Matchers.hasSize
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest
 import org.springframework.context.annotation.Bean
+import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.http.MediaType
 import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf
@@ -25,6 +35,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import tools.jackson.databind.ObjectMapper
+import java.time.Instant
 import java.util.UUID
 
 @WebMvcTest(RecipeCommandController::class)
@@ -41,6 +52,15 @@ class RecipeCommandControllerTest {
 
         @Bean
         fun deleteRecipe(): DeleteRecipe = mockk()
+
+        @Bean
+        fun idempotencyClaimReader(): IdempotencyClaimReader = mockk()
+
+        @Bean
+        fun idempotencyClaimWriter(): IdempotencyClaimWriter = mockk()
+
+        @Bean
+        fun recipeReader(): RecipeReader = mockk()
     }
 
     @Autowired
@@ -57,6 +77,20 @@ class RecipeCommandControllerTest {
 
     @Autowired
     private lateinit var deleteRecipe: DeleteRecipe
+
+    @Autowired
+    private lateinit var idempotencyClaimReader: IdempotencyClaimReader
+
+    @Autowired
+    private lateinit var idempotencyClaimWriter: IdempotencyClaimWriter
+
+    @Autowired
+    private lateinit var recipeReader: RecipeReader
+
+    @BeforeEach
+    fun setUp() {
+        clearMocks(createRecipe, updateRecipe, deleteRecipe, idempotencyClaimReader, idempotencyClaimWriter, recipeReader)
+    }
 
     private fun recipeDto(
         id: String = "",
@@ -82,6 +116,8 @@ class RecipeCommandControllerTest {
             .andExpect(status().isOk)
             .andExpect(jsonPath("$.recipe.id").value("generated-id"))
             .andExpect(jsonPath("$.message").value(CreateRecipe.Response.SUCCESS_MESSAGE))
+
+        verify(exactly = 0) { idempotencyClaimReader.findByKey(any()) }
     }
 
     @Test
@@ -161,5 +197,135 @@ class RecipeCommandControllerTest {
                 .content(objectMapper.writeValueAsString(command))
         )
             .andExpect(status().isNotFound)
+    }
+
+    @Test
+    fun `POST create_recipe with new Idempotency-Key reserves claim and executes command`() {
+        val idempotencyKey = UUID.randomUUID()
+        val recipeId = UUID.randomUUID()
+        val command = CreateRecipe.Command(recipeDto())
+        val createdRecipe = recipeDto(id = recipeId.toString())
+        val expectedResponse = CreateRecipe.Response(createdRecipe, CreateRecipe.Response.SUCCESS_MESSAGE)
+
+        every { idempotencyClaimReader.findByKey(idempotencyKey) } returns null
+        every { idempotencyClaimWriter.save(any()) } answers { firstArg() }
+        every { createRecipe.execute(command) } returns expectedResponse
+
+        mockMvc.perform(
+            post("/api/commands/create_recipe")
+                .with(csrf())
+                .header("Idempotency-Key", idempotencyKey.toString())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(command))
+        )
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.recipe.id").value(recipeId.toString()))
+            .andExpect(jsonPath("$.message").value(CreateRecipe.Response.SUCCESS_MESSAGE))
+
+        verify(exactly = 1) { createRecipe.execute(command) }
+        verify(exactly = 2) { idempotencyClaimWriter.save(any()) }
+    }
+
+    @Test
+    fun `POST create_recipe with existing Idempotency-Key returns stored recipe`() {
+        val idempotencyKey = UUID.randomUUID()
+        val recipeId = UUID.randomUUID()
+        val claim = IdempotencyClaim(idempotencyKey, recipeId, Instant.now())
+        val storedRecipe = Recipe(
+            id = recipeId,
+            title = "Stored Recipe",
+            description = null,
+            category = null,
+            ingredients = listOf(Ingredient(1, 1.0, "cup", "flour")),
+            steps = listOf(Step(1, "Mix"))
+        )
+
+        every { idempotencyClaimReader.findByKey(idempotencyKey) } returns claim
+        every { recipeReader.fetchById(recipeId) } returns storedRecipe
+
+        mockMvc.perform(
+            post("/api/commands/create_recipe")
+                .with(csrf())
+                .header("Idempotency-Key", idempotencyKey.toString())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(CreateRecipe.Command(recipeDto())))
+        )
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.recipe.id").value(recipeId.toString()))
+            .andExpect(jsonPath("$.recipe.title").value("Stored Recipe"))
+            .andExpect(jsonPath("$.message").value(CreateRecipe.Response.SUCCESS_MESSAGE))
+
+        verify(exactly = 0) { createRecipe.execute(any()) }
+    }
+
+    @Test
+    fun `POST create_recipe with in-progress claim returns 409 Conflict`() {
+        val idempotencyKey = UUID.randomUUID()
+        val claim = IdempotencyClaim(idempotencyKey, null, Instant.now())
+
+        every { idempotencyClaimReader.findByKey(idempotencyKey) } returns claim
+
+        mockMvc.perform(
+            post("/api/commands/create_recipe")
+                .with(csrf())
+                .header("Idempotency-Key", idempotencyKey.toString())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(CreateRecipe.Command(recipeDto())))
+        )
+            .andExpect(status().isConflict)
+
+        verify(exactly = 0) { createRecipe.execute(any()) }
+    }
+
+    @Test
+    fun `POST create_recipe with concurrent duplicate key returns stored recipe`() {
+        val idempotencyKey = UUID.randomUUID()
+        val recipeId = UUID.randomUUID()
+        val completedClaim = IdempotencyClaim(idempotencyKey, recipeId, Instant.now())
+        val storedRecipe = Recipe(
+            id = recipeId,
+            title = "Stored Recipe",
+            description = null,
+            category = null,
+            ingredients = listOf(Ingredient(1, 1.0, "cup", "flour")),
+            steps = listOf(Step(1, "Mix"))
+        )
+
+        every { idempotencyClaimReader.findByKey(idempotencyKey) } returns null andThen completedClaim
+        every { idempotencyClaimWriter.save(any()) } throws DataIntegrityViolationException("duplicate key")
+        every { recipeReader.fetchById(recipeId) } returns storedRecipe
+
+        mockMvc.perform(
+            post("/api/commands/create_recipe")
+                .with(csrf())
+                .header("Idempotency-Key", idempotencyKey.toString())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(CreateRecipe.Command(recipeDto())))
+        )
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.recipe.id").value(recipeId.toString()))
+            .andExpect(jsonPath("$.recipe.title").value("Stored Recipe"))
+
+        verify(exactly = 0) { createRecipe.execute(any()) }
+    }
+
+    @Test
+    fun `POST create_recipe with concurrent duplicate key and in-progress claim returns 409`() {
+        val idempotencyKey = UUID.randomUUID()
+        val inProgressClaim = IdempotencyClaim(idempotencyKey, null, Instant.now())
+
+        every { idempotencyClaimReader.findByKey(idempotencyKey) } returns null andThen inProgressClaim
+        every { idempotencyClaimWriter.save(any()) } throws DataIntegrityViolationException("duplicate key")
+
+        mockMvc.perform(
+            post("/api/commands/create_recipe")
+                .with(csrf())
+                .header("Idempotency-Key", idempotencyKey.toString())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(CreateRecipe.Command(recipeDto())))
+        )
+            .andExpect(status().isConflict)
+
+        verify(exactly = 0) { createRecipe.execute(any()) }
     }
 }
