@@ -46,9 +46,9 @@ describe('getWeekStart', () => {
     expect(result.getDate()).toBe(2);
   });
 
-  it('handles month boundary (Saturday in prior month)', () => {
-    const saturday = new Date(2026, 2, 1); // Sun Mar 1 is actually a Sunday in 2026
-    const result = getWeekStart(saturday);
+  it('handles month boundary (Sunday in prior month week)', () => {
+    const sunday = new Date(2026, 2, 1); // Sun Mar 1, 2026
+    const result = getWeekStart(sunday);
     expect(result.getMonth()).toBe(1); // February
     expect(result.getDate()).toBe(23);
   });
