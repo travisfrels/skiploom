@@ -7,6 +7,7 @@ Redux Toolkit state management.
 - **index.ts**: Store configuration, `RootState` and `AppDispatch` types
 - **hooks.ts**: Typed `useAppSelector` and `useAppDispatch` hooks
 - **featureFlagSlice.ts**: Feature flag state with reducers
+- **mealPlanSlice.ts**: Meal plan entry state with reducers
 - **recipeSlice.ts**: Recipe state with reducers
 - **userSlice.ts**: User state with reducers
 - **actions.ts**: Dispatch wrappers for simple action calls
@@ -21,6 +22,16 @@ Redux Toolkit state management.
 - **loading**: `boolean` — async operation in progress
 - **error**: `string | null` — operation-level error message
 - **success**: `string | null` — success message (auto-dismisses after 4 seconds in Layout)
+- **validationErrors**: `ValidationError[]` — field-level validation errors
+- **submitting**: `boolean` — form submission in progress
+
+### mealPlanSlice
+
+- **entries**: `Record<string, MealPlanEntry>` — meal plan entries indexed by ID
+- **entriesLoaded**: `boolean` — whether entries have been loaded
+- **loading**: `boolean` — async operation in progress
+- **error**: `string | null` — operation-level error message
+- **success**: `string | null` — success message
 - **validationErrors**: `ValidationError[]` — field-level validation errors
 - **submitting**: `boolean` — form submission in progress
 

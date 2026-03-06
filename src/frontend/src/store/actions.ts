@@ -1,6 +1,7 @@
-import type { Recipe, User, ValidationError } from '../types';
+import type { MealPlanEntry, Recipe, User, ValidationError } from '../types';
 import { store } from './index';
 import * as featureFlagSlice from './featureFlagSlice';
+import * as mealPlanSlice from './mealPlanSlice';
 import * as slice from './recipeSlice';
 import * as userSlice from './userSlice';
 
@@ -74,4 +75,48 @@ export function setFeatureFlagLoading(loading: boolean): void {
 
 export function setFeatureFlagError(error: string | null): void {
   store.dispatch(featureFlagSlice.setFeatureFlagError(error));
+}
+
+export function setMealPlanLoading(loading: boolean): void {
+  store.dispatch(mealPlanSlice.setLoading(loading));
+}
+
+export function setMealPlanError(error: string | null): void {
+  store.dispatch(mealPlanSlice.setError(error));
+}
+
+export function setMealPlanSuccess(success: string | null): void {
+  store.dispatch(mealPlanSlice.setSuccess(success));
+}
+
+export function setMealPlanEntries(entries: MealPlanEntry[]): void {
+  store.dispatch(mealPlanSlice.setEntries(entries));
+}
+
+export function setMealPlanEntriesLoaded(loaded: boolean): void {
+  store.dispatch(mealPlanSlice.setEntriesLoaded(loaded));
+}
+
+export function addMealPlanEntry(entry: MealPlanEntry): void {
+  store.dispatch(mealPlanSlice.addEntry(entry));
+}
+
+export function updateMealPlanEntry(entry: MealPlanEntry): void {
+  store.dispatch(mealPlanSlice.updateEntry(entry));
+}
+
+export function removeMealPlanEntry(id: string): void {
+  store.dispatch(mealPlanSlice.removeEntry(id));
+}
+
+export function setMealPlanSubmitting(submitting: boolean): void {
+  store.dispatch(mealPlanSlice.setSubmitting(submitting));
+}
+
+export function setMealPlanValidationErrors(errors: ValidationError[]): void {
+  store.dispatch(mealPlanSlice.setValidationErrors(errors));
+}
+
+export function clearMealPlanValidationErrors(): void {
+  store.dispatch(mealPlanSlice.clearValidationErrors());
 }

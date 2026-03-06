@@ -47,3 +47,14 @@ export interface Recipe {
   ingredients: Ingredient[];
   steps: Step[];
 }
+
+export type MealType = 'BREAKFAST' | 'BRUNCH' | 'LUNCH' | 'DINNER' | 'SNACK';
+
+export interface MealPlanEntry {
+  id: string;
+  date: string;
+  mealType: MealType;
+  recipeId?: string;
+  title: string;
+  notes?: string;
+}
