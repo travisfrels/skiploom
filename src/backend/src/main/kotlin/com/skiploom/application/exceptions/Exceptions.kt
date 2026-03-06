@@ -13,6 +13,9 @@ class RecipeIdNotAllowedException :
 class RecipeNotFoundException(id: UUID) :
     ResponseStatusException(HttpStatus.NOT_FOUND, "Recipe not found: $id")
 
+class IdempotencyConflictException(key: UUID) :
+    ResponseStatusException(HttpStatus.CONFLICT, "Request with idempotency key $key is already being processed")
+    
 class InvalidMealPlanEntryIdException(id: String) :
     ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid meal plan entry id: $id")
 

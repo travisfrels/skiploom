@@ -7,7 +7,7 @@ REST controllers and exception handling for HTTP interactions.
 - **FeatureFlagQueryController.kt**: Query endpoint for feature flag state (`GET /api/queries/fetch_feature_flags`)
 - **HealthController.kt**: Health check endpoint (`GET /api/health`)
 - **MeController.kt**: Authenticated user endpoint (`GET /api/me`); returns current user profile from OIDC principal
-- **RecipeCommandController.kt**: Command endpoints for recipe mutations (`POST /api/commands/...`)
+- **RecipeCommandController.kt**: Command endpoints for recipe mutations (`POST /api/commands/...`); `create_recipe` enforces idempotency via optional `Idempotency-Key` header and claim persistence
 - **RecipeQueryController.kt**: Query endpoints for recipe reads (`GET /api/queries/...`)
 - **MealPlanEntryCommandController.kt**: Command endpoints for meal plan entry mutations (`POST /api/commands/...`); resolves user from OIDC principal
 - **MealPlanEntryQueryController.kt**: Query endpoint for meal plan entry reads (`GET /api/queries/fetch_meal_plan_entries`); resolves user from OIDC principal
