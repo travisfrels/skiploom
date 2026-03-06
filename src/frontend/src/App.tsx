@@ -6,6 +6,7 @@ import Home from './components/Home';
 import Recipes from './components/Recipes';
 import RecipeDetail from './components/RecipeDetail';
 import RecipeForm from './components/RecipeForm';
+import MealPlanEntryForm from './components/MealPlanEntryForm';
 import './App.css';
 import * as ops from './operations';
 
@@ -34,6 +35,8 @@ function App() {
           <Route path="recipes/new" element={<RecipeForm mode="new" />} />
           <Route path="recipes/:id" element={<RecipeDetail />} />
           <Route path="recipes/:id/edit" element={<RecipeForm mode="edit" />} />
+          <Route path="meal-plan/new" element={<MealPlanEntryForm mode="new" />} />
+          <Route path="meal-plan/:id/edit" element={<MealPlanEntryForm mode="edit" />} />
         </Route>
       </Routes>
     </BrowserRouter>

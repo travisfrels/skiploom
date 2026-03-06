@@ -5,8 +5,9 @@ import { MemoryRouter } from 'react-router-dom';
 import { store } from '../store';
 import * as featureFlagSlice from '../store/featureFlagSlice';
 import * as slice from '../store/recipeSlice';
+import * as mealPlanSlice from '../store/mealPlanSlice';
 import * as userSlice from '../store/userSlice';
-import type { Recipe, User, ValidationError } from '../types';
+import type { MealPlanEntry, Recipe, User, ValidationError } from '../types';
 
 interface RecipeState {
   recipes: Record<string, Recipe>;
@@ -30,9 +31,20 @@ interface FeatureFlagState {
   error: string | null;
 }
 
+interface MealPlanState {
+  entries: Record<string, MealPlanEntry>;
+  entriesLoaded: boolean;
+  loading: boolean;
+  error: string | null;
+  success: string | null;
+  validationErrors: ValidationError[];
+  submitting: boolean;
+}
+
 interface RenderOptions {
   preloadedState?: {
     featureFlags?: Partial<FeatureFlagState>;
+    mealPlan?: Partial<MealPlanState>;
     recipes?: Partial<RecipeState>;
     user?: Partial<UserState>;
   };
@@ -52,6 +64,13 @@ function resetStore() {
   store.dispatch(slice.setSuccess(null));
   store.dispatch(slice.setValidationErrors([]));
   store.dispatch(slice.setSubmitting(false));
+  store.dispatch(mealPlanSlice.setEntries([]));
+  store.dispatch(mealPlanSlice.setEntriesLoaded(false));
+  store.dispatch(mealPlanSlice.setLoading(false));
+  store.dispatch(mealPlanSlice.setError(null));
+  store.dispatch(mealPlanSlice.setSuccess(null));
+  store.dispatch(mealPlanSlice.setValidationErrors([]));
+  store.dispatch(mealPlanSlice.setSubmitting(false));
   store.dispatch(userSlice.setUser(null));
 }
 
@@ -107,6 +126,32 @@ export function renderWithProviders(
     }
     if (state.submitting !== undefined) {
       store.dispatch(slice.setSubmitting(state.submitting));
+    }
+  }
+
+  if (preloadedState?.mealPlan) {
+    const state = preloadedState.mealPlan;
+    if (state.entries) {
+      const entriesArray = Object.values(state.entries);
+      store.dispatch(mealPlanSlice.setEntries(entriesArray));
+    }
+    if (state.entriesLoaded !== undefined) {
+      store.dispatch(mealPlanSlice.setEntriesLoaded(state.entriesLoaded));
+    }
+    if (state.loading !== undefined) {
+      store.dispatch(mealPlanSlice.setLoading(state.loading));
+    }
+    if (state.error !== undefined) {
+      store.dispatch(mealPlanSlice.setError(state.error));
+    }
+    if (state.success !== undefined) {
+      store.dispatch(mealPlanSlice.setSuccess(state.success));
+    }
+    if (state.validationErrors) {
+      store.dispatch(mealPlanSlice.setValidationErrors(state.validationErrors));
+    }
+    if (state.submitting !== undefined) {
+      store.dispatch(mealPlanSlice.setSubmitting(state.submitting));
     }
   }
 
