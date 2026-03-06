@@ -94,7 +94,7 @@ function MealPlanEntryForm({ mode }: MealPlanEntryFormProps) {
         title: title.trim(),
         notes: notes.trim() || undefined,
       });
-      if (success) navigate('/meal-plan');
+      if (success) navigate('/meal-planning');
     } else {
       const newId = await ops.createMealPlanEntry({
         id: '',
@@ -104,7 +104,7 @@ function MealPlanEntryForm({ mode }: MealPlanEntryFormProps) {
         title: title.trim(),
         notes: notes.trim() || undefined,
       });
-      if (newId) navigate('/meal-plan');
+      if (newId) navigate('/meal-planning');
     }
   };
 
@@ -112,7 +112,7 @@ function MealPlanEntryForm({ mode }: MealPlanEntryFormProps) {
     if (!id) return;
     if (window.confirm('Are you sure you want to delete this meal plan entry?')) {
       if (await ops.deleteMealPlanEntry({ id })) {
-        navigate('/meal-plan');
+        navigate('/meal-planning');
       }
     }
   };
@@ -127,7 +127,7 @@ function MealPlanEntryForm({ mode }: MealPlanEntryFormProps) {
 
   return (
     <div>
-      <BackLink to="/meal-plan">Back to Meal Plan</BackLink>
+      <BackLink to="/meal-planning">Back to Meal Plan</BackLink>
 
       <h2 className="text-2xl font-semibold text-slate-800 dark:text-slate-100 mb-6">
         {mode === 'edit' ? 'Edit Meal Plan Entry' : 'New Meal Plan Entry'}
@@ -280,7 +280,7 @@ function MealPlanEntryForm({ mode }: MealPlanEntryFormProps) {
           >
             {submitting ? 'Saving...' : (mode === 'edit' ? 'Save Changes' : 'Create Entry')}
           </Button>
-          <ButtonLink variant="secondary" to="/meal-plan">
+          <ButtonLink variant="secondary" to="/meal-planning">
             Cancel
           </ButtonLink>
           {mode === 'edit' && (

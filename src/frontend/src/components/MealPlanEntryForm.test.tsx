@@ -45,9 +45,9 @@ describe('MealPlanEntryForm', () => {
     it('renders new meal plan entry heading', () => {
       renderWithProviders(
         <Routes>
-          <Route path="/meal-plan/new" element={<MealPlanEntryForm mode="new" />} />
+          <Route path="/meal-planning/new" element={<MealPlanEntryForm mode="new" />} />
         </Routes>,
-        { initialEntries: ['/meal-plan/new'] }
+        { initialEntries: ['/meal-planning/new'] }
       );
       expect(screen.getByText('New Meal Plan Entry')).toBeInTheDocument();
     });
@@ -55,9 +55,9 @@ describe('MealPlanEntryForm', () => {
     it('renders date, meal type, entry mode, title, and notes fields', () => {
       renderWithProviders(
         <Routes>
-          <Route path="/meal-plan/new" element={<MealPlanEntryForm mode="new" />} />
+          <Route path="/meal-planning/new" element={<MealPlanEntryForm mode="new" />} />
         </Routes>,
-        { initialEntries: ['/meal-plan/new'] }
+        { initialEntries: ['/meal-planning/new'] }
       );
       expect(screen.getByLabelText('Date *')).toBeInTheDocument();
       expect(screen.getByLabelText('Meal Type *')).toBeInTheDocument();
@@ -70,9 +70,9 @@ describe('MealPlanEntryForm', () => {
     it('pre-fills date from query param', () => {
       renderWithProviders(
         <Routes>
-          <Route path="/meal-plan/new" element={<MealPlanEntryForm mode="new" />} />
+          <Route path="/meal-planning/new" element={<MealPlanEntryForm mode="new" />} />
         </Routes>,
-        { initialEntries: ['/meal-plan/new?date=2026-03-06'] }
+        { initialEntries: ['/meal-planning/new?date=2026-03-06'] }
       );
       expect(screen.getByLabelText('Date *')).toHaveValue('2026-03-06');
     });
@@ -80,9 +80,9 @@ describe('MealPlanEntryForm', () => {
     it('pre-fills meal type from query param', () => {
       renderWithProviders(
         <Routes>
-          <Route path="/meal-plan/new" element={<MealPlanEntryForm mode="new" />} />
+          <Route path="/meal-planning/new" element={<MealPlanEntryForm mode="new" />} />
         </Routes>,
-        { initialEntries: ['/meal-plan/new?mealType=DINNER'] }
+        { initialEntries: ['/meal-planning/new?mealType=DINNER'] }
       );
       expect(screen.getByLabelText('Meal Type *')).toHaveValue('DINNER');
     });
@@ -90,9 +90,9 @@ describe('MealPlanEntryForm', () => {
     it('pre-fills both date and meal type from query params', () => {
       renderWithProviders(
         <Routes>
-          <Route path="/meal-plan/new" element={<MealPlanEntryForm mode="new" />} />
+          <Route path="/meal-planning/new" element={<MealPlanEntryForm mode="new" />} />
         </Routes>,
-        { initialEntries: ['/meal-plan/new?date=2026-03-06&mealType=BREAKFAST'] }
+        { initialEntries: ['/meal-planning/new?date=2026-03-06&mealType=BREAKFAST'] }
       );
       expect(screen.getByLabelText('Date *')).toHaveValue('2026-03-06');
       expect(screen.getByLabelText('Meal Type *')).toHaveValue('BREAKFAST');
@@ -101,9 +101,9 @@ describe('MealPlanEntryForm', () => {
     it('defaults to ad-hoc mode', () => {
       renderWithProviders(
         <Routes>
-          <Route path="/meal-plan/new" element={<MealPlanEntryForm mode="new" />} />
+          <Route path="/meal-planning/new" element={<MealPlanEntryForm mode="new" />} />
         </Routes>,
-        { initialEntries: ['/meal-plan/new'] }
+        { initialEntries: ['/meal-planning/new'] }
       );
       expect(screen.getByLabelText('Ad-hoc')).toBeChecked();
       expect(screen.getByLabelText('Recipe')).not.toBeChecked();
@@ -113,10 +113,10 @@ describe('MealPlanEntryForm', () => {
       const user = userEvent.setup();
       renderWithProviders(
         <Routes>
-          <Route path="/meal-plan/new" element={<MealPlanEntryForm mode="new" />} />
+          <Route path="/meal-planning/new" element={<MealPlanEntryForm mode="new" />} />
         </Routes>,
         {
-          initialEntries: ['/meal-plan/new'],
+          initialEntries: ['/meal-planning/new'],
           preloadedState: { recipes: { recipes: TEST_RECIPES, recipesLoaded: true } },
         }
       );
@@ -128,10 +128,10 @@ describe('MealPlanEntryForm', () => {
     it('hides recipe dropdown in ad-hoc mode', () => {
       renderWithProviders(
         <Routes>
-          <Route path="/meal-plan/new" element={<MealPlanEntryForm mode="new" />} />
+          <Route path="/meal-planning/new" element={<MealPlanEntryForm mode="new" />} />
         </Routes>,
         {
-          initialEntries: ['/meal-plan/new'],
+          initialEntries: ['/meal-planning/new'],
           preloadedState: { recipes: { recipes: TEST_RECIPES, recipesLoaded: true } },
         }
       );
@@ -142,10 +142,10 @@ describe('MealPlanEntryForm', () => {
       const user = userEvent.setup();
       renderWithProviders(
         <Routes>
-          <Route path="/meal-plan/new" element={<MealPlanEntryForm mode="new" />} />
+          <Route path="/meal-planning/new" element={<MealPlanEntryForm mode="new" />} />
         </Routes>,
         {
-          initialEntries: ['/meal-plan/new'],
+          initialEntries: ['/meal-planning/new'],
           preloadedState: { recipes: { recipes: TEST_RECIPES, recipesLoaded: true } },
         }
       );
@@ -160,10 +160,10 @@ describe('MealPlanEntryForm', () => {
       const user = userEvent.setup();
       renderWithProviders(
         <Routes>
-          <Route path="/meal-plan/new" element={<MealPlanEntryForm mode="new" />} />
+          <Route path="/meal-planning/new" element={<MealPlanEntryForm mode="new" />} />
         </Routes>,
         {
-          initialEntries: ['/meal-plan/new'],
+          initialEntries: ['/meal-planning/new'],
           preloadedState: { recipes: { recipes: TEST_RECIPES, recipesLoaded: true } },
         }
       );
@@ -179,10 +179,10 @@ describe('MealPlanEntryForm', () => {
       const user = userEvent.setup();
       renderWithProviders(
         <Routes>
-          <Route path="/meal-plan/new" element={<MealPlanEntryForm mode="new" />} />
+          <Route path="/meal-planning/new" element={<MealPlanEntryForm mode="new" />} />
         </Routes>,
         {
-          initialEntries: ['/meal-plan/new'],
+          initialEntries: ['/meal-planning/new'],
           preloadedState: { recipes: { recipes: TEST_RECIPES, recipesLoaded: true } },
         }
       );
@@ -196,9 +196,9 @@ describe('MealPlanEntryForm', () => {
     it('shows validation errors from state inline', async () => {
       const { store } = renderWithProviders(
         <Routes>
-          <Route path="/meal-plan/new" element={<MealPlanEntryForm mode="new" />} />
+          <Route path="/meal-planning/new" element={<MealPlanEntryForm mode="new" />} />
         </Routes>,
-        { initialEntries: ['/meal-plan/new'] }
+        { initialEntries: ['/meal-planning/new'] }
       );
 
       act(() => {
@@ -219,30 +219,30 @@ describe('MealPlanEntryForm', () => {
     it('renders back to meal plan link', () => {
       renderWithProviders(
         <Routes>
-          <Route path="/meal-plan/new" element={<MealPlanEntryForm mode="new" />} />
+          <Route path="/meal-planning/new" element={<MealPlanEntryForm mode="new" />} />
         </Routes>,
-        { initialEntries: ['/meal-plan/new'] }
+        { initialEntries: ['/meal-planning/new'] }
       );
       expect(screen.getByText('Back to Meal Plan')).toBeInTheDocument();
     });
 
-    it('renders cancel link pointing to /meal-plan', () => {
+    it('renders cancel link pointing to /meal-planning', () => {
       renderWithProviders(
         <Routes>
-          <Route path="/meal-plan/new" element={<MealPlanEntryForm mode="new" />} />
+          <Route path="/meal-planning/new" element={<MealPlanEntryForm mode="new" />} />
         </Routes>,
-        { initialEntries: ['/meal-plan/new'] }
+        { initialEntries: ['/meal-planning/new'] }
       );
       const cancelLink = screen.getByText('Cancel').closest('a');
-      expect(cancelLink).toHaveAttribute('href', '/meal-plan');
+      expect(cancelLink).toHaveAttribute('href', '/meal-planning');
     });
 
     it('does not show delete button in new mode', () => {
       renderWithProviders(
         <Routes>
-          <Route path="/meal-plan/new" element={<MealPlanEntryForm mode="new" />} />
+          <Route path="/meal-planning/new" element={<MealPlanEntryForm mode="new" />} />
         </Routes>,
-        { initialEntries: ['/meal-plan/new'] }
+        { initialEntries: ['/meal-planning/new'] }
       );
       expect(screen.queryByText('Delete')).not.toBeInTheDocument();
     });
@@ -250,10 +250,10 @@ describe('MealPlanEntryForm', () => {
     it('shows submitting state on button', () => {
       renderWithProviders(
         <Routes>
-          <Route path="/meal-plan/new" element={<MealPlanEntryForm mode="new" />} />
+          <Route path="/meal-planning/new" element={<MealPlanEntryForm mode="new" />} />
         </Routes>,
         {
-          initialEntries: ['/meal-plan/new'],
+          initialEntries: ['/meal-planning/new'],
           preloadedState: { mealPlan: { submitting: true } },
         }
       );
@@ -265,10 +265,10 @@ describe('MealPlanEntryForm', () => {
     it('shows entry not found when entry does not exist in store', () => {
       renderWithProviders(
         <Routes>
-          <Route path="/meal-plan/:id/edit" element={<MealPlanEntryForm mode="edit" />} />
+          <Route path="/meal-planning/:id/edit" element={<MealPlanEntryForm mode="edit" />} />
         </Routes>,
         {
-          initialEntries: ['/meal-plan/nonexistent/edit'],
+          initialEntries: ['/meal-planning/nonexistent/edit'],
           preloadedState: { mealPlan: { entries: {}, entriesLoaded: true } },
         }
       );
@@ -278,10 +278,10 @@ describe('MealPlanEntryForm', () => {
     it('renders edit heading', () => {
       renderWithProviders(
         <Routes>
-          <Route path="/meal-plan/:id/edit" element={<MealPlanEntryForm mode="edit" />} />
+          <Route path="/meal-planning/:id/edit" element={<MealPlanEntryForm mode="edit" />} />
         </Routes>,
         {
-          initialEntries: ['/meal-plan/entry-1/edit'],
+          initialEntries: ['/meal-planning/entry-1/edit'],
           preloadedState: {
             mealPlan: { entries: { 'entry-1': TEST_ENTRY }, entriesLoaded: true },
             recipes: { recipes: TEST_RECIPES, recipesLoaded: true },
@@ -294,10 +294,10 @@ describe('MealPlanEntryForm', () => {
     it('pre-populates all fields from existing entry', () => {
       renderWithProviders(
         <Routes>
-          <Route path="/meal-plan/:id/edit" element={<MealPlanEntryForm mode="edit" />} />
+          <Route path="/meal-planning/:id/edit" element={<MealPlanEntryForm mode="edit" />} />
         </Routes>,
         {
-          initialEntries: ['/meal-plan/entry-1/edit'],
+          initialEntries: ['/meal-planning/entry-1/edit'],
           preloadedState: {
             mealPlan: { entries: { 'entry-1': TEST_ENTRY }, entriesLoaded: true },
             recipes: { recipes: TEST_RECIPES, recipesLoaded: true },
@@ -313,10 +313,10 @@ describe('MealPlanEntryForm', () => {
     it('sets entry mode to recipe when entry has recipeId', () => {
       renderWithProviders(
         <Routes>
-          <Route path="/meal-plan/:id/edit" element={<MealPlanEntryForm mode="edit" />} />
+          <Route path="/meal-planning/:id/edit" element={<MealPlanEntryForm mode="edit" />} />
         </Routes>,
         {
-          initialEntries: ['/meal-plan/entry-1/edit'],
+          initialEntries: ['/meal-planning/entry-1/edit'],
           preloadedState: {
             mealPlan: { entries: { 'entry-1': TEST_ENTRY }, entriesLoaded: true },
             recipes: { recipes: TEST_RECIPES, recipesLoaded: true },
@@ -330,10 +330,10 @@ describe('MealPlanEntryForm', () => {
     it('sets entry mode to ad-hoc when entry has no recipeId', () => {
       renderWithProviders(
         <Routes>
-          <Route path="/meal-plan/:id/edit" element={<MealPlanEntryForm mode="edit" />} />
+          <Route path="/meal-planning/:id/edit" element={<MealPlanEntryForm mode="edit" />} />
         </Routes>,
         {
-          initialEntries: ['/meal-plan/entry-2/edit'],
+          initialEntries: ['/meal-planning/entry-2/edit'],
           preloadedState: {
             mealPlan: { entries: { 'entry-2': TEST_ADHOC_ENTRY }, entriesLoaded: true },
             recipes: { recipes: TEST_RECIPES, recipesLoaded: true },
@@ -347,10 +347,10 @@ describe('MealPlanEntryForm', () => {
     it('shows delete button in edit mode', () => {
       renderWithProviders(
         <Routes>
-          <Route path="/meal-plan/:id/edit" element={<MealPlanEntryForm mode="edit" />} />
+          <Route path="/meal-planning/:id/edit" element={<MealPlanEntryForm mode="edit" />} />
         </Routes>,
         {
-          initialEntries: ['/meal-plan/entry-1/edit'],
+          initialEntries: ['/meal-planning/entry-1/edit'],
           preloadedState: {
             mealPlan: { entries: { 'entry-1': TEST_ENTRY }, entriesLoaded: true },
             recipes: { recipes: TEST_RECIPES, recipesLoaded: true },

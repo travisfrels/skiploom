@@ -14,6 +14,7 @@ React functional components with hooks.
 - **MealPlanEntryForm.tsx**: Create/edit meal plan entry form
 - **IngredientList.tsx**: Displays ingredients
 - **StepList.tsx**: Displays steps
+- **MealPlanning.tsx**: Weekly meal calendar view with day columns and meal type rows
 
 ## Conventions
 
