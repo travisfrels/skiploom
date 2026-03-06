@@ -78,6 +78,7 @@ Frontend sends an `Idempotency-Key` HTTP header (UUID) with create requests. Bac
 - [#180 Send idempotency key header from frontend](https://github.com/travisfrels/skiploom/pull/180)
 - [#181 Add idempotency claim persistence layer](https://github.com/travisfrels/skiploom/pull/181)
 - [#190 Enforce idempotency in create recipe controller](https://github.com/travisfrels/skiploom/pull/190)
+- [#192 Add E2E test for recipe creation idempotency](https://github.com/travisfrels/skiploom/pull/192)
 
 ### Design References
 
