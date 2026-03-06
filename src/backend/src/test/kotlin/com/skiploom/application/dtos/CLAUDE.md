@@ -10,6 +10,8 @@ Unit tests for DTO (`/main/**/application/dtos/`) mapping and Jakarta Bean Valid
 - **RecipeDtoValidationTest.kt**: Validation tests for `RecipeDto` (title, description, ingredients, steps, cascading)
 - **StepDtoTest.kt**: Tests for `StepDto` mapping
 - **StepDtoValidationTest.kt**: Validation tests for `StepDto` (instruction constraints)
+- **MealPlanEntryDtoTest.kt**: Tests for `MealPlanEntryDto` mapping, including `toMealPlanEntryId` parsing
+- **MealPlanEntryDtoValidationTest.kt**: Validation tests for `MealPlanEntryDto` (date, mealType, title, notes constraints)
 
 ## Conventions
 

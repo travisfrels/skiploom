@@ -7,6 +7,9 @@ Unit tests for command use cases (`/main/**/application/commands/`) verifying or
 - **CreateRecipeTest.kt**: Tests for `CreateRecipe` (response shape, save delegation)
 - **UpdateRecipeTest.kt**: Tests for `UpdateRecipe` (save delegation, response shape, not-found, invalid ID)
 - **DeleteRecipeTest.kt**: Tests for `DeleteRecipe` (deletion, not-found, invalid ID, blank ID)
+- **CreateMealPlanEntryTest.kt**: Tests for `CreateMealPlanEntry` (save delegation, response shape, id-not-allowed)
+- **UpdateMealPlanEntryTest.kt**: Tests for `UpdateMealPlanEntry` (save delegation, response shape, not-found, wrong user, invalid ID)
+- **DeleteMealPlanEntryTest.kt**: Tests for `DeleteMealPlanEntry` (deletion, not-found, wrong user, invalid ID, delete-returns-false)
 
 ## Conventions
 
