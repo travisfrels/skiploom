@@ -4,6 +4,7 @@
 |--------|--------|
 | Draft | 2026-03-05 |
 | Active | 2026-03-05 |
+| Done | 2026-03-06 |
 
 ## Context
 
@@ -79,8 +80,69 @@ Frontend sends an `Idempotency-Key` HTTP header (UUID) with create requests. Bac
 - [#181 Add idempotency claim persistence layer](https://github.com/travisfrels/skiploom/pull/181)
 - [#190 Enforce idempotency in create recipe controller](https://github.com/travisfrels/skiploom/pull/190)
 - [#192 Add E2E test for recipe creation idempotency](https://github.com/travisfrels/skiploom/pull/192)
+- [#197 Post-mortem: V1.01 API Idempotent Claim Assertion](https://github.com/travisfrels/skiploom/pull/197)
 
 ### Design References
 
 - [IETF Draft: The Idempotency-Key HTTP Header Field](https://datatracker.ietf.org/doc/draft-ietf-httpapi-idempotency-key-header/)
 - [Stripe API: Idempotent Requests](https://stripe.com/docs/api/idempotent_requests)
+
+## Post-Mortem
+
+V1.01 completed all planned work with zero follow-up issues, zero defects, and zero scope changes across two work sessions. The project added idempotency key support for `create_recipe` — a well-scoped infrastructure concern that extended existing patterns (Flyway migrations, controller-level orchestration, domain interfaces) without introducing new architectural boundaries.
+
+### Timeline
+
+| When | Event |
+|------|-------|
+| Mar 5, 14:49 UTC | Milestone #8 created; issues #174–#177 created |
+| Mar 5, 14:51 | PR #178 opened (project definition) |
+| Mar 5, 15:05 | PR #178 merged after review (2 observations on formatting) |
+| Mar 5, 15:32 | PR #180 opened (#176 frontend idempotency key) |
+| Mar 5, 15:39 | PR #181 opened (#174 claim persistence layer) |
+| Mar 5, 16:02 | PR #180 merged; issue #176 closed |
+| Mar 5, 16:08 | PR #181 merged; issue #174 closed |
+| Mar 5, 19:31 | PR #190 opened (#175 controller enforcement) |
+| (overnight) | Session break |
+| Mar 6, 16:05 | PR #190 merged after review (2 observations); issue #175 closed |
+| Mar 6, 16:27 | PR #192 opened (#177 E2E test) |
+| Mar 6, 16:34 | PR #192 merged; issue #177 closed |
+
+All times are UTC. Cycle time is elapsed time, not active work time.
+
+### Impact
+
+| Metric | Value |
+|--------|-------|
+| Milestone duration | 25h 45m (2 work sessions) |
+| Planned issues | 4 |
+| Follow-up issues | 0 |
+| Total PRs | 5 |
+| Issue cycle time (avg) | 13h 23m (skewed by overnight gap; same-session issues averaged 1h 16m) |
+| PR cycle time (avg) | 4h 23m (skewed by overnight gap; same-session PRs averaged 20m) |
+| PRs with reviews | 5 of 5 (100%) |
+| Defects found in review | 0 |
+| Scope changes | None — exit criteria unchanged |
+
+### What Went Well
+
+- **100% PR review rate.** Every PR received a review before merge, an improvement over V0.11's 75% rate. This addressed the recommendation from the V0.11 post-mortem ([#159](https://github.com/travisfrels/skiploom/issues/159)).
+- **Clean first-pass quality.** All 5 reviews found their PRs acceptable with zero defects. The 4 review observations were all non-blocking (formatting and style). This suggests the project definition's detailed decisions table and clear acceptance criteria on each issue provided sufficient guidance.
+- **Effective parallelism.** PRs #180 (frontend) and #181 (backend persistence) were developed and reviewed concurrently, completing within 6 minutes of each other. The project decomposition enabled independent frontend and backend work streams.
+- **Pattern reuse worked.** The implementation extended existing patterns — Flyway for schema, JPA entities in infrastructure layer, domain interfaces for persistence, controller-level orchestration — without introducing new architectural concepts. The engineering design's existing structure guided implementation decisions.
+
+### What Went Wrong
+
+The project executed cleanly with no failures. Review observations were minor and non-blocking.
+
+| Issue | Contributing Factors | Category |
+|-------|---------------------|----------|
+| Bare URLs in project document References section (PR #178 review) | No formatting convention in project template for reference links | Process |
+
+### Recommendations
+
+Actionable improvements for future projects, highest priority first.
+
+| Priority | Recommendation | Issue |
+|----------|---------------|-------|
+| Low | Standardize project document reference link formatting in the project template | [#196](https://github.com/travisfrels/skiploom/issues/196) |
