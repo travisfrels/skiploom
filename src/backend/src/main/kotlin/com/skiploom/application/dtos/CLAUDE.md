@@ -8,6 +8,7 @@ Data transfer objects with bidirectional entity mapping.
 - **IngredientDto.kt**: DTO and mapping for `Ingredient`
 - **RecipeDto.kt**: DTO and mapping for `Recipe`, including `String.toRecipeId()` UUID parsing
 - **StepDto.kt**: DTO and mapping for `Step`
+- **MealPlanEntryDto.kt**: DTO and mapping for `MealPlanEntry`, including `String.toMealPlanEntryId()` UUID parsing
 
 ## Conventions
 
