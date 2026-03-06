@@ -21,6 +21,8 @@ function MealPlanEntryForm({ mode }: MealPlanEntryFormProps) {
   const currentEntry = useAppSelector((state) =>
     id ? state.mealPlan.entries[id] : null
   );
+  const entriesLoaded = useAppSelector((state) => state.mealPlan.entriesLoaded);
+  const loading = useAppSelector((state) => state.mealPlan.loading);
   const recipes = useAppSelector((state) => state.recipes.recipes);
   const submitting = useAppSelector((state) => state.mealPlan.submitting);
   const validationErrors = useAppSelector((state) => state.mealPlan.validationErrors);
@@ -37,6 +39,12 @@ function MealPlanEntryForm({ mode }: MealPlanEntryFormProps) {
   const getFieldError = (field: string): string | undefined => {
     return validationErrors.find(e => e.field === field)?.message;
   };
+
+  useEffect(() => {
+    if (mode === 'edit' && id && !currentEntry && !entriesLoaded && !loading) {
+      ops.loadMealPlanEntryById(id);
+    }
+  }, [mode, id, currentEntry, entriesLoaded, loading]);
 
   useEffect(() => {
     if (mode === 'new') {
@@ -118,7 +126,9 @@ function MealPlanEntryForm({ mode }: MealPlanEntryFormProps) {
   };
 
   if (mode === 'edit' && !currentEntry) {
-    return (<div><p>Meal plan entry not found.</p></div>);
+    if (loading) return (<div><p>Loading...</p></div>);
+    if (entriesLoaded) return (<div><p>Meal plan entry not found.</p></div>);
+    return null;
   }
 
   const sortedRecipes = Object.values(recipes).sort((a, b) =>

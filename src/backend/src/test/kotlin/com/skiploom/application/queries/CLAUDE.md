@@ -8,6 +8,7 @@ Unit tests for query use cases (`/main/**/application/queries/`) verifying orche
 - **FetchFeatureFlagsTest.kt**: Tests for `FetchFeatureFlags` (empty flags, single flag, multiple flags)
 - **FetchRecipeByIdTest.kt**: Tests for `FetchRecipeById` (not-found, invalid ID, response with ID and message)
 - **FetchMealPlanEntriesTest.kt**: Tests for `FetchMealPlanEntries` (delegation, DTO mapping, empty results, message pluralization)
+- **FetchMealPlanEntryByIdTest.kt**: Tests for `FetchMealPlanEntryById` (not-found, invalid ID, user ownership, response with ID and message)
 
 ## Conventions
 

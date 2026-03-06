@@ -8,6 +8,7 @@ Use cases that fetch information without mutation, each as a standalone `@Servic
 - **FetchFeatureFlags.kt**: Fetches all feature flags with their enabled/disabled state
 - **FetchRecipeById.kt**: Fetches a single recipe by ID
 - **FetchMealPlanEntries.kt**: Fetches meal plan entries by user ID and date range
+- **FetchMealPlanEntryById.kt**: Fetches a single meal plan entry by ID with user ownership check
 
 ## Conventions
 

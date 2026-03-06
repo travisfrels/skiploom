@@ -28,3 +28,12 @@ export interface FetchMealPlanEntriesResponse {
     entries: MealPlanEntry[];
     message: string;
 }
+
+export interface FetchMealPlanEntryByIdQuery {
+    id: string;
+}
+
+export interface FetchMealPlanEntryByIdResponse {
+    entry: MealPlanEntry;
+    message: string;
+}

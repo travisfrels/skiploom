@@ -3,6 +3,8 @@ import type {
     FetchFeatureFlagsResponse,
     FetchMealPlanEntriesQuery,
     FetchMealPlanEntriesResponse,
+    FetchMealPlanEntryByIdQuery,
+    FetchMealPlanEntryByIdResponse,
     FetchRecipeByIdQuery,
     FetchRecipeByIdResponse,
     User
@@ -31,5 +33,10 @@ export async function fetchFeatureFlags(): Promise<FetchFeatureFlagsResponse> {
 
 export async function fetchMealPlanEntries({ startDate, endDate }: FetchMealPlanEntriesQuery): Promise<FetchMealPlanEntriesResponse> {
   const response = await fetch(`${API_BASE_URL}/queries/fetch_meal_plan_entries?startDate=${startDate}&endDate=${endDate}`);
+  return handleResponse(response);
+}
+
+export async function fetchMealPlanEntryById({ id }: FetchMealPlanEntryByIdQuery): Promise<FetchMealPlanEntryByIdResponse> {
+  const response = await fetch(`${API_BASE_URL}/queries/fetch_meal_plan_entry_by_id/${id}`);
   return handleResponse(response);
 }

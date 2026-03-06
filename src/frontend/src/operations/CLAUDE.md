@@ -28,6 +28,8 @@ ops.loadFeatureFlags();
 ops.loadRecipes();
 ops.loadRecipeById(id);
 ops.setCurrentRecipeId(id);
+ops.loadMealPlanEntries({ startDate, endDate });
+ops.loadMealPlanEntryById(id);
 
 // Commands
 const id = await ops.createRecipe({ recipe });
