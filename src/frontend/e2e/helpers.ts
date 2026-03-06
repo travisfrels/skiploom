@@ -11,7 +11,12 @@ export interface TestRecipe {
 // CookieCsrfTokenRepository only writes XSRF-TOKEN when a request triggers
 // CsrfTokenMaterializingFilter. A GET to any API endpoint materializes the
 // cookie so the token is available for the subsequent mutating request.
-async function apiPost<T>(context: BrowserContext, path: string, body: unknown): Promise<T> {
+export async function apiPost<T>(
+    context: BrowserContext,
+    path: string,
+    body: unknown,
+    extraHeaders?: Record<string, string>
+): Promise<T> {
     await context.request.get(`${BASE_URL}/api/queries/fetch_all_recipes`)
     const cookies = await context.cookies()
     const csrfCookie = cookies.find(c => c.name === 'XSRF-TOKEN')
@@ -20,10 +25,19 @@ async function apiPost<T>(context: BrowserContext, path: string, body: unknown):
         headers: {
             'Content-Type': 'application/json',
             'X-XSRF-TOKEN': csrfToken,
+            ...extraHeaders,
         },
         data: body,
     })
     if (!response.ok()) throw new Error(`API ${path} failed: ${response.status()}`)
+    return response.json()
+}
+
+export async function fetchAllRecipes(
+    context: BrowserContext
+): Promise<{ recipes: { id: string; title: string }[] }> {
+    const response = await context.request.get(`${BASE_URL}/api/queries/fetch_all_recipes`)
+    if (!response.ok()) throw new Error(`fetch_all_recipes failed: ${response.status()}`)
     return response.json()
 }
 
