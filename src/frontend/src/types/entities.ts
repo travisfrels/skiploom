@@ -50,6 +50,14 @@ export interface Recipe {
 
 export type MealType = 'BREAKFAST' | 'BRUNCH' | 'LUNCH' | 'DINNER' | 'SNACK';
 
+export const MEAL_TYPES: { value: MealType; label: string }[] = [
+  { value: 'BREAKFAST', label: 'Breakfast' },
+  { value: 'BRUNCH', label: 'Brunch' },
+  { value: 'LUNCH', label: 'Lunch' },
+  { value: 'DINNER', label: 'Dinner' },
+  { value: 'SNACK', label: 'Snack' },
+];
+
 export interface MealPlanEntry {
   id: string;
   date: string;

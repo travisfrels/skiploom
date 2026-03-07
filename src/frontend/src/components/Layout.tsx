@@ -6,8 +6,8 @@ import * as act from '../store/actions';
 
 function Layout() {
   const user = useAppSelector((state) => state.user.user);
-  const error = useAppSelector((state) => state.recipes.error);
-  const success = useAppSelector((state) => state.recipes.success);
+  const error = useAppSelector((state) => state.recipes.error ?? state.mealPlan.error);
+  const success = useAppSelector((state) => state.recipes.success ?? state.mealPlan.success);
   const colorScheme = useColorScheme();
   const mealPlanningEnabled = useAppSelector(
     (state) => state.featureFlags.featureFlags.MEAL_PLANNING ?? false
@@ -15,7 +15,10 @@ function Layout() {
 
   useEffect(() => {
     if (!success) return;
-    const timer = setTimeout(() => act.setSuccess(null), 4000);
+    const timer = setTimeout(() => {
+      act.setSuccess(null);
+      act.setMealPlanSuccess(null);
+    }, 4000);
     return () => clearTimeout(timer);
   }, [success]);
 
@@ -71,7 +74,7 @@ function Layout() {
           <div className="max-w-6xl w-full mx-auto flex justify-between items-center">
             <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
             <button
-              onClick={() => act.setError(null)}
+              onClick={() => { act.setError(null); act.setMealPlanError(null); }}
               className="text-red-400 dark:text-red-300 hover:text-red-600 dark:hover:text-red-400 ml-4"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -86,7 +89,7 @@ function Layout() {
           <div className="max-w-6xl w-full mx-auto flex justify-between items-center">
             <p className="text-sm text-green-600 dark:text-green-400">{success}</p>
             <button
-              onClick={() => act.setSuccess(null)}
+              onClick={() => { act.setSuccess(null); act.setMealPlanSuccess(null); }}
               className="text-green-400 dark:text-green-300 hover:text-green-600 dark:hover:text-green-400 ml-4"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

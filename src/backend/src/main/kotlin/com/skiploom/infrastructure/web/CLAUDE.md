@@ -10,7 +10,7 @@ REST controllers and exception handling for HTTP interactions.
 - **RecipeCommandController.kt**: Command endpoints for recipe mutations (`POST /api/commands/...`); `create_recipe` enforces idempotency via optional `Idempotency-Key` header and claim persistence
 - **RecipeQueryController.kt**: Query endpoints for recipe reads (`GET /api/queries/...`)
 - **MealPlanEntryCommandController.kt**: Command endpoints for meal plan entry mutations (`POST /api/commands/...`); resolves user from OIDC principal
-- **MealPlanEntryQueryController.kt**: Query endpoint for meal plan entry reads (`GET /api/queries/fetch_meal_plan_entries`); resolves user from OIDC principal
+- **MealPlanEntryQueryController.kt**: Query endpoints for meal plan entry reads (`GET /api/queries/fetch_meal_plan_entries`, `GET /api/queries/fetch_meal_plan_entry_by_id/{id}`); resolves user from OIDC principal
 - **ValidationExceptionHandler.kt**: `@ControllerAdvice` adding field-level `{field, message}` errors to validation ProblemDetail responses
 - **E2eFeatureFlagController.kt**: E2E-only feature flag toggle endpoint (`POST /api/e2e/feature-flags/{featureName}`); enables or disables a feature flag via `FeatureManager` (`@Profile("e2e")` — not active in production)
 - **E2eLoginController.kt**: E2E-only login endpoint (`POST /api/e2e/login`); synthesises an OAuth2 session for a fixed test user (`@Profile("e2e")` — not active in production)

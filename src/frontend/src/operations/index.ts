@@ -8,6 +8,7 @@ export { createRecipe } from './createRecipe';
 export { updateRecipe } from './updateRecipe';
 export { deleteRecipe } from './deleteRecipe';
 export { loadMealPlanEntries } from './loadMealPlanEntries';
+export { loadMealPlanEntryById } from './loadMealPlanEntryById';
 export { createMealPlanEntry } from './createMealPlanEntry';
 export { updateMealPlanEntry } from './updateMealPlanEntry';
 export { deleteMealPlanEntry } from './deleteMealPlanEntry';

@@ -137,4 +137,32 @@ describe('Layout', () => {
     );
     expect(screen.getByTitle('Dark mode active')).toBeInTheDocument();
   });
+
+  it('renders error banner when meal plan error state is set', () => {
+    renderWithProviders(
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<div>Page</div>} />
+        </Route>
+      </Routes>,
+      {
+        preloadedState: { mealPlan: { error: 'Meal plan error occurred' } },
+      }
+    );
+    expect(screen.getByText('Meal plan error occurred')).toBeInTheDocument();
+  });
+
+  it('renders success banner when meal plan success state is set', () => {
+    renderWithProviders(
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<div>Page</div>} />
+        </Route>
+      </Routes>,
+      {
+        preloadedState: { mealPlan: { success: 'Entry created successfully' } },
+      }
+    );
+    expect(screen.getByText('Entry created successfully')).toBeInTheDocument();
+  });
 });
