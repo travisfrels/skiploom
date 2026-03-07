@@ -32,6 +32,7 @@ test.describe('Fraction Amounts', () => {
             await test.step('fill in recipe details with fraction amount', async () => {
                 await page.getByLabel('Title').fill('Fraction Amounts Test')
                 await page.getByLabel('Description').fill('Created by fraction amounts E2E test')
+                await expect(page.getByPlaceholder('Amt')).toHaveAttribute('type', 'text')
                 await page.getByPlaceholder('Amt').clear()
                 await page.getByPlaceholder('Amt').fill('1/2')
                 await page.getByPlaceholder('Unit').fill('cup')
