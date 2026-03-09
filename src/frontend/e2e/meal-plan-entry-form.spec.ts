@@ -1,7 +1,9 @@
 import { test, expect } from '@playwright/test'
 import {
     createTestMealPlanEntry,
+    createTestRecipe,
     deleteTestMealPlanEntry,
+    deleteTestRecipe,
     setFeatureFlag,
 } from './helpers'
 
@@ -77,6 +79,62 @@ test.describe('Meal Plan Entry Form', () => {
             await test.step('capture entry id for cleanup', async () => {
                 const cell = page.getByTestId(`cell-${wednesdayISO}-LUNCH`)
                 const entryButton = cell.getByText('E2E Ad-hoc Lunch')
+                const testId = await entryButton.getAttribute('data-testid')
+                createdEntryId = testId?.replace('entry-', '') ?? ''
+            })
+        })
+    })
+
+    test.describe('Create Recipe-Backed Entry', () => {
+        const TEST_RECIPE = {
+            title: 'E2E Recipe-Backed Entry',
+            description: 'Test recipe for meal plan entry',
+            ingredients: [{ orderIndex: 1, amount: 1, unit: 'cup', name: 'flour' }],
+            steps: [{ orderIndex: 1, instruction: 'Mix' }],
+        }
+
+        let recipeId: string
+        let createdEntryId: string
+
+        test.beforeEach(async ({ page }) => {
+            recipeId = await createTestRecipe(page.context(), TEST_RECIPE)
+        })
+
+        test.afterEach(async ({ page }) => {
+            if (createdEntryId) {
+                try {
+                    await deleteTestMealPlanEntry(page.context(), createdEntryId)
+                } catch {
+                    // Entry may not have been created if test failed early
+                }
+            }
+            await deleteTestRecipe(page.context(), recipeId)
+        })
+
+        test('creates a recipe-backed meal plan entry via form and redirects to calendar', async ({ page }) => {
+            await test.step('navigate to the new entry form with query params', async () => {
+                await page.goto(`/meal-planning/new?date=${wednesdayISO}&mealType=DINNER`)
+            })
+            await test.step('select recipe entry type', async () => {
+                await page.getByLabel('Recipe', { exact: true }).check()
+            })
+            await test.step('select the test recipe from the dropdown', async () => {
+                await page.getByLabel('Recipe Selection').selectOption(recipeId)
+            })
+            await test.step('verify title auto-populates with recipe title', async () => {
+                await expect(page.getByLabel('Title *')).toHaveValue(TEST_RECIPE.title)
+            })
+            await test.step('submit the form', async () => {
+                await page.getByRole('button', { name: 'Create Entry' }).click()
+                await page.waitForURL('**/meal-planning')
+            })
+            await test.step('verify the entry appears on the calendar', async () => {
+                const cell = page.getByTestId(`cell-${wednesdayISO}-DINNER`)
+                await expect(cell.getByText(TEST_RECIPE.title)).toBeVisible()
+            })
+            await test.step('capture entry id for cleanup', async () => {
+                const cell = page.getByTestId(`cell-${wednesdayISO}-DINNER`)
+                const entryButton = cell.getByText(TEST_RECIPE.title)
                 const testId = await entryButton.getAttribute('data-testid')
                 createdEntryId = testId?.replace('entry-', '') ?? ''
             })
