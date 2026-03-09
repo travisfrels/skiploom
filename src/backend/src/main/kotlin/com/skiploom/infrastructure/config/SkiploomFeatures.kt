@@ -11,5 +11,8 @@ enum class SkiploomFeatures {
     FRACTION_AMOUNTS,
 
     @Label("Meal Planning")
-    MEAL_PLANNING
+    MEAL_PLANNING,
+
+    @Label("Shopping List")
+    SHOPPING_LIST
 }
