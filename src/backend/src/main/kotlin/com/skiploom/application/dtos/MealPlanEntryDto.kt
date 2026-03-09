@@ -38,7 +38,7 @@ data class MealPlanEntryDto(
         userId = userId,
         date = date!!,
         mealType = mealType!!,
-        recipeId = recipeId?.takeIf { it.isNotBlank() }?.let { UUID.fromString(it) },
+        recipeId = recipeId?.takeIf { it.isNotBlank() }?.let { it.toRecipeId() },
         title = title.trim(),
         notes = notes?.trim()?.takeIf { it.isNotBlank() }
     )
