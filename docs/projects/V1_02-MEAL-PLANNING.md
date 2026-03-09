@@ -104,6 +104,7 @@ Add a nullable `category` enum column to the `recipe` table (always visible, not
 - [#169 Add frontend meal plan state and API layer](https://github.com/travisfrels/skiploom/pull/191)
 - [#170 Add frontend meal calendar view](https://github.com/travisfrels/skiploom/pull/195)
 - [#172 Add frontend meal plan entry form](https://github.com/travisfrels/skiploom/pull/198)
+- [#173 Add E2E test for recipe-backed meal plan entry](https://github.com/travisfrels/skiploom/pull/201)
 
 ### Design References
 
