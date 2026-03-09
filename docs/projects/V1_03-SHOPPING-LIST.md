@@ -3,6 +3,7 @@
 | Status | Set On |
 |--------|--------|
 | Draft | 2026-03-09 |
+| Active | 2026-03-09 |
 
 ## Context
 
@@ -87,7 +88,7 @@ Add a `shopping_list` and `shopping_list_item` table pair for user-owned shoppin
 
 ### Pull Requests
 
-(none yet)
+- [#217 Add SHOPPING_LIST feature flag](https://github.com/travisfrels/skiploom/pull/217)
 
 ### Design References
 
