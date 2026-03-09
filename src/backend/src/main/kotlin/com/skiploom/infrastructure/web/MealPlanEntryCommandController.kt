@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.server.ResponseStatusException
 
 @RestController
 @RequestMapping("/api/commands")
@@ -31,7 +30,7 @@ class MealPlanEntryCommandController(
         @Valid @RequestBody entry: MealPlanEntryDto,
         @AuthenticationPrincipal oidcUser: OidcUser
     ): ResponseEntity<CreateMealPlanEntry.Response> {
-        val userId = resolveUserId(oidcUser)
+        val userId = userReader.resolveUserId(oidcUser)
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(createMealPlanEntry.execute(CreateMealPlanEntry.Command(entry, userId)))
@@ -42,7 +41,7 @@ class MealPlanEntryCommandController(
         @Valid @RequestBody entry: MealPlanEntryDto,
         @AuthenticationPrincipal oidcUser: OidcUser
     ): ResponseEntity<UpdateMealPlanEntry.Response> {
-        val userId = resolveUserId(oidcUser)
+        val userId = userReader.resolveUserId(oidcUser)
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(updateMealPlanEntry.execute(UpdateMealPlanEntry.Command(entry, userId)))
@@ -53,13 +52,10 @@ class MealPlanEntryCommandController(
         @RequestBody request: DeleteRequest,
         @AuthenticationPrincipal oidcUser: OidcUser
     ): ResponseEntity<DeleteMealPlanEntry.Response> {
-        val userId = resolveUserId(oidcUser)
+        val userId = userReader.resolveUserId(oidcUser)
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(deleteMealPlanEntry.execute(DeleteMealPlanEntry.Command(request.id, userId)))
     }
 
-    private fun resolveUserId(oidcUser: OidcUser) =
-        userReader.findByGoogleSubject(oidcUser.subject)?.id
-            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "User not found")
 }

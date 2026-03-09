@@ -4,7 +4,6 @@ import com.skiploom.application.queries.FetchMealPlanEntries
 import com.skiploom.application.queries.FetchMealPlanEntryById
 import com.skiploom.domain.operations.UserReader
 import org.springframework.format.annotation.DateTimeFormat
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.oauth2.core.oidc.user.OidcUser
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.server.ResponseStatusException
 import java.time.LocalDate
 
 @RestController
@@ -29,8 +27,7 @@ class MealPlanEntryQueryController(
         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) endDate: LocalDate,
         @AuthenticationPrincipal oidcUser: OidcUser
     ): ResponseEntity<FetchMealPlanEntries.Response> {
-        val userId = userReader.findByGoogleSubject(oidcUser.subject)?.id
-            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "User not found")
+        val userId = userReader.resolveUserId(oidcUser)
         return ResponseEntity.ok(
             fetchMealPlanEntries.execute(FetchMealPlanEntries.Query(userId, startDate, endDate))
         )
@@ -41,8 +38,7 @@ class MealPlanEntryQueryController(
         @PathVariable id: String,
         @AuthenticationPrincipal oidcUser: OidcUser
     ): ResponseEntity<FetchMealPlanEntryById.Response> {
-        val userId = userReader.findByGoogleSubject(oidcUser.subject)?.id
-            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "User not found")
+        val userId = userReader.resolveUserId(oidcUser)
         return ResponseEntity.ok(
             fetchMealPlanEntryById.execute(FetchMealPlanEntryById.Query(id, userId))
         )
