@@ -9,7 +9,7 @@ Create a GitHub Issue, using the GitHub (`gh`) CLI, about $ARGUMENTS
 
 1. **Determine milestone**: Determine the milestone and project from context.
    - If you were called from the `create-project` skill, then use that project.
-   - If you were called directly, then there is no milesone.
+   - If you were called directly, then there is no milestone.
 2. **Draft the issue** following the `## Issue Structure` and `## Style` guidelines below.
 3. **Create the issue**: `gh issue create --title "{title}" --body "{body}"` — include `--milestone "{title}"` if a milestone was selected in step 1.
 

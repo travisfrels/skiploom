@@ -31,10 +31,10 @@ Implement the GitHub issue $ARGUMENTS
 1. Assign the issue using `gh issue edit $ARGUMENTS --add-assignee @me`.
 2. Post a step-by-step implementation plan using `gh issue comment $ARGUMENTS --body '{Implementation_Plan}'`.
 3. Checkout a working branch from `main` using `git checkout -b issue-$ARGUMENTS-{slugified_issue_title}`.
-5. Push the branch to origin using `git push --set-upstream origin issue-$ARGUMENTS-{slugified_issue_title}`.
-6. For each decision that meets the criteria:
+4. Push the branch to origin using `git push --set-upstream origin issue-$ARGUMENTS-{slugified_issue_title}`.
+5. For each decision that meets the criteria:
   a. Create an ADR in `docs/adrs/` following the ADR template and conventions in `docs/adrs/CLAUDE.md`.
-7. Set project status to "Active":
+6. Set project status to "Active":
   - If the issue has a milestone, find the matching project file in `docs/projects/` and append an Active row to its status table.
     - Skip if already Active or Done, or if the issue has no milestone.
     - See `docs/projects/CLAUDE.md` for status conventions.

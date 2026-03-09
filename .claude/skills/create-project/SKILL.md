@@ -7,7 +7,7 @@ Create project within a local project file (docs/projects) around $ARGUMENTS.
 
 ## Workflow
 
-1. Create a GitHub issue the represent project creation.
+1. Create a GitHub issue to represent project creation.
 2. Create a working branch to use with the project creation GitHub issue.
 3. Create a GitHub Milestone matching the project title using `gh api repos/{owner}/{repo}/milestones -f title="V{VERSION} {Initiative Name}"`
    * The milestone title must match the project title exactly (e.g., `V0.7 Project Workflow`).
