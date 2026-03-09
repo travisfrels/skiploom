@@ -1,6 +1,7 @@
 package com.skiploom.application.dtos
 
 import com.skiploom.application.exceptions.InvalidMealPlanEntryIdException
+import com.skiploom.application.exceptions.InvalidRecipeIdException
 import com.skiploom.domain.entities.MealPlanEntry
 import com.skiploom.domain.entities.MealType
 
@@ -116,6 +117,15 @@ class MealPlanEntryDtoTest {
             val entry = dto.toDomain(userId)
 
             assertNull(entry.recipeId)
+        }
+
+        @Test
+        fun `toDomain throws InvalidRecipeIdException for invalid recipeId`() {
+            val dto = entryDto(recipeId = "not-a-uuid")
+
+            assertThrows<InvalidRecipeIdException> {
+                dto.toDomain(userId)
+            }
         }
 
         @Test
