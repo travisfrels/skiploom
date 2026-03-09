@@ -1,6 +1,6 @@
-# Controller Tests
+# Web Tests
 
-Unit tests for REST controllers (`/main/**/infrastructure/web/`) verifying delegation and HTTP response behavior.
+Unit tests for web layer components (`/main/**/infrastructure/web/`) verifying delegation and HTTP response behavior.
 
 ## Contents
 
@@ -13,6 +13,7 @@ Unit tests for REST controllers (`/main/**/infrastructure/web/`) verifying deleg
 - **RecipeQueryControllerTest.kt**: Tests for `RecipeQueryController` (fetch all, fetch by ID via MockMvc)
 - **MealPlanEntryCommandControllerTest.kt**: Tests for `MealPlanEntryCommandController` (create, update, delete via MockMvc with OIDC auth)
 - **MealPlanEntryQueryControllerTest.kt**: Tests for `MealPlanEntryQueryController` (fetch by date range, fetch by ID via MockMvc with OIDC auth)
+- **OidcUserResolverTest.kt**: Tests for `resolveUserId` extension function (happy path and not-found behavior via MockK)
 
 ## Conventions
 

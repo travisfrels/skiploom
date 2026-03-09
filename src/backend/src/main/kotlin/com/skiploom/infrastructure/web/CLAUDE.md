@@ -11,6 +11,7 @@ REST controllers and exception handling for HTTP interactions.
 - **RecipeQueryController.kt**: Query endpoints for recipe reads (`GET /api/queries/...`)
 - **MealPlanEntryCommandController.kt**: Command endpoints for meal plan entry mutations (`POST /api/commands/...`); resolves user from OIDC principal
 - **MealPlanEntryQueryController.kt**: Query endpoints for meal plan entry reads (`GET /api/queries/fetch_meal_plan_entries`, `GET /api/queries/fetch_meal_plan_entry_by_id/{id}`); resolves user from OIDC principal
+- **OidcUserResolver.kt**: Kotlin extension function on `UserReader` that resolves the authenticated user's ID from an `OidcUser` principal; throws 404 if user not found
 - **ValidationExceptionHandler.kt**: `@ControllerAdvice` adding field-level `{field, message}` errors to validation ProblemDetail responses
 - **E2eFeatureFlagController.kt**: E2E-only feature flag toggle endpoint (`POST /api/e2e/feature-flags/{featureName}`); enables or disables a feature flag via `FeatureManager` (`@Profile("e2e")` — not active in production)
 - **E2eLoginController.kt**: E2E-only login endpoint (`POST /api/e2e/login`); synthesises an OAuth2 session for a fixed test user (`@Profile("e2e")` — not active in production)
