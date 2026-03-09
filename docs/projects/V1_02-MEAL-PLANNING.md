@@ -4,6 +4,7 @@
 |--------|--------|
 | Draft | 2026-03-05 |
 | Active | 2026-03-05 |
+| Done | 2026-03-09 |
 
 ## Context
 
@@ -66,17 +67,17 @@ Add a nullable `category` enum column to the `recipe` table (always visible, not
 
 ## Exit Criteria
 
-- [ ] Recipe `category` field added (schema migration, domain entity, JPA entity, DTOs, form UI, display) — always visible, not flag-gated
-- [ ] `MEAL_PLANNING` feature flag added to `SkiploomFeatures.kt` and guards all meal planning UI/API
-- [ ] `meal_plan_entry` table created with user ownership (schema migration, domain entity, JPA entity)
-- [ ] Backend CRUD commands/queries for meal plan entries (create, update, delete, fetch by date range)
-- [ ] Frontend meal calendar view showing entries by week with day columns and meal type rows
-- [ ] Frontend form to add/edit a meal plan entry (select recipe or enter ad-hoc title)
-- [ ] Meal plan queries filtered by authenticated user
-- [ ] Navigation link to Meal Planning (visible only when flag enabled)
-- [ ] Unit tests for backend commands, queries, and domain logic
-- [ ] E2E tests covering recipe category and meal plan CRUD lifecycle
-- [ ] System runs end-to-end locally with meal planning enabled
+- [x] Recipe `category` field added (schema migration, domain entity, JPA entity, DTOs, form UI, display) — always visible, not flag-gated
+- [x] `MEAL_PLANNING` feature flag added to `SkiploomFeatures.kt` and guards all meal planning UI/API
+- [x] `meal_plan_entry` table created with user ownership (schema migration, domain entity, JPA entity)
+- [x] Backend CRUD commands/queries for meal plan entries (create, update, delete, fetch by date range)
+- [x] Frontend meal calendar view showing entries by week with day columns and meal type rows
+- [x] Frontend form to add/edit a meal plan entry (select recipe or enter ad-hoc title)
+- [x] Meal plan queries filtered by authenticated user
+- [x] Navigation link to Meal Planning (visible only when flag enabled)
+- [x] Unit tests for backend commands, queries, and domain logic
+- [x] E2E tests covering recipe category and meal plan CRUD lifecycle
+- [x] System runs end-to-end locally with meal planning enabled
 
 ## References
 
@@ -92,7 +93,11 @@ Add a nullable `category` enum column to the `recipe` table (always visible, not
 
 ### Follow-Up Issues
 
-(none yet)
+- [#188 Standardize UUID validation across DTOs](https://github.com/travisfrels/skiploom/issues/188)
+- [#194 Wait for text input before filling fraction in E2E test](https://github.com/travisfrels/skiploom/issues/194)
+- [#210 [Post-Mortem] Run E2E test suite before starting new projects](https://github.com/travisfrels/skiploom/issues/210)
+- [#213 [Post-Mortem] Consider integrating E2E criteria into individual feature issues](https://github.com/travisfrels/skiploom/issues/213)
+- [#214 [Post-Mortem] Document cross-issue coverage when reviews identify gaps](https://github.com/travisfrels/skiploom/issues/214)
 
 ### Pull Requests
 
@@ -105,7 +110,81 @@ Add a nullable `category` enum column to the `recipe` table (always visible, not
 - [#170 Add frontend meal calendar view](https://github.com/travisfrels/skiploom/pull/195)
 - [#172 Add frontend meal plan entry form](https://github.com/travisfrels/skiploom/pull/198)
 - [#173 Add E2E test for recipe-backed meal plan entry](https://github.com/travisfrels/skiploom/pull/201)
+- [#205 Post-mortem: V1.02 Meal Planning](https://github.com/travisfrels/skiploom/pull/216)
 
 ### Design References
 
 (none yet)
+
+## Post-Mortem
+
+V1.02 delivered all 8 planned issues across 3 work sessions (Mar 5–9), adding recipe categories and a full meal planning feature with calendar view. The project maintained 100% PR review rate, surfaced 1 defect and 11 non-blocking observations across reviews, and generated 2 follow-up issues — both discovery-type findings rather than implementation failures. No scope changes occurred.
+
+### Timeline
+
+| When | Event |
+|------|-------|
+| Mar 5, 14:47 UTC | Milestone #7 created; issues #165–#170, #172–#173 created |
+| Mar 5, 16:41 | PR #183 opened (#166 feature flag) |
+| Mar 5, 16:57 | PR #184 opened (#165 recipe category) |
+| Mar 5, 17:03 | PR #185 opened (#167 domain/persistence) |
+| Mar 5, 17:42 | PR #183 merged; issue #166 closed |
+| Mar 5, 17:54 | PR #185 merged; issue #167 closed |
+| Mar 5, 18:58 | PR #184 merged; issue #165 closed |
+| Mar 5, 19:13 | PR #187 opened (#168 backend CRUD) |
+| Mar 5, 19:21 | PR #187 merged; issue #168 closed |
+| Mar 5, 19:32 | PR #191 opened (#169 frontend state/API) |
+| (overnight) | Session break |
+| Mar 6, 16:14 | PR #191 merged; issue #169 closed |
+| Mar 6, 16:35 | PR #195 opened (#170 calendar view) |
+| Mar 6, 22:38 | PR #195 merged; issue #170 closed |
+| Mar 6, 23:06 | PR #198 opened (#172 entry form) |
+| Mar 7, 00:25 | PR #198 merged after defect resolution; issue #172 closed |
+| (weekend gap) | Mar 7–9 |
+| Mar 9, 19:16 | PR #201 opened (#173 E2E tests) |
+| Mar 9, 19:27 | PR #201 merged; issue #173 closed |
+
+All times are UTC. Cycle time is elapsed time, not active work time.
+
+### Impact
+
+| Metric | Value |
+|--------|-------|
+| Milestone duration | ~100h 40m (3 work sessions across 4 calendar days) |
+| Planned issues | 8 |
+| Follow-up issues | 2 (#188 UUID validation, #194 pre-existing E2E failure) |
+| Total PRs | 8 |
+| Issue cycle time (avg) | 25h 47m (skewed by #173 at 100h; excluding outlier: 15h 5m) |
+| Issue cycle time (median) | 14h 58m |
+| PR cycle time (avg) | 4h 0m (skewed by #191 at 20h; excluding outlier: 1h 38m) |
+| PR cycle time (median) | 1h 9m |
+| PRs with reviews | 8 of 8 (100%) |
+| Defects found in review | 1 (PR #198 missing E2E tests) |
+| Non-blocking observations | 11 |
+| Scope changes | None |
+
+### What Went Well
+
+- **100% PR review rate maintained.** All 8 PRs received exactly 1 review each before merge.
+- **Effective backend parallelism on Day 1.** PRs #183, #184, #185 developed and reviewed concurrently within 3 hours. All 4 backend issues (#165–#168) closed in a single session.
+- **Review quality caught real issues.** PR #187 review identified unhandled UUID parsing → #188. PR #198 review identified missing E2E tests, resolved before merge. PR #195 work uncovered pre-existing E2E failure → #194.
+- **Clean scope execution.** All 11 exit criteria addressed by 8 planned issues with no scope changes.
+- **Fast PR merge times for well-defined work.** PR #187 merged in 8 minutes. PR #201 in 11 minutes.
+
+### What Went Wrong
+
+| Issue | Contributing Factors | Category |
+|-------|---------------------|----------|
+| E2E testing issue (#173) had 100h cycle time creating a long milestone tail | E2E tests designed as a single terminal issue dependent on all prior work; weekend gap amplified elapsed time | Process |
+| PR #198 initially lacked E2E tests | E2E coverage split into a separate issue (#173) rather than being part of each feature issue's acceptance criteria | Process |
+| Pre-existing E2E test failure discovered mid-project (#194) | No pre-project regression check of E2E test suite | Process |
+
+### Recommendations
+
+Actionable improvements for future projects, highest priority first.
+
+| Priority | Recommendation | Issue |
+|----------|---------------|-------|
+| Medium | Run full E2E test suite before starting a new project to establish a clean baseline | [#210](https://github.com/travisfrels/skiploom/issues/210) |
+| Low | Consider integrating E2E test criteria into individual feature issues rather than batching into a terminal issue | [#213](https://github.com/travisfrels/skiploom/issues/213) |
+| Low | Document cross-issue coverage in PR reviews when a gap is identified that another issue already covers | [#214](https://github.com/travisfrels/skiploom/issues/214) |

@@ -55,11 +55,11 @@ Frontend sends an `Idempotency-Key` HTTP header (UUID) with create requests. Bac
 
 ## Exit Criteria
 
-- [ ] `POST /api/commands/create_recipe` with an `Idempotency-Key` header creates the recipe and stores the claim.
-- [ ] A repeated `POST /api/commands/create_recipe` with the same `Idempotency-Key` returns the original recipe without creating a duplicate.
-- [ ] `POST /api/commands/create_recipe` without an `Idempotency-Key` header continues to work as before (backward compatibility).
-- [ ] The frontend sends an `Idempotency-Key` header with every `create_recipe` request.
-- [ ] E2E test verifies that creating a recipe via the UI produces exactly one recipe (no duplicates from idempotency mechanism).
+- [x] `POST /api/commands/create_recipe` with an `Idempotency-Key` header creates the recipe and stores the claim.
+- [x] A repeated `POST /api/commands/create_recipe` with the same `Idempotency-Key` returns the original recipe without creating a duplicate.
+- [x] `POST /api/commands/create_recipe` without an `Idempotency-Key` header continues to work as before (backward compatibility).
+- [x] The frontend sends an `Idempotency-Key` header with every `create_recipe` request.
+- [x] E2E test verifies that creating a recipe via the UI produces exactly one recipe (no duplicates from idempotency mechanism).
 
 ## References
 
