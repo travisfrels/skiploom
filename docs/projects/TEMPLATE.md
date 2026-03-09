@@ -53,17 +53,17 @@ functionality.
 
 ## References
 
-- Links to the issues that were planned as part of this project's original scope.
+- [{Version} {Initiative Name} Milestone](https://github.com/travisfrels/skiploom/milestone/{number})
+- [#{issue} {Issue title}](https://github.com/travisfrels/skiploom/issues/{number})
 
 ### Follow-Up Issues
 
-- Links to issues discovered during execution that were not part of the original design.
-- These represent gaps in the original plan and feed into the project post-mortem.
+- [#{issue} {Issue title}](https://github.com/travisfrels/skiploom/issues/{number})
 
 ### Pull Requests
 
-- Links to all PRs created during the project, in chronological order.
+- [#{pr} {PR title}](https://github.com/travisfrels/skiploom/pull/{number})
 
 ### Design References
 
-- Links to web-based articles used in the design of the project.
+- [{Article title}]({url})
