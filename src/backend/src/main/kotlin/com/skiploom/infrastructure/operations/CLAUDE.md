@@ -8,6 +8,7 @@ Concrete implementations of domain operation interfaces using specific persisten
 - **PostgresUserRepository.kt**: JPA-based implementation of `UserReader` and `UserWriter` for user persistence
 - **PostgresIdempotencyClaimRepository.kt**: JPA-based implementation of `IdempotencyClaimReader` and `IdempotencyClaimWriter` for idempotency claim persistence
 - **PostgresMealPlanEntryRepository.kt**: JPA-based implementation of `MealPlanEntryReader` and `MealPlanEntryWriter` for meal plan entry persistence
+- **PostgresShoppingListRepository.kt**: JPA-based implementation of `ShoppingListReader` and `ShoppingListWriter` for shopping list aggregate persistence
 - **TogglzFeatureReader.kt**: Togglz-based implementation of `FeatureReader` for checking feature flag state
 
 ## Technologies
