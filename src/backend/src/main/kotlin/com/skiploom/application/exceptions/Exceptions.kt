@@ -24,3 +24,12 @@ class MealPlanEntryIdNotAllowedException :
 
 class MealPlanEntryNotFoundException(id: UUID) :
     ResponseStatusException(HttpStatus.NOT_FOUND, "Meal plan entry not found: $id")
+
+class InvalidShoppingListIdException(id: String) :
+    ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid shopping list id: $id")
+
+class ShoppingListIdNotAllowedException :
+    ResponseStatusException(HttpStatus.BAD_REQUEST, "Shopping list id must not be provided when creating a shopping list")
+
+class ShoppingListNotFoundException(id: UUID) :
+    ResponseStatusException(HttpStatus.NOT_FOUND, "Shopping list not found: $id")

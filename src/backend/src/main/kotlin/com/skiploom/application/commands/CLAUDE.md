@@ -10,6 +10,9 @@ Use cases that atomically mutate system state, each as a standalone `@Service` c
 - **CreateMealPlanEntry.kt**: Creates a new meal plan entry for the authenticated user
 - **UpdateMealPlanEntry.kt**: Updates an existing meal plan entry, verifying ownership
 - **DeleteMealPlanEntry.kt**: Deletes a meal plan entry by ID, verifying ownership
+- **CreateShoppingList.kt**: Creates a new shopping list for the authenticated user
+- **UpdateShoppingList.kt**: Updates an existing shopping list, verifying ownership
+- **DeleteShoppingList.kt**: Deletes a shopping list by ID, verifying ownership
 
 ## Conventions
 

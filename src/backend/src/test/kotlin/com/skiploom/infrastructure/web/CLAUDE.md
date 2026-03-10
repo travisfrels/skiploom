@@ -13,6 +13,8 @@ Unit tests for web layer components (`/main/**/infrastructure/web/`) verifying d
 - **RecipeQueryControllerTest.kt**: Tests for `RecipeQueryController` (fetch all, fetch by ID via MockMvc)
 - **MealPlanEntryCommandControllerTest.kt**: Tests for `MealPlanEntryCommandController` (create, update, delete via MockMvc with OIDC auth)
 - **MealPlanEntryQueryControllerTest.kt**: Tests for `MealPlanEntryQueryController` (fetch by date range, fetch by ID via MockMvc with OIDC auth)
+- **ShoppingListCommandControllerTest.kt**: Tests for `ShoppingListCommandController` (create, update, delete via MockMvc with OIDC auth)
+- **ShoppingListQueryControllerTest.kt**: Tests for `ShoppingListQueryController` (fetch all, fetch by ID via MockMvc with OIDC auth)
 - **OidcUserResolverTest.kt**: Tests for `resolveUserId` extension function (happy path and not-found behavior via MockK)
 
 ## Conventions
