@@ -7,7 +7,6 @@ import shoppingListReducer, {
   addList,
   updateList,
   removeList,
-  setSuccess,
 } from './shoppingListSlice';
 import type { ShoppingList } from '../types';
 
@@ -25,8 +24,6 @@ const initialState = {
   listsLoaded: false,
   currentListId: null,
   loading: false,
-  error: null,
-  success: null,
   validationErrors: [],
   submitting: false,
 };
@@ -39,8 +36,6 @@ describe('shoppingListSlice', () => {
       expect(state.listsLoaded).toBe(false);
       expect(state.currentListId).toBeNull();
       expect(state.loading).toBe(false);
-      expect(state.error).toBeNull();
-      expect(state.success).toBeNull();
       expect(state.validationErrors).toEqual([]);
       expect(state.submitting).toBe(false);
     });
@@ -120,16 +115,4 @@ describe('shoppingListSlice', () => {
     });
   });
 
-  describe('setSuccess', () => {
-    it('sets the success message', () => {
-      const state = shoppingListReducer(initialState, setSuccess('List created'));
-      expect(state.success).toBe('List created');
-    });
-
-    it('clears the success message', () => {
-      const stateWithSuccess = { ...initialState, success: 'List created' };
-      const state = shoppingListReducer(stateWithSuccess, setSuccess(null));
-      expect(state.success).toBeNull();
-    });
-  });
 });

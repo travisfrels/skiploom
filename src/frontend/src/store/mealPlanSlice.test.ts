@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import mealPlanReducer, { setEntries, addEntry, updateEntry, removeEntry, setSuccess } from './mealPlanSlice';
+import mealPlanReducer, { setEntries, addEntry, updateEntry, removeEntry } from './mealPlanSlice';
 import type { MealPlanEntry } from '../types';
 
 const mockEntry: MealPlanEntry = {
@@ -14,8 +14,6 @@ const initialState = {
   entries: {},
   entriesLoaded: false,
   loading: false,
-  error: null,
-  success: null,
   validationErrors: [],
   submitting: false,
 };
@@ -27,8 +25,6 @@ describe('mealPlanSlice', () => {
       expect(state.entries).toEqual({});
       expect(state.entriesLoaded).toBe(false);
       expect(state.loading).toBe(false);
-      expect(state.error).toBeNull();
-      expect(state.success).toBeNull();
       expect(state.validationErrors).toEqual([]);
       expect(state.submitting).toBe(false);
     });
@@ -65,16 +61,4 @@ describe('mealPlanSlice', () => {
     });
   });
 
-  describe('setSuccess', () => {
-    it('sets the success message', () => {
-      const state = mealPlanReducer(initialState, setSuccess('Entry created'));
-      expect(state.success).toBe('Entry created');
-    });
-
-    it('clears the success message', () => {
-      const stateWithSuccess = { ...initialState, success: 'Entry created' };
-      const state = mealPlanReducer(stateWithSuccess, setSuccess(null));
-      expect(state.success).toBeNull();
-    });
-  });
 });

@@ -6,8 +6,6 @@ interface ShoppingListState {
   listsLoaded: boolean;
   currentListId: string | null;
   loading: boolean;
-  error: string | null;
-  success: string | null;
   validationErrors: ValidationError[];
   submitting: boolean;
 }
@@ -17,8 +15,6 @@ const initialState: ShoppingListState = {
   listsLoaded: false,
   currentListId: null,
   loading: false,
-  error: null,
-  success: null,
   validationErrors: [],
   submitting: false,
 };
@@ -29,12 +25,6 @@ const shoppingListSlice = createSlice({
   reducers: {
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
-    },
-    setError: (state, action: PayloadAction<string | null>) => {
-      state.error = action.payload;
-    },
-    setSuccess: (state, action: PayloadAction<string | null>) => {
-      state.success = action.payload;
     },
     setLists: (state, action: PayloadAction<ShoppingList[]>) => {
       state.lists = {};
@@ -77,8 +67,6 @@ const shoppingListSlice = createSlice({
 
 export const {
   setLoading,
-  setError,
-  setSuccess,
   setLists,
   setListsLoaded,
   setCurrentListId,

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import recipeReducer, { clearCurrentRecipeId, setRecipes, addRecipe, setSuccess } from './recipeSlice';
+import recipeReducer, { clearCurrentRecipeId, setRecipes, addRecipe } from './recipeSlice';
 import type { Recipe } from '../types';
 
 const mockRecipe: Recipe = {
@@ -18,8 +18,6 @@ describe('recipeSlice', () => {
         recipesLoaded: false,
         currentRecipeId: 'test-1',
         loading: false,
-        error: null,
-        success: null,
         validationErrors: [],
         submitting: false,
       };
@@ -35,8 +33,6 @@ describe('recipeSlice', () => {
         recipesLoaded: false,
         currentRecipeId: null,
         loading: false,
-        error: null,
-        success: null,
         validationErrors: [],
         submitting: false,
       };
@@ -52,45 +48,11 @@ describe('recipeSlice', () => {
         recipesLoaded: false,
         currentRecipeId: null,
         loading: false,
-        error: null,
-        success: null,
         validationErrors: [],
         submitting: false,
       };
       const state = recipeReducer(initialState, addRecipe(mockRecipe));
       expect(state.recipes['test-1']).toEqual(mockRecipe);
-    });
-  });
-
-  describe('setSuccess', () => {
-    it('sets the success message', () => {
-      const initialState = {
-        recipes: {},
-        recipesLoaded: false,
-        currentRecipeId: null,
-        loading: false,
-        error: null,
-        success: null,
-        validationErrors: [],
-        submitting: false,
-      };
-      const state = recipeReducer(initialState, setSuccess('Recipe created successfully'));
-      expect(state.success).toBe('Recipe created successfully');
-    });
-
-    it('clears the success message', () => {
-      const initialState = {
-        recipes: {},
-        recipesLoaded: false,
-        currentRecipeId: null,
-        loading: false,
-        error: null,
-        success: 'Recipe created successfully',
-        validationErrors: [],
-        submitting: false,
-      };
-      const state = recipeReducer(initialState, setSuccess(null));
-      expect(state.success).toBeNull();
     });
   });
 
@@ -101,8 +63,6 @@ describe('recipeSlice', () => {
       expect(state.recipesLoaded).toBe(false);
       expect(state.currentRecipeId).toBeNull();
       expect(state.loading).toBe(false);
-      expect(state.error).toBeNull();
-      expect(state.success).toBeNull();
       expect(state.validationErrors).toEqual([]);
       expect(state.submitting).toBe(false);
     });

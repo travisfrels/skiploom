@@ -7,7 +7,7 @@ vi.mock('../api', () => ({
 
 vi.mock('../store/actions', () => ({
   setUser: vi.fn(),
-  setError: vi.fn(),
+  setNotificationError: vi.fn(),
 }));
 
 import * as api from '../api';
@@ -37,7 +37,7 @@ describe('loadUser', () => {
 
     await loadUser();
 
-    expect(act.setError).toHaveBeenCalledWith('Network error');
+    expect(act.setNotificationError).toHaveBeenCalledWith('Network error');
     expect(act.setUser).not.toHaveBeenCalled();
   });
 
@@ -46,6 +46,6 @@ describe('loadUser', () => {
 
     await loadUser();
 
-    expect(act.setError).toHaveBeenCalledWith('Failed to load user');
+    expect(act.setNotificationError).toHaveBeenCalledWith('Failed to load user');
   });
 });

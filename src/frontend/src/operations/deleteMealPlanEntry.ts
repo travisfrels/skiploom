@@ -3,17 +3,17 @@ import * as api from '../api';
 import * as act from '../store/actions';
 
 export async function deleteMealPlanEntry(command: DeleteMealPlanEntryCommand): Promise<boolean> {
-  act.setMealPlanError(null);
-  act.setMealPlanSuccess(null);
+  act.setNotificationError(null);
+  act.setNotificationSuccess(null);
   act.setMealPlanSubmitting(true);
 
   try {
     await api.deleteMealPlanEntry(command);
     act.removeMealPlanEntry(command.id);
-    act.setMealPlanSuccess('Meal plan entry deleted successfully');
+    act.setNotificationSuccess('Meal plan entry deleted successfully');
     return true;
   } catch (err) {
-    act.setMealPlanError(err instanceof Error ? err.message : 'Failed to delete meal plan entry');
+    act.setNotificationError(err instanceof Error ? err.message : 'Failed to delete meal plan entry');
     return false;
   } finally {
     act.setMealPlanSubmitting(false);

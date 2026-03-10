@@ -8,7 +8,7 @@ vi.mock('../api', () => ({
 
 vi.mock('../store/actions', () => ({
   setShoppingListLoading: vi.fn(),
-  setShoppingListError: vi.fn(),
+  setNotificationError: vi.fn(),
   setShoppingLists: vi.fn(),
   setShoppingListsLoaded: vi.fn(),
 }));
@@ -33,7 +33,7 @@ describe('loadShoppingLists', () => {
     await loadShoppingLists();
 
     expect(act.setShoppingListLoading).toHaveBeenCalledWith(true);
-    expect(act.setShoppingListError).toHaveBeenCalledWith(null);
+    expect(act.setNotificationError).toHaveBeenCalledWith(null);
   });
 
   it('sets shopping lists and marks loaded on success', async () => {
@@ -50,7 +50,7 @@ describe('loadShoppingLists', () => {
 
     await loadShoppingLists();
 
-    expect(act.setShoppingListError).toHaveBeenCalledWith('Network error');
+    expect(act.setNotificationError).toHaveBeenCalledWith('Network error');
     expect(act.setShoppingLists).not.toHaveBeenCalled();
   });
 

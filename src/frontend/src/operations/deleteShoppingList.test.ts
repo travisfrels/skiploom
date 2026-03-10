@@ -6,8 +6,8 @@ vi.mock('../api', () => ({
 }));
 
 vi.mock('../store/actions', () => ({
-  setShoppingListError: vi.fn(),
-  setShoppingListSuccess: vi.fn(),
+  setNotificationError: vi.fn(),
+  setNotificationSuccess: vi.fn(),
   setShoppingListSubmitting: vi.fn(),
   removeShoppingList: vi.fn(),
 }));
@@ -25,8 +25,8 @@ describe('deleteShoppingList', () => {
 
     await deleteShoppingList({ id: 'list-1' });
 
-    expect(act.setShoppingListError).toHaveBeenCalledWith(null);
-    expect(act.setShoppingListSuccess).toHaveBeenCalledWith(null);
+    expect(act.setNotificationError).toHaveBeenCalledWith(null);
+    expect(act.setNotificationSuccess).toHaveBeenCalledWith(null);
     expect(act.setShoppingListSubmitting).toHaveBeenCalledWith(true);
   });
 
@@ -36,7 +36,7 @@ describe('deleteShoppingList', () => {
     const result = await deleteShoppingList({ id: 'list-1' });
 
     expect(act.removeShoppingList).toHaveBeenCalledWith('list-1');
-    expect(act.setShoppingListSuccess).toHaveBeenCalledWith('Shopping list deleted successfully');
+    expect(act.setNotificationSuccess).toHaveBeenCalledWith('Shopping list deleted successfully');
     expect(result).toBe(true);
   });
 
@@ -45,7 +45,7 @@ describe('deleteShoppingList', () => {
 
     const result = await deleteShoppingList({ id: 'list-1' });
 
-    expect(act.setShoppingListError).toHaveBeenCalledWith('List not found');
+    expect(act.setNotificationError).toHaveBeenCalledWith('List not found');
     expect(result).toBe(false);
   });
 
@@ -54,7 +54,7 @@ describe('deleteShoppingList', () => {
 
     await deleteShoppingList({ id: 'list-1' });
 
-    expect(act.setShoppingListSuccess).not.toHaveBeenCalledWith('Shopping list deleted successfully');
+    expect(act.setNotificationSuccess).not.toHaveBeenCalledWith('Shopping list deleted successfully');
   });
 
   it('sets submitting to false in finally block', async () => {

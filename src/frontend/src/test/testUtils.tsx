@@ -6,6 +6,7 @@ import { store } from '../store';
 import * as featureFlagSlice from '../store/featureFlagSlice';
 import * as slice from '../store/recipeSlice';
 import * as mealPlanSlice from '../store/mealPlanSlice';
+import * as notificationSlice from '../store/notificationSlice';
 import * as shoppingListSlice from '../store/shoppingListSlice';
 import * as userSlice from '../store/userSlice';
 import type { MealPlanEntry, Recipe, ShoppingList, User, ValidationError } from '../types';
@@ -15,8 +16,6 @@ interface RecipeState {
   recipesLoaded: boolean;
   currentRecipeId: string | null;
   loading: boolean;
-  error: string | null;
-  success: string | null;
   validationErrors: ValidationError[];
   submitting: boolean;
 }
@@ -32,12 +31,15 @@ interface FeatureFlagState {
   error: string | null;
 }
 
+interface NotificationState {
+  error: string | null;
+  success: string | null;
+}
+
 interface MealPlanState {
   entries: Record<string, MealPlanEntry>;
   entriesLoaded: boolean;
   loading: boolean;
-  error: string | null;
-  success: string | null;
   validationErrors: ValidationError[];
   submitting: boolean;
 }
@@ -47,8 +49,6 @@ interface ShoppingListState {
   listsLoaded: boolean;
   currentListId: string | null;
   loading: boolean;
-  error: string | null;
-  success: string | null;
   validationErrors: ValidationError[];
   submitting: boolean;
 }
@@ -57,6 +57,7 @@ interface RenderOptions {
   preloadedState?: {
     featureFlags?: Partial<FeatureFlagState>;
     mealPlan?: Partial<MealPlanState>;
+    notification?: Partial<NotificationState>;
     recipes?: Partial<RecipeState>;
     shoppingList?: Partial<ShoppingListState>;
     user?: Partial<UserState>;
@@ -69,27 +70,22 @@ function resetStore() {
   store.dispatch(featureFlagSlice.setFeatureFlagsLoaded(false));
   store.dispatch(featureFlagSlice.setFeatureFlagLoading(false));
   store.dispatch(featureFlagSlice.setFeatureFlagError(null));
+  store.dispatch(notificationSlice.clearNotifications());
   store.dispatch(slice.setRecipes([]));
   store.dispatch(slice.setRecipesLoaded(false));
   store.dispatch(slice.setCurrentRecipeId(null));
   store.dispatch(slice.setLoading(false));
-  store.dispatch(slice.setError(null));
-  store.dispatch(slice.setSuccess(null));
   store.dispatch(slice.setValidationErrors([]));
   store.dispatch(slice.setSubmitting(false));
   store.dispatch(mealPlanSlice.setEntries([]));
   store.dispatch(mealPlanSlice.setEntriesLoaded(false));
   store.dispatch(mealPlanSlice.setLoading(false));
-  store.dispatch(mealPlanSlice.setError(null));
-  store.dispatch(mealPlanSlice.setSuccess(null));
   store.dispatch(mealPlanSlice.setValidationErrors([]));
   store.dispatch(mealPlanSlice.setSubmitting(false));
   store.dispatch(shoppingListSlice.setLists([]));
   store.dispatch(shoppingListSlice.setListsLoaded(false));
   store.dispatch(shoppingListSlice.setCurrentListId(null));
   store.dispatch(shoppingListSlice.setLoading(false));
-  store.dispatch(shoppingListSlice.setError(null));
-  store.dispatch(shoppingListSlice.setSuccess(null));
   store.dispatch(shoppingListSlice.setValidationErrors([]));
   store.dispatch(shoppingListSlice.setSubmitting(false));
   store.dispatch(userSlice.setUser(null));
@@ -121,6 +117,16 @@ export function renderWithProviders(
     }
   }
 
+  if (preloadedState?.notification) {
+    const state = preloadedState.notification;
+    if (state.error !== undefined) {
+      store.dispatch(notificationSlice.setError(state.error));
+    }
+    if (state.success !== undefined) {
+      store.dispatch(notificationSlice.setSuccess(state.success));
+    }
+  }
+
   if (preloadedState?.recipes) {
     const state = preloadedState.recipes;
     if (state.recipes) {
@@ -135,12 +141,6 @@ export function renderWithProviders(
     }
     if (state.loading !== undefined) {
       store.dispatch(slice.setLoading(state.loading));
-    }
-    if (state.error !== undefined) {
-      store.dispatch(slice.setError(state.error));
-    }
-    if (state.success !== undefined) {
-      store.dispatch(slice.setSuccess(state.success));
     }
     if (state.validationErrors) {
       store.dispatch(slice.setValidationErrors(state.validationErrors));
@@ -161,12 +161,6 @@ export function renderWithProviders(
     }
     if (state.loading !== undefined) {
       store.dispatch(mealPlanSlice.setLoading(state.loading));
-    }
-    if (state.error !== undefined) {
-      store.dispatch(mealPlanSlice.setError(state.error));
-    }
-    if (state.success !== undefined) {
-      store.dispatch(mealPlanSlice.setSuccess(state.success));
     }
     if (state.validationErrors) {
       store.dispatch(mealPlanSlice.setValidationErrors(state.validationErrors));
@@ -190,12 +184,6 @@ export function renderWithProviders(
     }
     if (state.loading !== undefined) {
       store.dispatch(shoppingListSlice.setLoading(state.loading));
-    }
-    if (state.error !== undefined) {
-      store.dispatch(shoppingListSlice.setError(state.error));
-    }
-    if (state.success !== undefined) {
-      store.dispatch(shoppingListSlice.setSuccess(state.success));
     }
     if (state.validationErrors) {
       store.dispatch(shoppingListSlice.setValidationErrors(state.validationErrors));

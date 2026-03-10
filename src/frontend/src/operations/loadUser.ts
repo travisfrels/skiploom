@@ -6,6 +6,6 @@ export async function loadUser(): Promise<void> {
     const user = await api.fetchMe();
     act.setUser(user);
   } catch (err) {
-    act.setError(err instanceof Error ? err.message : 'Failed to load user');
+    act.setNotificationError(err instanceof Error ? err.message : 'Failed to load user');
   }
 }

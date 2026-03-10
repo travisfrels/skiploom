@@ -8,7 +8,7 @@ vi.mock('../api', () => ({
 
 vi.mock('../store/actions', () => ({
   setMealPlanLoading: vi.fn(),
-  setMealPlanError: vi.fn(),
+  setNotificationError: vi.fn(),
   addMealPlanEntry: vi.fn(),
   setMealPlanEntriesLoaded: vi.fn(),
 }));
@@ -34,7 +34,7 @@ describe('loadMealPlanEntryById', () => {
     await loadMealPlanEntryById('entry-123');
 
     expect(act.setMealPlanLoading).toHaveBeenCalledWith(true);
-    expect(act.setMealPlanError).toHaveBeenCalledWith(null);
+    expect(act.setNotificationError).toHaveBeenCalledWith(null);
   });
 
   it('adds entry on success', async () => {
@@ -51,7 +51,7 @@ describe('loadMealPlanEntryById', () => {
 
     await loadMealPlanEntryById('entry-123');
 
-    expect(act.setMealPlanError).toHaveBeenCalledWith('Entry not found');
+    expect(act.setNotificationError).toHaveBeenCalledWith('Entry not found');
     expect(act.addMealPlanEntry).not.toHaveBeenCalled();
   });
 

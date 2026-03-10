@@ -5,8 +5,6 @@ interface MealPlanState {
   entries: Record<string, MealPlanEntry>;
   entriesLoaded: boolean;
   loading: boolean;
-  error: string | null;
-  success: string | null;
   validationErrors: ValidationError[];
   submitting: boolean;
 }
@@ -15,8 +13,6 @@ const initialState: MealPlanState = {
   entries: {},
   entriesLoaded: false,
   loading: false,
-  error: null,
-  success: null,
   validationErrors: [],
   submitting: false,
 };
@@ -27,12 +23,6 @@ const mealPlanSlice = createSlice({
   reducers: {
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
-    },
-    setError: (state, action: PayloadAction<string | null>) => {
-      state.error = action.payload;
-    },
-    setSuccess: (state, action: PayloadAction<string | null>) => {
-      state.success = action.payload;
     },
     setEntries: (state, action: PayloadAction<MealPlanEntry[]>) => {
       state.entries = {};
@@ -66,8 +56,6 @@ const mealPlanSlice = createSlice({
 
 export const {
   setLoading,
-  setError,
-  setSuccess,
   setEntries,
   setEntriesLoaded,
   addEntry,

@@ -8,7 +8,7 @@ vi.mock('../api', () => ({
 
 vi.mock('../store/actions', () => ({
   setLoading: vi.fn(),
-  setError: vi.fn(),
+  setNotificationError: vi.fn(),
   setRecipes: vi.fn(),
   setRecipesLoaded: vi.fn(),
 }));
@@ -34,7 +34,7 @@ describe('loadRecipes', () => {
     await loadRecipes();
 
     expect(act.setLoading).toHaveBeenCalledWith(true);
-    expect(act.setError).toHaveBeenCalledWith(null);
+    expect(act.setNotificationError).toHaveBeenCalledWith(null);
   });
 
   it('sets recipes and marks loaded on success', async () => {
@@ -51,7 +51,7 @@ describe('loadRecipes', () => {
 
     await loadRecipes();
 
-    expect(act.setError).toHaveBeenCalledWith('Network error');
+    expect(act.setNotificationError).toHaveBeenCalledWith('Network error');
     expect(act.setRecipes).not.toHaveBeenCalled();
   });
 

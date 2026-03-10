@@ -10,8 +10,8 @@ vi.mock('../api', async (importOriginal) => ({
 
 vi.mock('../store/actions', () => ({
   clearValidationErrors: vi.fn(),
-  setError: vi.fn(),
-  setSuccess: vi.fn(),
+  setNotificationError: vi.fn(),
+  setNotificationSuccess: vi.fn(),
   setSubmitting: vi.fn(),
   addRecipe: vi.fn(),
   setValidationErrors: vi.fn(),
@@ -38,8 +38,8 @@ describe('createRecipe', () => {
     await createRecipe({ recipe: testRecipe });
 
     expect(act.clearValidationErrors).toHaveBeenCalled();
-    expect(act.setError).toHaveBeenCalledWith(null);
-    expect(act.setSuccess).toHaveBeenCalledWith(null);
+    expect(act.setNotificationError).toHaveBeenCalledWith(null);
+    expect(act.setNotificationSuccess).toHaveBeenCalledWith(null);
     expect(act.setSubmitting).toHaveBeenCalledWith(true);
   });
 
@@ -49,7 +49,7 @@ describe('createRecipe', () => {
     const result = await createRecipe({ recipe: testRecipe });
 
     expect(act.addRecipe).toHaveBeenCalledWith(testRecipe);
-    expect(act.setSuccess).toHaveBeenCalledWith('Recipe created successfully');
+    expect(act.setNotificationSuccess).toHaveBeenCalledWith('Recipe created successfully');
     expect(result).toBe('1');
   });
 
@@ -66,7 +66,7 @@ describe('createRecipe', () => {
     const result = await createRecipe({ recipe: testRecipe });
 
     expect(act.setValidationErrors).toHaveBeenCalledWith(errors);
-    expect(act.setError).not.toHaveBeenCalledWith(expect.any(String));
+    expect(act.setNotificationError).not.toHaveBeenCalledWith(expect.any(String));
     expect(result).toBeNull();
   });
 
@@ -75,7 +75,7 @@ describe('createRecipe', () => {
 
     const result = await createRecipe({ recipe: testRecipe });
 
-    expect(act.setError).toHaveBeenCalledWith('Server error');
+    expect(act.setNotificationError).toHaveBeenCalledWith('Server error');
     expect(act.setValidationErrors).not.toHaveBeenCalled();
     expect(result).toBeNull();
   });
@@ -85,7 +85,7 @@ describe('createRecipe', () => {
 
     await createRecipe({ recipe: testRecipe });
 
-    expect(act.setSuccess).not.toHaveBeenCalledWith('Recipe created successfully');
+    expect(act.setNotificationSuccess).not.toHaveBeenCalledWith('Recipe created successfully');
   });
 
   it('sets submitting to false in finally block', async () => {
