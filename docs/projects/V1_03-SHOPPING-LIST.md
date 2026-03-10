@@ -93,6 +93,7 @@ Add a `shopping_list` and `shopping_list_item` table pair for user-owned shoppin
 - [#221 Add shopping list CRUD commands and queries](https://github.com/travisfrels/skiploom/pull/221)
 - [#222 Add frontend shopping list state and API layer](https://github.com/travisfrels/skiploom/pull/222)
 - [#225 Add frontend shopping list pages](https://github.com/travisfrels/skiploom/pull/225)
+- [#226 Add E2E tests for shopping lists](https://github.com/travisfrels/skiploom/pull/226)
 
 ### Design References
 
