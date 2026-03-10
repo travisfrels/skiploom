@@ -4,6 +4,7 @@
 |--------|--------|
 | Draft | 2026-03-09 |
 | Active | 2026-03-09 |
+| Done | 2026-03-10 |
 
 ## Context
 
@@ -84,7 +85,7 @@ Add a `shopping_list` and `shopping_list_item` table pair for user-owned shoppin
 
 ### Follow-Up Issues
 
-(none yet)
+- [#223 Refactor Layout.tsx to reduce domain slice coupling for error/success banners](https://github.com/travisfrels/skiploom/issues/223)
 
 ### Pull Requests
 
@@ -94,7 +95,80 @@ Add a `shopping_list` and `shopping_list_item` table pair for user-owned shoppin
 - [#222 Add frontend shopping list state and API layer](https://github.com/travisfrels/skiploom/pull/222)
 - [#225 Add frontend shopping list pages](https://github.com/travisfrels/skiploom/pull/225)
 - [#226 Add E2E tests for shopping lists](https://github.com/travisfrels/skiploom/pull/226)
+- [#233 Post-mortem: V1.03 Shopping List](https://github.com/travisfrels/skiploom/pull/233)
 
 ### Design References
 
 (none — implementation follows established codebase patterns)
+
+## Post-Mortem
+
+V1.03 delivered a complete shopping list feature — schema, CRUD, frontend, and E2E tests — in ~23.5 hours elapsed across two days with no scope changes. The project benefited from well-established codebase patterns (Recipe and MealPlanEntry aggregates) that made implementation predictable. PR reviews caught a testing gap and identified architectural debt, both of which were resolved before project completion.
+
+### Timeline
+
+| When | Event |
+|------|-------|
+| 2026-03-09 19:55 | Milestone created; all 6 issues (#206–#212) filed |
+| 2026-03-09 20:32 | PR #217 merged — SHOPPING_LIST feature flag |
+| 2026-03-09 20:38 | PR #218 merged — domain and persistence layer |
+| 2026-03-10 15:37 | PR #221 merged — backend CRUD commands and queries |
+| 2026-03-10 16:04 | Follow-up issue #223 created — Layout.tsx coupling debt identified in PR #222 review |
+| 2026-03-10 16:11 | PR #222 merged — frontend state and API layer (reworked to add 37 missing tests) |
+| 2026-03-10 16:42 | PR #225 merged — frontend shopping list pages |
+| 2026-03-10 19:28 | PR #226 merged — E2E tests |
+
+### Impact
+
+**Milestone duration:** ~23.5 hours elapsed (2026-03-09 19:55 → 2026-03-10 19:28). Note: cycle time is elapsed time, not active work time.
+
+**Issue cycle times:**
+
+| Issue | Title | Elapsed |
+|-------|-------|---------|
+| #206 | Add SHOPPING_LIST feature flag | ~36 min |
+| #207 | Create shopping list domain and persistence | ~42 min |
+| #208 | Add shopping list CRUD commands and queries | ~19.7 h |
+| #209 | Add frontend shopping list state and API layer | ~20.2 h |
+| #211 | Add frontend shopping list pages | ~20.8 h |
+| #212 | Add E2E tests for shopping lists | ~23.5 h |
+
+Issues were created simultaneously at project start, so later issues include wait time for sequential dependencies. The elapsed time gradient reflects the serial execution order, not the complexity of individual issues.
+
+**PR cycle times:**
+
+| PR | Title | Elapsed | Reviews |
+|----|-------|---------|---------|
+| #217 | Add SHOPPING_LIST feature flag | ~7 min | 1 |
+| #218 | Create shopping list domain and persistence | ~11 min | 1 |
+| #221 | Add shopping list CRUD commands and queries | ~17 min | 1 |
+| #222 | Add frontend shopping list state and API layer | ~16 min | 2 |
+| #225 | Add frontend shopping list pages | ~6 min | 0 |
+| #226 | Add E2E tests for shopping lists | ~18 min | 1 |
+
+PR cycle times were consistently fast (6–18 min). PR #222 required a second review cycle after rework to add missing tests. PR #225 received no reviews.
+
+**Scope changes:** None. All 6 original issues were delivered as planned.
+
+### What Went Well
+
+- **Clean issue decomposition.** Six issues mapped cleanly to architectural layers (flag → domain → CRUD → frontend state → frontend pages → E2E), enabling sequential execution without rework across boundaries.
+- **Established patterns accelerated delivery.** The Shopping List aggregate closely mirrored Recipe and MealPlanEntry patterns. Existing patterns for domain entities, JPA mapping, CQRS commands/queries, Redux slices, and E2E helpers were reused consistently.
+- **PR reviews caught real issues.** The PR #222 review identified both a testing gap (missing slice tests) and architectural debt (Layout.tsx coupling). Both were resolved — tests were added before merge, and the coupling was tracked as #223 and completed before the project closed.
+- **V1.02 post-mortem recommendations were actioned.** Issues #213 (integrate E2E criteria into feature issues) and #214 (document cross-issue coverage in reviews) from the V1.02 post-mortem were resolved during this project cycle, closing the feedback loop.
+
+### What Went Wrong
+
+| Issue | Contributing Factors | Category |
+|-------|---------------------|----------|
+| PR #225 merged with zero reviews | No process enforcement requiring reviews before merge; perceived simplicity of the change may have led to skipping the review step | Process |
+| PR #222 submitted without slice unit tests | TDD not followed for the new Redux slice despite peer slices having comprehensive test coverage; the gap was only caught during review | Process |
+
+### Recommendations
+
+Actionable improvements for future projects, highest priority first.
+
+| Priority | Recommendation | Issue |
+|----------|---------------|-------|
+| Medium | Ensure all PRs receive at least one review before merge | [#231](https://github.com/travisfrels/skiploom/issues/231) |
+| Low | Reinforce TDD adherence for new Redux slices by referencing peer slice tests as templates | [#232](https://github.com/travisfrels/skiploom/issues/232) |
