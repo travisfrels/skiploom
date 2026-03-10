@@ -8,7 +8,7 @@ vi.mock('../api', () => ({
 
 vi.mock('../store/actions', () => ({
   setShoppingListLoading: vi.fn(),
-  setShoppingListError: vi.fn(),
+  setNotificationError: vi.fn(),
   addShoppingList: vi.fn(),
   setShoppingListsLoaded: vi.fn(),
 }));
@@ -33,7 +33,7 @@ describe('loadShoppingListById', () => {
     await loadShoppingListById('list-1');
 
     expect(act.setShoppingListLoading).toHaveBeenCalledWith(true);
-    expect(act.setShoppingListError).toHaveBeenCalledWith(null);
+    expect(act.setNotificationError).toHaveBeenCalledWith(null);
   });
 
   it('adds shopping list on success', async () => {
@@ -50,7 +50,7 @@ describe('loadShoppingListById', () => {
 
     await loadShoppingListById('list-1');
 
-    expect(act.setShoppingListError).toHaveBeenCalledWith('List not found');
+    expect(act.setNotificationError).toHaveBeenCalledWith('List not found');
     expect(act.addShoppingList).not.toHaveBeenCalled();
   });
 

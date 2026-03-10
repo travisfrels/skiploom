@@ -6,8 +6,8 @@ vi.mock('../api', () => ({
 }));
 
 vi.mock('../store/actions', () => ({
-  setError: vi.fn(),
-  setSuccess: vi.fn(),
+  setNotificationError: vi.fn(),
+  setNotificationSuccess: vi.fn(),
   setSubmitting: vi.fn(),
   removeRecipe: vi.fn(),
 }));
@@ -25,8 +25,8 @@ describe('deleteRecipe', () => {
 
     await deleteRecipe('1');
 
-    expect(act.setError).toHaveBeenCalledWith(null);
-    expect(act.setSuccess).toHaveBeenCalledWith(null);
+    expect(act.setNotificationError).toHaveBeenCalledWith(null);
+    expect(act.setNotificationSuccess).toHaveBeenCalledWith(null);
     expect(act.setSubmitting).toHaveBeenCalledWith(true);
   });
 
@@ -36,7 +36,7 @@ describe('deleteRecipe', () => {
     const result = await deleteRecipe('1');
 
     expect(act.removeRecipe).toHaveBeenCalledWith('1');
-    expect(act.setSuccess).toHaveBeenCalledWith('Recipe deleted successfully');
+    expect(act.setNotificationSuccess).toHaveBeenCalledWith('Recipe deleted successfully');
     expect(result).toBe(true);
   });
 
@@ -45,7 +45,7 @@ describe('deleteRecipe', () => {
 
     const result = await deleteRecipe('1');
 
-    expect(act.setError).toHaveBeenCalledWith('Recipe not found');
+    expect(act.setNotificationError).toHaveBeenCalledWith('Recipe not found');
     expect(result).toBe(false);
   });
 
@@ -54,7 +54,7 @@ describe('deleteRecipe', () => {
 
     await deleteRecipe('1');
 
-    expect(act.setSuccess).not.toHaveBeenCalledWith('Recipe deleted successfully');
+    expect(act.setNotificationSuccess).not.toHaveBeenCalledWith('Recipe deleted successfully');
   });
 
   it('sets submitting to false in finally block', async () => {

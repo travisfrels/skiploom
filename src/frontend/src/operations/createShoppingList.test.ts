@@ -10,8 +10,8 @@ vi.mock('../api', async (importOriginal) => ({
 
 vi.mock('../store/actions', () => ({
   clearShoppingListValidationErrors: vi.fn(),
-  setShoppingListError: vi.fn(),
-  setShoppingListSuccess: vi.fn(),
+  setNotificationError: vi.fn(),
+  setNotificationSuccess: vi.fn(),
   setShoppingListSubmitting: vi.fn(),
   addShoppingList: vi.fn(),
   setShoppingListValidationErrors: vi.fn(),
@@ -37,8 +37,8 @@ describe('createShoppingList', () => {
     await createShoppingList(testList);
 
     expect(act.clearShoppingListValidationErrors).toHaveBeenCalled();
-    expect(act.setShoppingListError).toHaveBeenCalledWith(null);
-    expect(act.setShoppingListSuccess).toHaveBeenCalledWith(null);
+    expect(act.setNotificationError).toHaveBeenCalledWith(null);
+    expect(act.setNotificationSuccess).toHaveBeenCalledWith(null);
     expect(act.setShoppingListSubmitting).toHaveBeenCalledWith(true);
   });
 
@@ -48,7 +48,7 @@ describe('createShoppingList', () => {
     const result = await createShoppingList(testList);
 
     expect(act.addShoppingList).toHaveBeenCalledWith(testList);
-    expect(act.setShoppingListSuccess).toHaveBeenCalledWith('Shopping list created successfully');
+    expect(act.setNotificationSuccess).toHaveBeenCalledWith('Shopping list created successfully');
     expect(result).toBe('list-1');
   });
 
@@ -65,7 +65,7 @@ describe('createShoppingList', () => {
     const result = await createShoppingList(testList);
 
     expect(act.setShoppingListValidationErrors).toHaveBeenCalledWith(errors);
-    expect(act.setShoppingListError).not.toHaveBeenCalledWith(expect.any(String));
+    expect(act.setNotificationError).not.toHaveBeenCalledWith(expect.any(String));
     expect(result).toBeNull();
   });
 
@@ -74,7 +74,7 @@ describe('createShoppingList', () => {
 
     const result = await createShoppingList(testList);
 
-    expect(act.setShoppingListError).toHaveBeenCalledWith('Server error');
+    expect(act.setNotificationError).toHaveBeenCalledWith('Server error');
     expect(act.setShoppingListValidationErrors).not.toHaveBeenCalled();
     expect(result).toBeNull();
   });
@@ -84,7 +84,7 @@ describe('createShoppingList', () => {
 
     await createShoppingList(testList);
 
-    expect(act.setShoppingListSuccess).not.toHaveBeenCalledWith('Shopping list created successfully');
+    expect(act.setNotificationSuccess).not.toHaveBeenCalledWith('Shopping list created successfully');
   });
 
   it('sets submitting to false in finally block', async () => {

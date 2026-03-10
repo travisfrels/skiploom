@@ -70,7 +70,7 @@ describe('Layout', () => {
         </Route>
       </Routes>,
       {
-        preloadedState: { recipes: { error: 'Something went wrong' } },
+        preloadedState: { notification: { error: 'Something went wrong' } },
       }
     );
     expect(screen.getByText('Something went wrong')).toBeInTheDocument();
@@ -138,7 +138,7 @@ describe('Layout', () => {
     expect(screen.getByTitle('Dark mode active')).toBeInTheDocument();
   });
 
-  it('renders error banner when meal plan error state is set', () => {
+  it('renders error banner with notification error message', () => {
     renderWithProviders(
       <Routes>
         <Route element={<Layout />}>
@@ -146,13 +146,13 @@ describe('Layout', () => {
         </Route>
       </Routes>,
       {
-        preloadedState: { mealPlan: { error: 'Meal plan error occurred' } },
+        preloadedState: { notification: { error: 'Meal plan error occurred' } },
       }
     );
     expect(screen.getByText('Meal plan error occurred')).toBeInTheDocument();
   });
 
-  it('renders success banner when meal plan success state is set', () => {
+  it('renders success banner with notification success message', () => {
     renderWithProviders(
       <Routes>
         <Route element={<Layout />}>
@@ -160,7 +160,7 @@ describe('Layout', () => {
         </Route>
       </Routes>,
       {
-        preloadedState: { mealPlan: { success: 'Entry created successfully' } },
+        preloadedState: { notification: { success: 'Entry created successfully' } },
       }
     );
     expect(screen.getByText('Entry created successfully')).toBeInTheDocument();

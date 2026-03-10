@@ -10,8 +10,8 @@ vi.mock('../api', async (importOriginal) => ({
 
 vi.mock('../store/actions', () => ({
   clearShoppingListValidationErrors: vi.fn(),
-  setShoppingListError: vi.fn(),
-  setShoppingListSuccess: vi.fn(),
+  setNotificationError: vi.fn(),
+  setNotificationSuccess: vi.fn(),
   setShoppingListSubmitting: vi.fn(),
   updateShoppingList: vi.fn(),
   setShoppingListValidationErrors: vi.fn(),
@@ -37,8 +37,8 @@ describe('updateShoppingList', () => {
     await updateShoppingList(testList);
 
     expect(act.clearShoppingListValidationErrors).toHaveBeenCalled();
-    expect(act.setShoppingListError).toHaveBeenCalledWith(null);
-    expect(act.setShoppingListSuccess).toHaveBeenCalledWith(null);
+    expect(act.setNotificationError).toHaveBeenCalledWith(null);
+    expect(act.setNotificationSuccess).toHaveBeenCalledWith(null);
     expect(act.setShoppingListSubmitting).toHaveBeenCalledWith(true);
   });
 
@@ -48,7 +48,7 @@ describe('updateShoppingList', () => {
     const result = await updateShoppingList(testList);
 
     expect(act.updateShoppingList).toHaveBeenCalledWith(testList);
-    expect(act.setShoppingListSuccess).toHaveBeenCalledWith('Shopping list updated successfully');
+    expect(act.setNotificationSuccess).toHaveBeenCalledWith('Shopping list updated successfully');
     expect(result).toBe(true);
   });
 
@@ -73,7 +73,7 @@ describe('updateShoppingList', () => {
 
     const result = await updateShoppingList(testList);
 
-    expect(act.setShoppingListError).toHaveBeenCalledWith('List not found');
+    expect(act.setNotificationError).toHaveBeenCalledWith('List not found');
     expect(act.setShoppingListValidationErrors).not.toHaveBeenCalled();
     expect(result).toBe(false);
   });
@@ -83,7 +83,7 @@ describe('updateShoppingList', () => {
 
     await updateShoppingList(testList);
 
-    expect(act.setShoppingListSuccess).not.toHaveBeenCalledWith('Shopping list updated successfully');
+    expect(act.setNotificationSuccess).not.toHaveBeenCalledWith('Shopping list updated successfully');
   });
 
   it('sets submitting to false in finally block', async () => {

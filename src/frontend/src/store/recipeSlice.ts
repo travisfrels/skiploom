@@ -6,8 +6,6 @@ interface RecipeState {
   recipesLoaded: boolean;
   currentRecipeId: string | null;
   loading: boolean;
-  error: string | null;
-  success: string | null;
   validationErrors: ValidationError[];
   submitting: boolean;
 }
@@ -17,8 +15,6 @@ const initialState: RecipeState = {
   recipesLoaded: false,
   currentRecipeId: null,
   loading: false,
-  error: null,
-  success: null,
   validationErrors: [],
   submitting: false,
 };
@@ -29,12 +25,6 @@ const recipeSlice = createSlice({
   reducers: {
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
-    },
-    setError: (state, action: PayloadAction<string | null>) => {
-      state.error = action.payload;
-    },
-    setSuccess: (state, action: PayloadAction<string | null>) => {
-      state.success = action.payload;
     },
     setRecipes: (state, action: PayloadAction<Recipe[]>) => {
       state.recipes = {};
@@ -77,8 +67,6 @@ const recipeSlice = createSlice({
 
 export const {
   setLoading,
-  setError,
-  setSuccess,
   setRecipes,
   setRecipesLoaded,
   setCurrentRecipeId,

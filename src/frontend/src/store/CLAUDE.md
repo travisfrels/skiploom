@@ -8,6 +8,7 @@ Redux Toolkit state management.
 - **hooks.ts**: Typed `useAppSelector` and `useAppDispatch` hooks
 - **featureFlagSlice.ts**: Feature flag state with reducers
 - **mealPlanSlice.ts**: Meal plan entry state with reducers
+- **notificationSlice.ts**: Error and success notification state with reducers
 - **recipeSlice.ts**: Recipe state with reducers
 - **shoppingListSlice.ts**: Shopping list state with reducers
 - **userSlice.ts**: User state with reducers
@@ -21,18 +22,19 @@ Redux Toolkit state management.
 - **recipesLoaded**: `boolean` — whether recipes have been loaded
 - **currentRecipeId**: `string | null` — currently selected recipe
 - **loading**: `boolean` — async operation in progress
-- **error**: `string | null` — operation-level error message
-- **success**: `string | null` — success message (auto-dismisses after 4 seconds in Layout)
 - **validationErrors**: `ValidationError[]` — field-level validation errors
 - **submitting**: `boolean` — form submission in progress
+
+### notificationSlice
+
+- **error**: `string | null` — operation-level error message (rendered by Layout as dismissible red banner)
+- **success**: `string | null` — success message (rendered by Layout as dismissible green banner, auto-dismisses after 4 seconds)
 
 ### mealPlanSlice
 
 - **entries**: `Record<string, MealPlanEntry>` — meal plan entries indexed by ID
 - **entriesLoaded**: `boolean` — whether entries have been loaded
 - **loading**: `boolean` — async operation in progress
-- **error**: `string | null` — operation-level error message
-- **success**: `string | null` — success message
 - **validationErrors**: `ValidationError[]` — field-level validation errors
 - **submitting**: `boolean` — form submission in progress
 
@@ -42,8 +44,6 @@ Redux Toolkit state management.
 - **listsLoaded**: `boolean` — whether lists have been loaded
 - **currentListId**: `string | null` — currently selected shopping list
 - **loading**: `boolean` — async operation in progress
-- **error**: `string | null` — operation-level error message
-- **success**: `string | null` — success message
 - **validationErrors**: `ValidationError[]` — field-level validation errors
 - **submitting**: `boolean` — form submission in progress
 

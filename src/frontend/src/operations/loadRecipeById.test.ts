@@ -9,7 +9,7 @@ vi.mock('../api', () => ({
 vi.mock('../store/actions', () => ({
   setCurrentRecipeId: vi.fn(),
   setLoading: vi.fn(),
-  setError: vi.fn(),
+  setNotificationError: vi.fn(),
   addRecipe: vi.fn(),
 }));
 
@@ -35,7 +35,7 @@ describe('loadRecipeById', () => {
 
     expect(act.setCurrentRecipeId).toHaveBeenCalledWith('abc-123');
     expect(act.setLoading).toHaveBeenCalledWith(true);
-    expect(act.setError).toHaveBeenCalledWith(null);
+    expect(act.setNotificationError).toHaveBeenCalledWith(null);
   });
 
   it('adds recipe on success', async () => {
@@ -51,7 +51,7 @@ describe('loadRecipeById', () => {
 
     await loadRecipeById('abc-123');
 
-    expect(act.setError).toHaveBeenCalledWith('Recipe not found');
+    expect(act.setNotificationError).toHaveBeenCalledWith('Recipe not found');
     expect(act.addRecipe).not.toHaveBeenCalled();
   });
 

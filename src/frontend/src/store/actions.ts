@@ -2,6 +2,7 @@ import type { MealPlanEntry, Recipe, ShoppingList, User, ValidationError } from 
 import { store } from './index';
 import * as featureFlagSlice from './featureFlagSlice';
 import * as mealPlanSlice from './mealPlanSlice';
+import * as notificationSlice from './notificationSlice';
 import * as slice from './recipeSlice';
 import * as shoppingListSlice from './shoppingListSlice';
 import * as userSlice from './userSlice';
@@ -10,12 +11,16 @@ export function setLoading(loading: boolean): void {
   store.dispatch(slice.setLoading(loading));
 }
 
-export function setError(error: string | null): void {
-  store.dispatch(slice.setError(error));
+export function setNotificationError(error: string | null): void {
+  store.dispatch(notificationSlice.setError(error));
 }
 
-export function setSuccess(success: string | null): void {
-  store.dispatch(slice.setSuccess(success));
+export function setNotificationSuccess(success: string | null): void {
+  store.dispatch(notificationSlice.setSuccess(success));
+}
+
+export function clearNotifications(): void {
+  store.dispatch(notificationSlice.clearNotifications());
 }
 
 export function setRecipes(recipes: Recipe[]): void {
@@ -82,14 +87,6 @@ export function setMealPlanLoading(loading: boolean): void {
   store.dispatch(mealPlanSlice.setLoading(loading));
 }
 
-export function setMealPlanError(error: string | null): void {
-  store.dispatch(mealPlanSlice.setError(error));
-}
-
-export function setMealPlanSuccess(success: string | null): void {
-  store.dispatch(mealPlanSlice.setSuccess(success));
-}
-
 export function setMealPlanEntries(entries: MealPlanEntry[]): void {
   store.dispatch(mealPlanSlice.setEntries(entries));
 }
@@ -124,14 +121,6 @@ export function clearMealPlanValidationErrors(): void {
 
 export function setShoppingListLoading(loading: boolean): void {
   store.dispatch(shoppingListSlice.setLoading(loading));
-}
-
-export function setShoppingListError(error: string | null): void {
-  store.dispatch(shoppingListSlice.setError(error));
-}
-
-export function setShoppingListSuccess(success: string | null): void {
-  store.dispatch(shoppingListSlice.setSuccess(success));
 }
 
 export function setShoppingLists(lists: ShoppingList[]): void {

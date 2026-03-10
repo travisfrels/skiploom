@@ -10,8 +10,8 @@ vi.mock('../api', async (importOriginal) => ({
 
 vi.mock('../store/actions', () => ({
   clearValidationErrors: vi.fn(),
-  setError: vi.fn(),
-  setSuccess: vi.fn(),
+  setNotificationError: vi.fn(),
+  setNotificationSuccess: vi.fn(),
   setSubmitting: vi.fn(),
   updateRecipe: vi.fn(),
   setValidationErrors: vi.fn(),
@@ -38,8 +38,8 @@ describe('updateRecipe', () => {
     await updateRecipe(testRecipe);
 
     expect(act.clearValidationErrors).toHaveBeenCalled();
-    expect(act.setError).toHaveBeenCalledWith(null);
-    expect(act.setSuccess).toHaveBeenCalledWith(null);
+    expect(act.setNotificationError).toHaveBeenCalledWith(null);
+    expect(act.setNotificationSuccess).toHaveBeenCalledWith(null);
     expect(act.setSubmitting).toHaveBeenCalledWith(true);
   });
 
@@ -49,7 +49,7 @@ describe('updateRecipe', () => {
     const result = await updateRecipe(testRecipe);
 
     expect(act.updateRecipe).toHaveBeenCalledWith(testRecipe);
-    expect(act.setSuccess).toHaveBeenCalledWith('Recipe updated successfully');
+    expect(act.setNotificationSuccess).toHaveBeenCalledWith('Recipe updated successfully');
     expect(result).toBe(true);
   });
 
@@ -74,7 +74,7 @@ describe('updateRecipe', () => {
 
     const result = await updateRecipe(testRecipe);
 
-    expect(act.setError).toHaveBeenCalledWith('Recipe not found');
+    expect(act.setNotificationError).toHaveBeenCalledWith('Recipe not found');
     expect(act.setValidationErrors).not.toHaveBeenCalled();
     expect(result).toBe(false);
   });
@@ -84,7 +84,7 @@ describe('updateRecipe', () => {
 
     await updateRecipe(testRecipe);
 
-    expect(act.setSuccess).not.toHaveBeenCalledWith('Recipe updated successfully');
+    expect(act.setNotificationSuccess).not.toHaveBeenCalledWith('Recipe updated successfully');
   });
 
   it('sets submitting to false in finally block', async () => {
