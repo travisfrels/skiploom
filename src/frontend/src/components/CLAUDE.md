@@ -15,12 +15,15 @@ React functional components with hooks.
 - **IngredientList.tsx**: Displays ingredients
 - **StepList.tsx**: Displays steps
 - **MealPlanning.tsx**: Weekly meal calendar view with day columns and meal type rows
+- **ShoppingLists.tsx**: Shopping list index page (placeholder)
+- **ShoppingListDetail.tsx**: Shopping list detail page (placeholder)
+- **ShoppingListForm.tsx**: Create/edit shopping list form (placeholder)
 
 ## Conventions
 
 - Use `useAppSelector` (`import { useAppSelector } from '../store/hooks';`) to read state
 - Leverage operations (`import * as ops`) for orchestrating API calls and mutating state
 - Components are responsible for rendering state, not orchestrating API calls or mutating state
-- Operation-level errors (`state.recipes.error`, `state.mealPlan.error`) are rendered exclusively by `Layout.tsx` as a dismissible red banner — individual page components do not read or render this state
-- Success messages (`state.recipes.success`, `state.mealPlan.success`) are rendered exclusively by `Layout.tsx` as a dismissible green banner that auto-dismisses after 4 seconds
-- Validation errors (`state.recipes.validationErrors`, `state.mealPlan.validationErrors`) are rendered inline by form components per field
+- Operation-level errors (`state.recipes.error`, `state.mealPlan.error`, `state.shoppingList.error`) are rendered exclusively by `Layout.tsx` as a dismissible red banner — individual page components do not read or render this state
+- Success messages (`state.recipes.success`, `state.mealPlan.success`, `state.shoppingList.success`) are rendered exclusively by `Layout.tsx` as a dismissible green banner that auto-dismisses after 4 seconds
+- Validation errors (`state.recipes.validationErrors`, `state.mealPlan.validationErrors`, `state.shoppingList.validationErrors`) are rendered inline by form components per field

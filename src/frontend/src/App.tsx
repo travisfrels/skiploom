@@ -8,6 +8,9 @@ import RecipeDetail from './components/RecipeDetail';
 import RecipeForm from './components/RecipeForm';
 import MealPlanEntryForm from './components/MealPlanEntryForm';
 import MealPlanning from './components/MealPlanning';
+import ShoppingLists from './components/ShoppingLists';
+import ShoppingListDetail from './components/ShoppingListDetail';
+import ShoppingListForm from './components/ShoppingListForm';
 import './App.css';
 import * as ops from './operations';
 
@@ -39,6 +42,10 @@ function App() {
           <Route path="meal-planning" element={<MealPlanning />} />
           <Route path="meal-planning/new" element={<MealPlanEntryForm mode="new" />} />
           <Route path="meal-planning/:id/edit" element={<MealPlanEntryForm mode="edit" />} />
+          <Route path="shopping-lists" element={<ShoppingLists />} />
+          <Route path="shopping-lists/new" element={<ShoppingListForm mode="new" />} />
+          <Route path="shopping-lists/:id" element={<ShoppingListDetail />} />
+          <Route path="shopping-lists/:id/edit" element={<ShoppingListForm mode="edit" />} />
         </Route>
       </Routes>
     </BrowserRouter>

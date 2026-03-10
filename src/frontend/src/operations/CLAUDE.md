@@ -30,8 +30,14 @@ ops.loadRecipeById(id);
 ops.setCurrentRecipeId(id);
 ops.loadMealPlanEntries({ startDate, endDate });
 ops.loadMealPlanEntryById(id);
+ops.loadShoppingLists();
+ops.loadShoppingListById(id);
+ops.setCurrentShoppingListId(id);
+ops.clearCurrentShoppingListId();
 
 // Commands
 const id = await ops.createRecipe({ recipe });
 if (id) navigate(`/recipes/${id}`);
+const listId = await ops.createShoppingList(list);
+if (listId) navigate(`/shopping-lists/${listId}`);
 ```

@@ -1,4 +1,4 @@
-import type { MealPlanEntry, Recipe } from './entities';
+import type { MealPlanEntry, Recipe, ShoppingList } from './entities';
 
 export interface FetchAllRecipesResponse {
     recipes: Recipe[];
@@ -35,5 +35,19 @@ export interface FetchMealPlanEntryByIdQuery {
 
 export interface FetchMealPlanEntryByIdResponse {
     entry: MealPlanEntry;
+    message: string;
+}
+
+export interface FetchShoppingListsResponse {
+    lists: ShoppingList[];
+    message: string;
+}
+
+export interface FetchShoppingListByIdQuery {
+    id: string;
+}
+
+export interface FetchShoppingListByIdResponse {
+    list: ShoppingList;
     message: string;
 }
