@@ -65,7 +65,7 @@ The console is only accessible directly on the backend port. It is not proxied t
 
 ## Branch Protection
 
-The `main` branch is protected with classic branch protection rules enforced for all users, including administrators. All changes must go through a pull request with passing CI (`Backend Tests` and `Frontend Tests`). No review approval is required.
+The `main` branch is protected with classic branch protection rules enforced for all users, including administrators. All changes must go through a pull request with passing CI (`Backend Tests` and `Frontend Tests`). At least one review is required by convention (see Source Control Standards in `CLAUDE.md`); branch protection does not enforce this due to single-account constraints.
 
 ### View Current Settings
 
