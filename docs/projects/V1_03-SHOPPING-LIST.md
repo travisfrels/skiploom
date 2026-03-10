@@ -90,6 +90,7 @@ Add a `shopping_list` and `shopping_list_item` table pair for user-owned shoppin
 
 - [#217 Add SHOPPING_LIST feature flag](https://github.com/travisfrels/skiploom/pull/217)
 - [#218 Create shopping list domain and persistence](https://github.com/travisfrels/skiploom/pull/218)
+- [#221 Add shopping list CRUD commands and queries](https://github.com/travisfrels/skiploom/pull/221)
 
 ### Design References
 
