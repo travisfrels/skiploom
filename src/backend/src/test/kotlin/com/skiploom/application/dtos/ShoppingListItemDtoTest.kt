@@ -1,10 +1,12 @@
 package com.skiploom.application.dtos
 
+import com.skiploom.application.exceptions.InvalidShoppingListItemIdException
 import com.skiploom.domain.entities.ShoppingListItem
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import java.util.UUID
 
 class ShoppingListItemDtoTest {
@@ -40,6 +42,15 @@ class ShoppingListItemDtoTest {
             val item = dto.toDomain(shoppingListId)
 
             assertNotNull(item.id)
+        }
+
+        @Test
+        fun `toDomain throws InvalidShoppingListItemIdException for invalid id`() {
+            val dto = itemDto(id = "not-a-uuid")
+
+            assertThrows<InvalidShoppingListItemIdException> {
+                dto.toDomain(shoppingListId)
+            }
         }
 
         @Test

@@ -14,7 +14,7 @@ Unit tests for DTO (`/main/**/application/dtos/`) mapping and Jakarta Bean Valid
 - **MealPlanEntryDtoValidationTest.kt**: Validation tests for `MealPlanEntryDto` (date, mealType, title, notes constraints)
 - **ShoppingListDtoTest.kt**: Tests for `ShoppingListDto` mapping, including `toShoppingListId` parsing, `toSummaryDto`
 - **ShoppingListDtoValidationTest.kt**: Validation tests for `ShoppingListDto` (title constraints, cascading item validation)
-- **ShoppingListItemDtoTest.kt**: Tests for `ShoppingListItemDto` mapping
+- **ShoppingListItemDtoTest.kt**: Tests for `ShoppingListItemDto` mapping, including invalid ID handling
 - **ShoppingListItemDtoValidationTest.kt**: Validation tests for `ShoppingListItemDto` (label, checked, orderIndex constraints)
 
 ## Conventions
