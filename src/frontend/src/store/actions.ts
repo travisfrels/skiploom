@@ -1,8 +1,9 @@
-import type { MealPlanEntry, Recipe, User, ValidationError } from '../types';
+import type { MealPlanEntry, Recipe, ShoppingList, User, ValidationError } from '../types';
 import { store } from './index';
 import * as featureFlagSlice from './featureFlagSlice';
 import * as mealPlanSlice from './mealPlanSlice';
 import * as slice from './recipeSlice';
+import * as shoppingListSlice from './shoppingListSlice';
 import * as userSlice from './userSlice';
 
 export function setLoading(loading: boolean): void {
@@ -119,4 +120,56 @@ export function setMealPlanValidationErrors(errors: ValidationError[]): void {
 
 export function clearMealPlanValidationErrors(): void {
   store.dispatch(mealPlanSlice.clearValidationErrors());
+}
+
+export function setShoppingListLoading(loading: boolean): void {
+  store.dispatch(shoppingListSlice.setLoading(loading));
+}
+
+export function setShoppingListError(error: string | null): void {
+  store.dispatch(shoppingListSlice.setError(error));
+}
+
+export function setShoppingListSuccess(success: string | null): void {
+  store.dispatch(shoppingListSlice.setSuccess(success));
+}
+
+export function setShoppingLists(lists: ShoppingList[]): void {
+  store.dispatch(shoppingListSlice.setLists(lists));
+}
+
+export function setShoppingListsLoaded(loaded: boolean): void {
+  store.dispatch(shoppingListSlice.setListsLoaded(loaded));
+}
+
+export function setCurrentShoppingListId(id: string | null): void {
+  store.dispatch(shoppingListSlice.setCurrentListId(id));
+}
+
+export function clearCurrentShoppingListId(): void {
+  store.dispatch(shoppingListSlice.clearCurrentListId());
+}
+
+export function addShoppingList(list: ShoppingList): void {
+  store.dispatch(shoppingListSlice.addList(list));
+}
+
+export function updateShoppingList(list: ShoppingList): void {
+  store.dispatch(shoppingListSlice.updateList(list));
+}
+
+export function removeShoppingList(id: string): void {
+  store.dispatch(shoppingListSlice.removeList(id));
+}
+
+export function setShoppingListSubmitting(submitting: boolean): void {
+  store.dispatch(shoppingListSlice.setSubmitting(submitting));
+}
+
+export function setShoppingListValidationErrors(errors: ValidationError[]): void {
+  store.dispatch(shoppingListSlice.setValidationErrors(errors));
+}
+
+export function clearShoppingListValidationErrors(): void {
+  store.dispatch(shoppingListSlice.clearValidationErrors());
 }

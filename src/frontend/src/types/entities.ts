@@ -66,3 +66,16 @@ export interface MealPlanEntry {
   title: string;
   notes?: string;
 }
+
+export interface ShoppingListItem {
+  id: string;
+  label: string;
+  checked: boolean;
+  orderIndex: number;
+}
+
+export interface ShoppingList {
+  id: string;
+  title: string;
+  items: ShoppingListItem[];
+}

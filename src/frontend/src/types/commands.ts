@@ -1,4 +1,4 @@
-import type { MealPlanEntry, MealType, Recipe } from './entities';
+import type { MealPlanEntry, MealType, Recipe, ShoppingList } from './entities';
 
 export interface CreateRecipeCommand {
   recipe: Recipe;
@@ -52,5 +52,27 @@ export interface DeleteMealPlanEntryCommand {
 }
 
 export interface DeleteMealPlanEntryResponse {
+  message: string;
+}
+
+export type CreateShoppingListCommand = ShoppingList;
+
+export interface CreateShoppingListResponse {
+  list: ShoppingList;
+  message: string;
+}
+
+export type UpdateShoppingListCommand = ShoppingList;
+
+export interface UpdateShoppingListResponse {
+  list: ShoppingList;
+  message: string;
+}
+
+export interface DeleteShoppingListCommand {
+  id: string;
+}
+
+export interface DeleteShoppingListResponse {
   message: string;
 }

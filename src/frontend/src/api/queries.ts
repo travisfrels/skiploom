@@ -7,6 +7,9 @@ import type {
     FetchMealPlanEntryByIdResponse,
     FetchRecipeByIdQuery,
     FetchRecipeByIdResponse,
+    FetchShoppingListByIdQuery,
+    FetchShoppingListByIdResponse,
+    FetchShoppingListsResponse,
     User
 } from '../types';
 import { API_BASE_URL, handleResponse } from './shared';
@@ -38,5 +41,15 @@ export async function fetchMealPlanEntries({ startDate, endDate }: FetchMealPlan
 
 export async function fetchMealPlanEntryById({ id }: FetchMealPlanEntryByIdQuery): Promise<FetchMealPlanEntryByIdResponse> {
   const response = await fetch(`${API_BASE_URL}/queries/fetch_meal_plan_entry_by_id/${id}`);
+  return handleResponse(response);
+}
+
+export async function fetchShoppingLists(): Promise<FetchShoppingListsResponse> {
+  const response = await fetch(`${API_BASE_URL}/queries/fetch_shopping_lists`);
+  return handleResponse(response);
+}
+
+export async function fetchShoppingListById({ id }: FetchShoppingListByIdQuery): Promise<FetchShoppingListByIdResponse> {
+  const response = await fetch(`${API_BASE_URL}/queries/fetch_shopping_list_by_id/${id}`);
   return handleResponse(response);
 }
