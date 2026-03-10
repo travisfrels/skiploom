@@ -101,7 +101,7 @@ function ShoppingListForm({ mode }: ShoppingListFormProps) {
       }
     } else {
       const newId = await ops.createShoppingList({
-        id: crypto.randomUUID(),
+        id: '',
         title: title.trim(),
         items: [],
       });

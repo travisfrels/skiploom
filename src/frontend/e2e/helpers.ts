@@ -74,6 +74,25 @@ export async function deleteTestMealPlanEntry(context: BrowserContext, id: strin
     await apiPost(context, '/commands/delete_meal_plan_entry', { id })
 }
 
+export interface TestShoppingList {
+    title: string
+    items: { id: string; label: string; checked: boolean; orderIndex: number }[]
+}
+
+export async function createTestShoppingList(
+    context: BrowserContext,
+    shoppingList: TestShoppingList
+): Promise<string> {
+    const result = await apiPost<{ list: { id: string } }>(
+        context, '/commands/create_shopping_list', { ...shoppingList, id: '' }
+    )
+    return result.list.id
+}
+
+export async function deleteTestShoppingList(context: BrowserContext, id: string): Promise<void> {
+    await apiPost(context, '/commands/delete_shopping_list', { id })
+}
+
 // /api/e2e/** endpoints bypass CSRF and authentication (E2eSecurityConfig),
 // so no XSRF token handling is needed here.
 export async function setFeatureFlag(
