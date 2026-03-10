@@ -21,6 +21,7 @@ Review GitHub pull request $ARGUMENTS
    * Does the PR do what the issue asks — no more, no less? Flag unrelated changes bundled into the PR.
    * Is the logic correct? Look for off-by-one errors, incorrect assumptions, missing conditions, and unhandled states.
    * Are there race conditions, null dereferences, or other correctness hazards?
+   * When a gap is identified, check whether it is already tracked by another issue. If so, note the covering issue and whether the gap should be resolved in this PR or deferred.
 2. Think critically about code quality and design.
    * Assess readability, maintainability, extensibility, and modularity.
    * Is the code clean, SOLID, DRY, and self documenting?
