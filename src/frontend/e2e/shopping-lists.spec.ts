@@ -147,6 +147,27 @@ test.describe('Shopping List CRUD', () => {
                 await expect(checkbox).toBeChecked()
             })
         })
+
+        test('unchecks a checked item and verifies persistence after reload', async ({ page }) => {
+            await test.step('navigate to the shopping list detail page', async () => {
+                await page.goto(`/shopping-lists/${listId}`)
+            })
+            await test.step('check the item', async () => {
+                const checkbox = page.locator('li').filter({ hasText: 'Milk' }).getByRole('checkbox')
+                await checkbox.click()
+                await expect(checkbox).toBeChecked()
+            })
+            await test.step('uncheck the item', async () => {
+                const checkbox = page.locator('li').filter({ hasText: 'Milk' }).getByRole('checkbox')
+                await checkbox.click()
+                await expect(checkbox).not.toBeChecked()
+            })
+            await test.step('reload the page and verify the unchecked state persists', async () => {
+                await page.reload()
+                const checkbox = page.locator('li').filter({ hasText: 'Milk' }).getByRole('checkbox')
+                await expect(checkbox).not.toBeChecked()
+            })
+        })
     })
 
     test.describe('Edit', () => {
