@@ -5,12 +5,13 @@ description: Plan a project by investigating the problem space, drafting project
 
 Plan a project around $ARGUMENTS
 
-1. Read `docs/ENG-DESIGN.md`, `docs/projects/CLAUDE.md`, and `docs/projects/TEMPLATE.md`.
-2. Read project documents in `docs/projects/` noting the status of the project to identify lessons learned and in-flight work.
-3. Examine the codebase for relevant files and documentation noting the behavior and constraints that each file imposes on the solution.
+1. Run the full E2E test suite to establish a clean baseline: `bash scripts/run-e2e.sh --development`. All tests must pass before proceeding. If any tests fail, report the failures to the user and stop — do not continue with project planning until the baseline is clean.
+2. Read `docs/ENG-DESIGN.md`, `docs/projects/CLAUDE.md`, and `docs/projects/TEMPLATE.md`.
+3. Read project documents in `docs/projects/` noting the status of the project to identify lessons learned and in-flight work.
+4. Examine the codebase for relevant files and documentation noting the behavior and constraints that each file imposes on the solution.
   - Stop when you can describe the current state in the Situation section without gaps.
-4. Where the implementation space is non-obvious, consult official documentation and collect design reference URLs.
-5. Draft a research brief and present it to the user for confirmation:
+5. Where the implementation space is non-obvious, consult official documentation and collect design reference URLs.
+6. Draft a research brief and present it to the user for confirmation:
    * **Situation**: Current state, grounded in specific files, systems, and behaviors observed.
    * **Opportunity**: What is wrong or could be better, with root cause if applicable.
    * **Approach**: Generate viable alternatives — for each, describe what it is, how it addresses the problem, and its trade-offs. Present alternatives as columns in a markdown table with impact, least astonishment, and idiomaticity as rows at minimum. Then assess alternatives: score each against impact, least astonishment, and idiomaticity (High/Medium/Low), identify the most viable, and justify rejected alternatives. Present the recommendation with a decisions table if multiple decisions are involved.
@@ -19,9 +20,9 @@ Plan a project around $ARGUMENTS
    * **Exit Criteria**: Verifiable conditions that define "done." For infrastructure or workflow projects, include at least one criterion that exercises the integrated system end-to-end.
    * **Issue Decomposition**: Break exit criteria into discrete, implementable issues. Each issue should have a title and a brief description of its scope.
    * **Design References**: External documentation URLs consulted during research.
-6. Iterate on user feedback until the research brief is confirmed.
-7. Evaluate each decision in the Approach section against the ADR eligibility criteria in `docs/adrs/CLAUDE.md`. For decisions that meet the criteria, create the ADR in `docs/adrs/` following the ADR template and conventions in `docs/adrs/CLAUDE.md`. Link the ADR in the research brief's Design References.
-8. Create the project definition file and GitHub Milestone from the confirmed research brief:
+7. Iterate on user feedback until the research brief is confirmed.
+8. Evaluate each decision in the Approach section against the ADR eligibility criteria in `docs/adrs/CLAUDE.md`. For decisions that meet the criteria, create the ADR in `docs/adrs/` following the ADR template and conventions in `docs/adrs/CLAUDE.md`. Link the ADR in the research brief's Design References.
+9. Create the project definition file and GitHub Milestone from the confirmed research brief:
     1. Create a GitHub issue to represent project creation.
     2. Create a working branch to use with the project creation GitHub issue.
     3. Create a GitHub Milestone matching the project title using `gh api repos/{owner}/{repo}/milestones -f title="V{VERSION} {Initiative Name}"`. The milestone title must match the project title exactly.
