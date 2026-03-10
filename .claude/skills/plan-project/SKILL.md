@@ -18,7 +18,7 @@ Plan a project around $ARGUMENTS
    * **Goals**: What the project achieves.
    * **Non-Goals**: What the project explicitly does not attempt.
    * **Exit Criteria**: Verifiable conditions that define "done." For infrastructure or workflow projects, include at least one criterion that exercises the integrated system end-to-end.
-   * **Issue Decomposition**: Break exit criteria into discrete, implementable issues. Each issue should have a title and a brief description of its scope.
+   * **Issue Decomposition**: Break exit criteria into discrete, implementable issues. Each issue should have a title and a brief description of its scope. For features that affect user-facing behavior, include E2E test criteria in the feature issue's acceptance criteria rather than deferring E2E coverage to a separate terminal issue.
    * **Design References**: External documentation URLs consulted during research.
 7. Iterate on user feedback until the research brief is confirmed.
 8. Evaluate each decision in the Approach section against the ADR eligibility criteria in `docs/adrs/CLAUDE.md`. For decisions that meet the criteria, create the ADR in `docs/adrs/` following the ADR template and conventions in `docs/adrs/CLAUDE.md`. Link the ADR in the research brief's Design References.
