@@ -3,6 +3,7 @@
 | Status | Set On |
 |--------|--------|
 | Draft | 2026-03-10 |
+| Active | 2026-03-11 |
 
 ## Context
 
@@ -20,7 +21,7 @@ Skiploom has completed four project iterations (V1.0 MVP through V1.03 Shopping 
 | Backend Runtime | Java | 21 | `.java-version` + `build.gradle.kts` |
 | Backend Language | Kotlin | 2.3.10 | `build.gradle.kts` |
 | Backend Framework | Spring Boot | 4.0.2 | `build.gradle.kts` |
-| Database | PostgreSQL | 16-alpine | `compose.yml` |
+| Database | PostgreSQL | 17-alpine | `compose.yml` |
 
 Documentation issues identified during baseline audit:
 
