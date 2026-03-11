@@ -3,6 +3,7 @@
 | Status | Set On |
 |--------|--------|
 | Draft | 2026-03-11 |
+| Active | 2026-03-11 |
 
 ## Context
 
@@ -93,6 +94,8 @@ Chrome extension extracts schema.org/Recipe JSON-LD data from the current web pa
 ### Follow-Up Issues
 
 ### Pull Requests
+
+- [#253 Add RECIPE_IMPORT feature flag](https://github.com/travisfrels/skiploom/pull/253)
 
 ### Design References
 
