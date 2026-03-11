@@ -56,3 +56,9 @@ act.setLoading(true);
 act.setCurrentRecipeId(id);
 act.addRecipe(recipe);
 ```
+
+## Testing
+
+- New slices must have a corresponding `<sliceName>.test.ts` file from the first commit (TDD).
+- Use existing slice test files as templates (e.g., `recipeSlice.test.ts`, `mealPlanSlice.test.ts`).
+- Test coverage for a new slice should have parity with peer slices: initial state, each reducer, and edge cases.
