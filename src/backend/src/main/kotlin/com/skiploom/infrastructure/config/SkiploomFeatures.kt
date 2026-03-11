@@ -14,5 +14,8 @@ enum class SkiploomFeatures {
     MEAL_PLANNING,
 
     @Label("Shopping List")
-    SHOPPING_LIST
+    SHOPPING_LIST,
+
+    @Label("Recipe Import")
+    RECIPE_IMPORT
 }
