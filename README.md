@@ -11,10 +11,13 @@ skiploom/
 │   └── backend/                 # Kotlin/Spring REST API
 ├── docs/                        # Documentation
 │   ├── adrs/                    # Architecture Decision Records
-│   └── projects/                # Project definitions
+│   ├── projects/                # Project definitions
+│   ├── ENG-DESIGN.md            # Engineering design
+│   └── RUNBOOK.md               # Operational procedures
 ├── infra/                       # Infrastructure
 │   └── postgres/                # PostgreSQL initialization
 ├── scripts/                     # Automation scripts
+├── secrets.example/             # Secret file templates
 ├── compose.yml                  # Docker Compose
 └── compose.e2e.yml              # Docker Compose E2E override
 ```
