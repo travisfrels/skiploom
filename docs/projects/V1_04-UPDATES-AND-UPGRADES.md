@@ -99,6 +99,8 @@ Audit dependencies, apply updates, remediate vulnerabilities, and correct docume
 
 ### Pull Requests
 
+- [#252 Update backend dependencies and upgrade PostgreSQL to 17](https://github.com/travisfrels/skiploom/pull/252)
+
 ### Design References
 
 - [npm audit documentation](https://docs.npmjs.com/cli/v10/commands/npm-audit)
