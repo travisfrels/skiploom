@@ -3,6 +3,7 @@
 | Status | Set On |
 |--------|--------|
 | Draft | 2026-03-10 |
+| Active | 2026-03-11 |
 
 ## Context
 
@@ -19,8 +20,8 @@ Skiploom has completed four project iterations (V1.0 MVP through V1.03 Shopping 
 | Frontend Testing | Vitest / Playwright | ^4.0.18 / ^1.58.2 | `package.json` |
 | Backend Runtime | Java | 21 | `.java-version` + `build.gradle.kts` |
 | Backend Language | Kotlin | 2.3.10 | `build.gradle.kts` |
-| Backend Framework | Spring Boot | 4.0.2 | `build.gradle.kts` |
-| Database | PostgreSQL | 16-alpine | `compose.yml` |
+| Backend Framework | Spring Boot | 4.0.3 | `build.gradle.kts` |
+| Database | PostgreSQL | 17-alpine | `compose.yml` |
 
 Documentation issues identified during baseline audit:
 
@@ -97,6 +98,8 @@ Audit dependencies, apply updates, remediate vulnerabilities, and correct docume
 ### Follow-Up Issues
 
 ### Pull Requests
+
+- [#252 Update backend dependencies and upgrade PostgreSQL to 17](https://github.com/travisfrels/skiploom/pull/252)
 
 ### Design References
 
