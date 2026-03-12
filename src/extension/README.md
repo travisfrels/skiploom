@@ -18,8 +18,9 @@ Chrome extension for importing recipes from web pages into Skiploom.
 
 ## Testing
 
-Run content script unit tests using Node.js (v18+):
+Run unit tests using Node.js (v18+):
 
 ```sh
 node --test src/extension/content.test.js
+node --test src/extension/popup.test.js
 ```
