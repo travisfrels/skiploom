@@ -26,7 +26,7 @@ Skiploom has completed four project iterations (V1.0 MVP through V1.03 Shopping 
 Documentation issues identified during baseline audit:
 
 1. **Root `README.md`** — Directory structure is stale. References `docs/spades/`, `docs/eng-designs/`, `docs/AGENTS.md`, `AGENTS.md` that do not reflect current structure. Missing `docs/projects/`, `infra/`, `scripts/`.
-2. **Backend `README.md`** — Prerequisites say "JDK 17+" but `.java-version` is 21 and `build.gradle.kts` specifies Java 21 toolchain. References `.env.example` at repo root which does not exist. Has "TODO" for directory structure.
+2. **Backend `README.md`** — Prerequisites say "JDK 17+" but `.java-version` is 21 and `build.gradle.kts` specifies Java 21 toolchain. References `.env.example` at repo root, but Skiploom uses Docker Compose file-based secrets (ADR-OP-SECRETS-20260215), not `.env` files. Has "TODO" for directory structure.
 3. **Frontend `README.md`** — Prerequisites say "Node.js 18+" but `.node-version` is 22 and `package.json` requires `>=22`. Has "TODO" for directory structure.
 
 Baseline audit results (2026-03-10):
@@ -53,7 +53,7 @@ Audit dependencies, apply updates, remediate vulnerabilities, and correct docume
 | Runtime versions | Keep Node 22 LTS and Java 21 LTS | Both are current LTS releases. No upgrade needed. |
 | Documentation approach | Update existing READMEs in place | Follows least astonishment — developers expect setup info in README files. |
 | PostgreSQL version | Evaluate upgrade from 16 to 17 | PostgreSQL 17 is current stable. Evaluate compatibility with Spring Boot 4 and Flyway. |
-| `.env.example` handling | Create file and keep README reference | `.env.example` is a universal convention. The backend README reference was intentional; the file was never created. Creating it fulfills the original intent and provides standard discoverability. |
+| `.env.example` handling | Remove stale reference; point to `scripts/generate-secrets.sh` | The backend README referenced `.env.example` but Skiploom uses Docker Compose file-based secrets (ADR-OP-SECRETS-20260215), not `.env` files. The `.env.example` convention contradicts the adopted secrets architecture. Updated README to reference the actual setup script. |
 
 ## Goals
 
@@ -80,7 +80,7 @@ Audit dependencies, apply updates, remediate vulnerabilities, and correct docume
 - [ ] Root `README.md` accurately reflects current directory structure and includes prerequisites.
 - [ ] Frontend `README.md` documents correct prerequisites (Node 22+), complete setup, build, test, and run instructions, and directory structure.
 - [ ] Backend `README.md` documents correct prerequisites (Java 21+), complete setup, build, test, and run instructions, and directory structure.
-- [ ] `.env.example` exists at repo root with template values for required environment variables.
+- [ ] Backend `README.md` references `scripts/generate-secrets.sh` for credential setup (not `.env.example`).
 - [ ] `package.json` dependencies are at latest compatible versions.
 - [ ] `build.gradle.kts` dependencies are at latest compatible versions.
 - [ ] PostgreSQL Docker image is at latest compatible stable version (evaluate 17).

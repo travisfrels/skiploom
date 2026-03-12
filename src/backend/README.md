@@ -26,16 +26,16 @@ src/backend/
 
 ### Google OAuth2
 
-The backend uses Google OAuth2 for authentication. The development profile has credentials preconfigured; staging and production profiles require environment variables.
+The backend uses Google OAuth2 for authentication. All profiles read credentials from Docker Compose file-based secrets via Spring Boot configtree. Run [`scripts/generate-secrets.sh`](../../scripts/generate-secrets.sh) to create the required secret files.
 
-#### Required Environment Variables
+#### Required Secrets
 
-| Variable | Description |
-|----------|-------------|
-| `GOOGLE_CLIENT_ID` | Google OAuth2 client ID |
-| `GOOGLE_CLIENT_SECRET` | Google OAuth2 client secret |
+| Secret File | Description |
+|-------------|-------------|
+| `spring.security.oauth2.client.registration.google.client-id` | Google OAuth2 client ID |
+| `spring.security.oauth2.client.registration.google.client-secret` | Google OAuth2 client secret |
 
-See [`.env.example`](../../.env.example) at the repository root for a template.
+See [`scripts/generate-secrets.sh`](../../scripts/generate-secrets.sh) for setup.
 
 #### Creating a Google Cloud OAuth2 Client
 
@@ -51,7 +51,7 @@ See [`.env.example`](../../.env.example) at the repository root for a template.
 7. Under **Authorized redirect URIs**, add:
    - `http://localhost:8080/login/oauth2/code/google` (development)
    - `http://localhost:5174/login/oauth2/code/google` (staging via Docker)
-8. Copy the generated **Client ID** and **Client Secret** into your `.env` file.
+8. Copy the generated **Client ID** and **Client Secret** into the corresponding secret files in the `secrets/` directory (see [setup script](../../scripts/generate-secrets.sh)).
 
 #### Startup Validation
 
