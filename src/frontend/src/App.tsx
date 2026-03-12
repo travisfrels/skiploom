@@ -17,6 +17,9 @@ import * as ops from './operations';
 function App() {
   const recipesLoaded = useAppSelector((state) => state.recipes.recipesLoaded);
   const featureFlagsLoaded = useAppSelector((state) => state.featureFlags.featureFlagsLoaded);
+  const recipeImportEnabled = useAppSelector(
+    (state) => state.featureFlags.featureFlags.RECIPE_IMPORT ?? false
+  );
 
   useEffect(() => {
     ops.loadUser();
@@ -37,6 +40,9 @@ function App() {
           <Route index element={<Home />} />
           <Route path="recipes" element={<Recipes />} />
           <Route path="recipes/new" element={<RecipeForm mode="new" />} />
+          {recipeImportEnabled && (
+            <Route path="recipes/import" element={<RecipeForm mode="import" />} />
+          )}
           <Route path="recipes/:id" element={<RecipeDetail />} />
           <Route path="recipes/:id/edit" element={<RecipeForm mode="edit" />} />
           <Route path="meal-planning" element={<MealPlanning />} />

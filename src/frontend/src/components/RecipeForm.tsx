@@ -6,13 +6,14 @@ import * as ops from '../operations';
 import type { Ingredient, RecipeCategory, Step } from '../types';
 import { RECIPE_CATEGORIES } from '../types';
 import { decimalToFractionString, fractionStringToDecimal } from '../utils/fractions';
+import { parseRecipeFragment } from '../utils/recipeImport';
 import BackLink from './BackLink';
 import Button from './Button';
 import ButtonLink from './ButtonLink';
 import Card from './Card';
 
 interface RecipeFormProps {
-  mode: 'new' | 'edit';
+  mode: 'new' | 'edit' | 'import';
 }
 
 function RecipeForm({ mode }: RecipeFormProps) {
@@ -39,6 +40,7 @@ function RecipeForm({ mode }: RecipeFormProps) {
   const [steps, setSteps] = useState<Step[]>([
     { orderIndex: 1, instruction: '' },
   ]);
+  const [importError, setImportError] = useState<string | null>(null);
 
   const navigate = useNavigate();
 
@@ -68,6 +70,28 @@ function RecipeForm({ mode }: RecipeFormProps) {
       setAmountText(textMap);
     }
   }, [currentRecipe, fractionAmounts]);
+
+  useEffect(() => {
+    if (mode !== 'import') return;
+    const result = parseRecipeFragment(window.location.hash);
+    if (!result.success) {
+      setImportError(result.error);
+      return;
+    }
+    const { data } = result;
+    setTitle(data.title);
+    setDescription(data.description);
+    setCategory(data.category);
+    setIngredients(data.ingredients.length > 0 ? data.ingredients : [{ orderIndex: 1, amount: 1, unit: '', name: '' }]);
+    setSteps(data.steps.length > 0 ? data.steps : [{ orderIndex: 1, instruction: '' }]);
+    const textMap: Record<number, string> = {};
+    for (const ing of data.ingredients) {
+      textMap[ing.orderIndex] = fractionAmounts
+        ? decimalToFractionString(ing.amount)
+        : String(ing.amount);
+    }
+    setAmountText(textMap);
+  }, [mode, fractionAmounts]);
 
   const addIngredient = () => {
     const newOrderIndex = ingredients.length + 1;
@@ -171,12 +195,23 @@ function RecipeForm({ mode }: RecipeFormProps) {
 
   if (mode === 'edit' && !currentRecipe) { return (<div><p>Recipe not found.</p></div>); }
 
+  if (mode === 'import' && importError) {
+    return (
+      <div>
+        <BackLink to="/recipes">Back to Recipes</BackLink>
+        <Card className="mt-6">
+          <p className="text-red-600 dark:text-red-400">{importError}</p>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div>
       <BackLink to="/recipes">Back to Recipes</BackLink>
 
       <h2 className="text-2xl font-semibold text-slate-800 dark:text-slate-100 mb-6">
-        {mode === 'edit' ? 'Edit Recipe' : 'New Recipe'}
+        {mode === 'edit' ? 'Edit Recipe' : mode === 'import' ? 'Import Recipe' : 'New Recipe'}
       </h2>
 
       <form onSubmit={handleSubmit} className="space-y-8">
@@ -406,7 +441,7 @@ function RecipeForm({ mode }: RecipeFormProps) {
             variant="primary"
             disabled={submitting}
           >
-            {submitting ? 'Saving...' : (mode === 'edit' ? 'Save Changes' : 'Create Recipe')}
+            {submitting ? 'Saving...' : mode === 'edit' ? 'Save Changes' : mode === 'import' ? 'Import' : 'Create Recipe'}
           </Button>
           <ButtonLink variant="secondary" to="/recipes">
             Cancel
