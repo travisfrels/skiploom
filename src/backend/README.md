@@ -4,7 +4,23 @@ REST API written in Kotlin using the Spring framework implementing CQRS and Clea
 
 ## Directory Structure
 
-TODO: Add folder structure ASCII art.
+```
+src/backend/
+├── src/
+│   ├── main/
+│   │   ├── kotlin/com/skiploom/  # Application source code
+│   │   │   ├── application/      # Use cases and services
+│   │   │   ├── domain/           # Entities and business logic
+│   │   │   └── infrastructure/   # Adapters and external integrations
+│   │   └── resources/            # Configuration files
+│   │       └── db/               # Flyway database migrations
+│   └── test/                     # Test source and resources
+├── gradle/                       # Gradle wrapper
+├── build.gradle.kts              # Build configuration
+├── Dockerfile                    # Container build definition
+├── gradlew / gradlew.bat         # Gradle wrapper scripts
+└── settings.gradle.kts           # Gradle settings
+```
 
 ## Configuration
 
@@ -45,7 +61,7 @@ The backend validates that `client-id` and `client-secret` are non-blank at star
 
 ### Prerequisites
 
-- JDK 17+ (tested with JDK 24)
+- JDK 21+
 
 ### Running the Backend
 
