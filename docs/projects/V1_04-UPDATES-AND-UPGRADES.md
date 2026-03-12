@@ -102,6 +102,7 @@ Audit dependencies, apply updates, remediate vulnerabilities, and correct docume
 - [#252 Update backend dependencies and upgrade PostgreSQL to 17](https://github.com/travisfrels/skiploom/pull/252)
 - [#254 Update root README.md with current structure and prerequisites](https://github.com/travisfrels/skiploom/pull/254)
 - [#255 Update frontend README with correct prerequisites and directory structure](https://github.com/travisfrels/skiploom/pull/255)
+- [#257 Update backend README and create .env.example](https://github.com/travisfrels/skiploom/pull/257)
 
 ### Design References
 
