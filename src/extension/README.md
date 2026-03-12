@@ -15,3 +15,11 @@ Chrome extension for importing recipes from web pages into Skiploom.
 1. Right-click the extension icon and select **Options**, or click **Details** on the extensions page and then **Extension options**
 2. Set the **Skiploom Base URL** to your Skiploom frontend URL (default: `http://localhost:5173`)
 3. Click **Save**
+
+## Testing
+
+Run content script unit tests using Node.js (v18+):
+
+```sh
+node --test src/extension/content.test.js
+```
