@@ -10,7 +10,7 @@ React functional components with hooks.
 - **RecipeList.tsx**: Grid of recipe cards
 - **RecipeCard.tsx**: Single recipe preview card
 - **RecipeDetail.tsx**: Full recipe view with edit/delete actions
-- **RecipeForm.tsx**: Create/edit recipe form
+- **RecipeForm.tsx**: Create/edit/import recipe form (import mode decodes URL fragment data from Chrome extension)
 - **MealPlanEntryForm.tsx**: Create/edit meal plan entry form
 - **IngredientList.tsx**: Displays ingredients
 - **StepList.tsx**: Displays steps
