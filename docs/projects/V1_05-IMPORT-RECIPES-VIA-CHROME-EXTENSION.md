@@ -99,6 +99,7 @@ Chrome extension extracts schema.org/Recipe JSON-LD data from the current web pa
 - [#256 Create Chrome extension scaffold](https://github.com/travisfrels/skiploom/pull/256)
 - [#258 Implement recipe extraction content script](https://github.com/travisfrels/skiploom/pull/258)
 - [#260 Implement extension popup and options](https://github.com/travisfrels/skiploom/pull/260)
+- [#264 Add frontend recipe import page](https://github.com/travisfrels/skiploom/pull/264)
 
 ### Design References
 
