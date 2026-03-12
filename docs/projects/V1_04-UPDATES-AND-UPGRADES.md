@@ -4,6 +4,7 @@
 |--------|--------|
 | Draft | 2026-03-10 |
 | Active | 2026-03-11 |
+| Done | 2026-03-12 |
 
 ## Context
 
@@ -97,8 +98,11 @@ Audit dependencies, apply updates, remediate vulnerabilities, and correct docume
 
 ### Follow-Up Issues
 
+- [#261 [Post-Mortem] Validate issue acceptance criteria against existing ADRs during planning](https://github.com/travisfrels/skiploom/issues/261)
+
 ### Pull Requests
 
+- [#244 Update Frontend Dependencies](https://github.com/travisfrels/skiploom/pull/244)
 - [#252 Update backend dependencies and upgrade PostgreSQL to 17](https://github.com/travisfrels/skiploom/pull/252)
 - [#254 Update root README.md with current structure and prerequisites](https://github.com/travisfrels/skiploom/pull/254)
 - [#255 Update frontend README with correct prerequisites and directory structure](https://github.com/travisfrels/skiploom/pull/255)
@@ -109,3 +113,70 @@ Audit dependencies, apply updates, remediate vulnerabilities, and correct docume
 - [npm audit documentation](https://docs.npmjs.com/cli/v10/commands/npm-audit)
 - [Gradle dependency management](https://docs.gradle.org/current/userguide/dependency_management.html)
 - [PostgreSQL 17 release notes](https://www.postgresql.org/docs/17/release-17.html)
+
+## Post-Mortem
+
+V1.04 completed all planned work across 6 issues and 5 PRs over two days. The project was intentionally conservative — dependency updates, vulnerability remediation, and documentation corrections with no architectural changes. PR review caught a significant defect where issue acceptance criteria contradicted an existing ADR, preventing incorrect documentation from reaching production.
+
+### Timeline
+
+| When | Event |
+|------|-------|
+| 2026-03-10 21:22 UTC | Milestone created; project definition drafted |
+| 2026-03-10 21:23–21:24 | Issues #237–#242 created |
+| 2026-03-11 14:43 | PR #244 opened for #237 (frontend deps); merged 14:48 |
+| 2026-03-11 22:18 | PR #252 opened for #238 (backend deps / PG17) |
+| 2026-03-11 22:22 | PR #252 review: 1 observation (baseline table inconsistency) |
+| 2026-03-11 22:41 | PR #252 merged after fix |
+| 2026-03-11 22:54 | PR #254 opened for #239 (root README) |
+| 2026-03-11 22:59 | PR #254 review: 2 observations (missing tree entries) |
+| 2026-03-11 23:08 | PR #254 merged after fixes |
+| 2026-03-11 23:14 | PR #255 opened for #240 (frontend README) |
+| 2026-03-11 23:19 | PR #255 review: observations noted, no changes required |
+| 2026-03-11 23:27 | PR #255 merged |
+| 2026-03-12 14:34 | PR #257 opened for #241 (backend README) |
+| 2026-03-12 14:39 | PR #257 initial review: acceptable |
+| 2026-03-12 14:50 | PR #257 second review: defect found — `.env.example` contradicts ADR-OP-SECRETS-20260215 |
+| 2026-03-12 14:57 | PR #257 merged after defect fix |
+| 2026-03-12 15:30 | #242 (final verification) implementation begins |
+| 2026-03-12 15:42 | #242 closed — all exit criteria verified on merged main |
+
+All times are UTC. Cycle time is elapsed time, not active work time.
+
+### Impact
+
+| Metric | Value |
+|--------|-------|
+| Milestone duration | ~42h 20m |
+| Planned issues | 6 |
+| Follow-up issues | 1 (#261) |
+| Total PRs | 5 |
+| Issue cycle time (avg) | ~29h 44m |
+| PR cycle time (avg) | ~16m |
+| PRs with reviews | 4 of 5 (80%) |
+| Defects found in review | 1 (`.env.example` contradicting ADR) |
+| Observations addressed from reviews | 4 |
+| Scope changes | 1 — #241 title and criteria updated after review discovered `.env.example` contradicted secrets ADR |
+
+### What Went Well
+
+- **PR review caught a real defect.** The second review on PR #257 identified that the `.env.example` file contradicted ADR-OP-SECRETS-20260215. The review traced the full evidence chain: compose secrets configuration, Spring configtree imports, and the ADR's explicit rejection of `.env` files. Without this review, the backend README would have documented a non-functional setup workflow.
+- **Conservative scope kept the project focused.** The project resisted feature creep — no architectural changes, no runtime upgrades, just updates and corrections. This made each issue straightforward to implement and review.
+- **Final verification issue (#242) confirmed integration.** Running the full test suite against merged main after all individual PRs caught any potential cross-cutting regressions. All 295 frontend tests, backend tests, and 28 E2E tests passed with zero vulnerabilities.
+- **Documentation reviews improved accuracy.** Reviews on PRs #252, #254, and #255 identified incremental improvements (missing directory tree entries, baseline table inconsistencies) that were addressed before merge.
+
+### What Went Wrong
+
+Issue #241 acceptance criteria prescribed creating a `.env.example` file and updating the backend README to reference it. This directly contradicted the adopted secrets architecture (ADR-OP-SECRETS-20260215), which explicitly rejected `.env` files in favor of Docker Compose file-based secrets with Spring configtree. The issue was planned without cross-referencing existing ADRs.
+
+| Issue | Contributing Factors | Category |
+|-------|---------------------|----------|
+| #241 acceptance criteria contradicted ADR-OP-SECRETS-20260215 | Issue criteria written without validating against existing ADRs; `.env.example` is a common ecosystem convention that seemed plausible as a default | Process |
+
+### Recommendations
+
+Actionable improvements for future projects, highest priority first.
+
+| Priority | Recommendation | Issue |
+|----------|---------------|-------|
+| Medium | Add a validation step to the issue creation workflow that cross-references acceptance criteria against relevant ADRs when the issue touches areas with existing architectural decisions | [#261](https://github.com/travisfrels/skiploom/issues/261) |
