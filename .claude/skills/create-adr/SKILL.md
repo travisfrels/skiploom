@@ -61,3 +61,7 @@ ADRs that include subsystem design decisions should add a **Design** section bet
 - **Proposed**: Under discussion, not yet accepted
 - **Accepted**: Decision is in effect
 - **Superseded**: Replaced by a later ADR; note which one
+
+## After Creating the ADR
+
+Add a row to the `## Index` table in `docs/adrs/CLAUDE.md` with the new ADR's filename (as a relative link), title, scope, and status.
