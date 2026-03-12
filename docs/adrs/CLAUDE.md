@@ -20,3 +20,14 @@ A decision belongs in a **project Decisions table** (not an ADR) when:
 - It is scoped to a single project or initiative
 - It chooses *how* to implement something within existing architecture
 - It influences only that project's components
+
+## Index
+
+| ADR | Title | Scope | Status |
+|-----|-------|-------|--------|
+| [ADR-OP-PERSISTENCE-20260205](ADR-OP-PERSISTENCE-20260205.md) | PostgreSQL for Operational Persistence | OP | Accepted |
+| [ADR-DEV-DEVPLATFORM-20260206](ADR-DEV-DEVPLATFORM-20260206.md) | Forgejo as Local Development Hub | DEV | Superseded |
+| [ADR-OP-SECRETS-20260215](ADR-OP-SECRETS-20260215.md) | Docker Compose File-Based Secrets for Local Development | OP | Accepted |
+| [ADR-DEV-DEVPLATFORM-20260216](ADR-DEV-DEVPLATFORM-20260216.md) | GitHub as Development Platform | DEV | Accepted |
+| [ADR-DEV-E2EAUTHBYPASS-20260218](ADR-DEV-E2EAUTHBYPASS-20260218.md) | Profile-Gated E2E Authentication Bypass | DEV | Accepted |
+| [ADR-OP-FEATUREFLAGGING-20260220](ADR-OP-FEATUREFLAGGING-20260220.md) | Togglz for Feature Flagging with Release and Ops Toggles | OP | Accepted |
