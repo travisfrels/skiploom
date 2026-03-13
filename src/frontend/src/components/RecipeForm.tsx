@@ -5,7 +5,7 @@ import { useAppSelector } from '../store/hooks';
 import * as ops from '../operations';
 import type { Ingredient, RecipeCategory, Step } from '../types';
 import { RECIPE_CATEGORIES } from '../types';
-import { decimalToFractionString, fractionStringToDecimal } from '../utils/fractions';
+import { decimalToFractionString, filterFractionInput, fractionStringToDecimal } from '../utils/fractions';
 import { parseRecipeFragment } from '../utils/recipeImport';
 import BackLink from './BackLink';
 import Button from './Button';
@@ -116,7 +116,7 @@ function RecipeForm({ mode }: RecipeFormProps) {
   };
 
   const updateAmountText = (orderIndex: number, text: string) => {
-    setAmountText((prev) => ({ ...prev, [orderIndex]: text }));
+    setAmountText((prev) => ({ ...prev, [orderIndex]: filterFractionInput(text) }));
   };
 
   const updateIngredient = (
@@ -299,6 +299,8 @@ function RecipeForm({ mode }: RecipeFormProps) {
                   {fractionAmounts ? (
                     <input
                       type="text"
+                      inputMode="decimal"
+                      pattern="[0-9/ ]*"
                       value={amountText[ingredient.orderIndex] ?? ''}
                       onChange={(e) => updateAmountText(ingredient.orderIndex, e.target.value)}
                       className={`w-20 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-800 ${getFieldError(`ingredients[${index}].amount`) ? 'border-red-500 dark:border-red-400' : 'border-slate-300 dark:border-slate-600'}`}
