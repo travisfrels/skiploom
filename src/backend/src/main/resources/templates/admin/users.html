@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Management - Skiploom Admin</title>
+</head>
+<body>
+    <h1>User Management</h1>
+    <nav>
+        <a href="/admin/">Back to Admin</a>
+    </nav>
+    <table>
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Display Name</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.email}"></td>
+                <td th:text="${user.displayName}"></td>
+                <td th:text="${user.enabled} ? 'Enabled' : 'Disabled'"></td>
+                <td>
+                    <form th:action="@{'/admin/users/' + ${user.id} + '/toggle-enabled'}" method="post">
+                        <button type="submit"
+                                th:text="${user.enabled} ? 'Disable' : 'Enable'">
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,10 +1,12 @@
 package com.skiploom.infrastructure.web
 
 import com.skiploom.domain.entities.User
+import com.skiploom.domain.operations.UserReader
 import com.skiploom.domain.operations.UserWriter
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.context.annotation.Profile
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken
@@ -19,6 +21,7 @@ import java.util.UUID
 @RestController
 @Profile("e2e")
 class E2eLoginController(
+    private val userReader: UserReader,
     private val userWriter: UserWriter,
     private val securityContextRepository: HttpSessionSecurityContextRepository
 ) {
@@ -31,13 +34,22 @@ class E2eLoginController(
 
     @PostMapping("/api/e2e/login")
     fun login(request: HttpServletRequest, response: HttpServletResponse): ResponseEntity<Void> {
-        userWriter.save(User(
-            id = TEST_USER_ID,
-            googleSubject = TEST_SUBJECT,
-            email = TEST_EMAIL,
-            displayName = TEST_DISPLAY_NAME,
-            enabled = true
-        ))
+        val existingUser = userReader.findByGoogleSubject(TEST_SUBJECT)
+        val user = if (existingUser != null) {
+            userWriter.save(existingUser.copy(email = TEST_EMAIL, displayName = TEST_DISPLAY_NAME))
+        } else {
+            userWriter.save(User(
+                id = TEST_USER_ID,
+                googleSubject = TEST_SUBJECT,
+                email = TEST_EMAIL,
+                displayName = TEST_DISPLAY_NAME,
+                enabled = true
+            ))
+        }
+
+        if (!user.enabled) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build()
+        }
 
         val now = Instant.now()
         val idToken = OidcIdToken(
