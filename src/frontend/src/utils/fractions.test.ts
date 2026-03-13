@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { decimalToFractionString, fractionStringToDecimal } from './fractions';
+import { decimalToFractionString, filterFractionInput, fractionStringToDecimal } from './fractions';
 
 describe('decimalToFractionString', () => {
   it('converts 0 to "0"', () => {
@@ -101,5 +101,31 @@ describe('fractionStringToDecimal', () => {
 
   it('returns NaN for zero denominator', () => {
     expect(fractionStringToDecimal('1/0')).toBeNaN();
+  });
+});
+
+describe('filterFractionInput', () => {
+  it('strips alphabetic characters', () => {
+    expect(filterFractionInput('1abc2')).toBe('12');
+  });
+
+  it('preserves valid fraction with space', () => {
+    expect(filterFractionInput('1 1/2')).toBe('1 1/2');
+  });
+
+  it('preserves plain digits', () => {
+    expect(filterFractionInput('3')).toBe('3');
+  });
+
+  it('strips decimal point', () => {
+    expect(filterFractionInput('1.5')).toBe('15');
+  });
+
+  it('strips hyphen', () => {
+    expect(filterFractionInput('1-2')).toBe('12');
+  });
+
+  it('returns empty string for empty input', () => {
+    expect(filterFractionInput('')).toBe('');
   });
 });

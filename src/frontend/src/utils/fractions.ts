@@ -62,3 +62,7 @@ export function fractionStringToDecimal(value: string): number {
   const parsed = Number(trimmed);
   return Number.isFinite(parsed) ? parsed : NaN;
 }
+
+export function filterFractionInput(value: string): string {
+  return value.replace(/[^0-9/ ]/g, '');
+}
