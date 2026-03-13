@@ -113,9 +113,9 @@ Setup and teardown use direct API calls (not UI interactions) via a CSRF-aware w
 
 **Feature Flag State**
 
-E2E tests that assert on format-sensitive output (e.g., ingredient amounts displayed as `"0.5"` vs `"1/2"`) must explicitly set relevant feature flags in `beforeAll` hooks using the `setFeatureFlag` helper, and reset them in `afterAll`. This makes tests self-contained and immune to flag state changes from other test suites or environment configuration.
+E2E tests that assert on format-sensitive output (e.g., ingredient amounts displayed as `"0.5"` vs `"1/2"`) must explicitly set relevant feature flags in `beforeAll` hooks using the `setFeatureFlag` helper, and reset them in `afterAll`. This gives each spec a deterministic initial state and clean teardown, rather than relying on the default flag state in the test environment.
 
-Because feature flags are global state shared across parallel Playwright workers, only one spec file should toggle a given flag. Tests that are not primarily concerned with a flag's behavior should use format-agnostic assertions (e.g., regex matching both `"0.5"` and `"1/2"`) rather than toggling the flag and risking conflicts with the spec that owns it.
+Playwright runs spec files in parallel across workers by default. Because feature flags are global server-side state, specs that toggle the same flag to conflicting values will cause race conditions. Specs should prefer single ownership of a given flag. When multiple specs need the same flag enabled, they should all toggle it to the same value. Tests that are not primarily concerned with a flag's behavior should use format-agnostic assertions (e.g., regex matching both `"0.5"` and `"1/2"`) rather than toggling the flag.
 
 **Color Assertions**
 
