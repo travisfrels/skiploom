@@ -18,6 +18,16 @@ server {
         include /etc/nginx/snippets/proxy-headers.conf;
     }
 
+    location /admin/ {
+        proxy_pass ${BACKEND_URL};
+        include /etc/nginx/snippets/proxy-headers.conf;
+    }
+
+    location /togglz-console/ {
+        proxy_pass ${BACKEND_URL};
+        include /etc/nginx/snippets/proxy-headers.conf;
+    }
+
     location / {
         try_files $uri $uri/ /index.html;
     }

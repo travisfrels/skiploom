@@ -52,16 +52,22 @@ The script rebuilds and restarts the production containers, then verifies all se
 | `backend-production` | 8082 | 8080 |
 | `frontend-production` | 5175 | 80 |
 
+## Admin Console
+
+The admin landing page provides navigation to admin tools (Togglz console, user management).
+
+- **URL**: [Development Admin](http://localhost:5173/admin/), [Staging Admin](http://localhost:5174/admin/), [Production Admin](http://localhost:5175/admin/)
+- **Access**: Requires an authenticated OAuth2 session. Unauthenticated requests redirect to the OAuth2 login flow.
+- **Technology**: Server-rendered HTML via Thymeleaf, proxied through the frontend (see [ADR-OP-ADMINUI-20260313](adrs/ADR-OP-ADMINUI-20260313.md))
+
 ## Feature Flags
 
-Feature flags are managed through the Togglz admin console.
+Feature flags are managed through the Togglz admin console, accessible via the admin landing page.
 
-- **URL**: [Development Togglz Admin Console](http://localhost:8080/togglz-console/), [Staging Togglz Admin Console](http://localhost:8081/togglz-console/), [Production Togglz Admin Console](http://localhost:8082/togglz-console/)
-- **Access**: Requires an authenticated OAuth2 session. Authenticate by signing in through the frontend first (e.g., [Development Frontend](http://localhost:5173), [Staging Frontend](http://localhost:5174), [Production Frontend](http://localhost:5175)), then navigate to the Togglz console URL on the corresponding backend port.
+- **URL**: [Development Togglz Console](http://localhost:5173/togglz-console/), [Staging Togglz Console](http://localhost:5174/togglz-console/), [Production Togglz Console](http://localhost:5175/togglz-console/)
+- **Access**: Requires an authenticated OAuth2 session. Proxied through the frontend for single-origin access.
 - **Capabilities**: View all defined flags, enable/disable flags, and configure activation strategies
 - **Persistence**: Flag state is stored in the `togglz` table in PostgreSQL. Changes take effect immediately.
-
-The console is only accessible directly on the backend port. It is not proxied through the frontend.
 
 ## Branch Protection
 

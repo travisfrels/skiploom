@@ -3,6 +3,7 @@
 | Status | Set On |
 |--------|--------|
 | Draft | 2026-03-13 |
+| Active | 2026-03-13 |
 
 ## Context
 
@@ -39,6 +40,7 @@ Add a Thymeleaf-based admin site to the backend, proxied through the frontend fo
 | Disabled user enforcement | Check in `UserPersistingAuthenticationSuccessHandler` | Intercepts after OAuth2 succeeds but before session is established; redirects to error page if disabled |
 | Admin authorization | All authenticated users (no roles) | Single-user system; adding roles is YAGNI — can be layered on later without architectural changes |
 | CSRF for Togglz console | Validate during implementation | Spring CSRF may already work via cookie; exempt only if POST actions fail with 403 |
+| Post-login redirect | `SavedRequestAwareAuthenticationSuccessHandler` | Users navigating to `/admin/` while unauthenticated return to `/admin/` after OAuth2 login, not the frontend root; standard Spring Security pattern |
 
 ## Goals
 

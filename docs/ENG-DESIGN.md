@@ -60,6 +60,15 @@ Three-tier application with clear separation of concerns.
 - **Backend**: Kotlin/Spring REST API (CQRS, Clean Architecture)
 - **Persistence**: PostgreSQL (see ADR-OP-PERSISTENCE-20260205)
 
+#### Admin UI
+
+Server-rendered HTML pages at `/admin/` using Thymeleaf (`spring-boot-starter-thymeleaf`), proxied through the frontend for single-origin access (see [ADR-OP-ADMINUI-20260313](adrs/ADR-OP-ADMINUI-20260313.md)).
+
+- **Controller**: `AdminController` uses `@Controller` (not `@RestController`) and returns Thymeleaf view names. Separate from the CQRS REST controllers under `/api`.
+- **Templates**: `src/main/resources/templates/admin/` following Spring Boot convention.
+- **Proxy**: `/admin/` and `/togglz-console/` are proxied through the frontend (Vite dev config and Nginx production config), following the same pattern used for `/api/`, `/oauth2/`, and `/login/oauth2/`.
+- **Authentication**: Unauthenticated requests to `/admin/**` and `/togglz-console/**` redirect to the OAuth2 login flow. API requests to `/api/**` continue to return 401.
+
 #### E2E Testing
 
 E2E tests run against the full Docker Compose stack and require authenticated sessions. Since the real OAuth2 provider (Google) is unavailable in automated test environments, the backend provides a profile-gated authentication bypass (see [ADR-DEV-E2EAUTHBYPASS-20260218](adrs/ADR-DEV-E2EAUTHBYPASS-20260218.md)).
@@ -271,8 +280,8 @@ Release toggles are short-lived by design. To prevent accumulation:
 
 #### Togglz Admin Console
 
-- **URL**: `/togglz-console/` on the backend (e.g., `http://localhost:8080/togglz-console/` in development)
-- **Access**: Requires an authenticated OAuth2 session — authenticate by signing in through the frontend first, then navigate to the Togglz console on the corresponding backend port. All authenticated users can manage flags.
+- **URL**: `/togglz-console/` proxied through the frontend (e.g., `http://localhost:5173/togglz-console/` in development). Also accessible via the admin landing page at `/admin/`.
+- **Access**: Requires an authenticated OAuth2 session. Unauthenticated requests redirect to the OAuth2 login flow. All authenticated users can manage flags.
 - **Capabilities**: View all defined flags, enable or disable flags, and configure activation strategies (e.g., gradual rollout, server IP filtering)
 - **Persistence**: Flag state is stored in the `togglz` table in PostgreSQL via `JDBCStateRepository`. The table schema is managed by Flyway (migration V4).
 

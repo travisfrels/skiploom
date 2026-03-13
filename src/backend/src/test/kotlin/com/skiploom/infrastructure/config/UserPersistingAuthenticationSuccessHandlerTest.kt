@@ -13,7 +13,7 @@ import org.springframework.mock.web.MockHttpServletResponse
 import org.springframework.security.core.Authentication
 import org.springframework.security.oauth2.core.oidc.user.OidcUser
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler
 import java.util.UUID
 
 class UserPersistingAuthenticationSuccessHandlerTest {
@@ -109,7 +109,9 @@ class UserPersistingAuthenticationSuccessHandlerTest {
         val mockRequest = MockHttpServletRequest()
         val mockResponse = MockHttpServletResponse()
         val handlerWithRealDelegate = UserPersistingAuthenticationSuccessHandler(
-            userReader, userWriter, SimpleUrlAuthenticationSuccessHandler(frontendOrigin)
+            userReader, userWriter, SavedRequestAwareAuthenticationSuccessHandler().apply {
+                setDefaultTargetUrl(frontendOrigin)
+            }
         )
         val authentication = mockAuthentication()
         every { userReader.findByGoogleSubject("google-sub-123") } returns null

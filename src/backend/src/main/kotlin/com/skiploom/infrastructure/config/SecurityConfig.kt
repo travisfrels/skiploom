@@ -12,7 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.HttpStatusEntryPoint
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler
 import org.springframework.security.web.csrf.CsrfFilter
@@ -31,7 +31,9 @@ class SecurityConfig {
         return UserPersistingAuthenticationSuccessHandler(
             userReader,
             userWriter,
-            SimpleUrlAuthenticationSuccessHandler(frontendOrigin)
+            SavedRequestAwareAuthenticationSuccessHandler().apply {
+                setDefaultTargetUrl(frontendOrigin)
+            }
         )
     }
 
@@ -46,6 +48,7 @@ class SecurityConfig {
                     .requestMatchers("/api/health").permitAll()
                     .requestMatchers("/api/**").authenticated()
                     .requestMatchers("/togglz-console/**").authenticated()
+                    .requestMatchers("/admin/**").authenticated()
                     .anyRequest().permitAll()
             }
             .oauth2Login { oauth2 ->
@@ -55,10 +58,6 @@ class SecurityConfig {
                 exceptions.defaultAuthenticationEntryPointFor(
                     HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
                     PathPatternRequestMatcher.pathPattern("/api/**")
-                )
-                exceptions.defaultAuthenticationEntryPointFor(
-                    HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
-                    PathPatternRequestMatcher.pathPattern("/togglz-console/**")
                 )
             }
             .cors(Customizer.withDefaults())
