@@ -5,9 +5,9 @@ frameworks.
 
 ## Directory Structure
 
-- `src/`: Skiploom frontend source code
-- `public/`: Static resources included when building the frontend
-- `e2e/`: End-to-end test files (Playwright)
+- `src/`: Frontend source code. See `src/CLAUDE.md` for FLUX pattern implementation, component conventions, and coding standards.
+- `public/`: Static resources included when building the frontend.
+- `e2e/`: End-to-end test files (Playwright). Consult for test specs, helpers, and fixtures.
 
 ## Development Standards
 

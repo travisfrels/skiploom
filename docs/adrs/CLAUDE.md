@@ -31,4 +31,5 @@ A decision belongs in a **project Decisions table** (not an ADR) when:
 | [ADR-DEV-DEVPLATFORM-20260216](ADR-DEV-DEVPLATFORM-20260216.md) | GitHub as Development Platform | DEV | Accepted |
 | [ADR-DEV-E2EAUTHBYPASS-20260218](ADR-DEV-E2EAUTHBYPASS-20260218.md) | Profile-Gated E2E Authentication Bypass | DEV | Accepted |
 | [ADR-OP-FEATUREFLAGGING-20260220](ADR-OP-FEATUREFLAGGING-20260220.md) | Togglz for Feature Flagging with Release and Ops Toggles | OP | Accepted |
+| [ADR-DEV-CLAUDEMD-20260313](ADR-DEV-CLAUDEMD-20260313.md) | Directive-First CLAUDE.md Authoring Convention | DEV | Accepted |
 | [ADR-OP-ADMINUI-20260313](ADR-OP-ADMINUI-20260313.md) | Thymeleaf for Server-Rendered Admin UI | OP | Accepted |

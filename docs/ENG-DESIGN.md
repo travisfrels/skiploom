@@ -272,7 +272,7 @@ Release toggles are short-lived by design. To prevent accumulation:
 #### Togglz Admin Console
 
 - **URL**: `/togglz-console/` on the backend (e.g., `http://localhost:8080/togglz-console/` in development)
-- **Access**: Requires OAuth2 authentication — all authenticated users can manage flags
+- **Access**: Requires an authenticated OAuth2 session — authenticate by signing in through the frontend first, then navigate to the Togglz console on the corresponding backend port. All authenticated users can manage flags.
 - **Capabilities**: View all defined flags, enable or disable flags, and configure activation strategies (e.g., gradual rollout, server IP filtering)
 - **Persistence**: Flag state is stored in the `togglz` table in PostgreSQL via `JDBCStateRepository`. The table schema is managed by Flyway (migration V4).
 
