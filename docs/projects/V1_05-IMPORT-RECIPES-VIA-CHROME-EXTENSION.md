@@ -4,6 +4,7 @@
 |--------|--------|
 | Draft | 2026-03-11 |
 | Active | 2026-03-11 |
+| Done | 2026-03-12 |
 
 ## Context
 
@@ -93,6 +94,8 @@ Chrome extension extracts schema.org/Recipe JSON-LD data from the current web pa
 
 ### Follow-Up Issues
 
+- [#266 [Post-Mortem] E2E tests should explicitly set feature flag state before assertions](https://github.com/travisfrels/skiploom/issues/266)
+
 ### Pull Requests
 
 - [#253 Add RECIPE_IMPORT feature flag](https://github.com/travisfrels/skiploom/pull/253)
@@ -108,3 +111,61 @@ Chrome extension extracts schema.org/Recipe JSON-LD data from the current web pa
 - [Chrome extensions and CORS](https://reintech.io/blog/cors-chrome-extensions)
 - [Chrome cookies API](https://developer.chrome.com/docs/extensions/reference/api/cookies)
 - [JSON-LD Recipe examples](https://jsonld.com/recipe/)
+
+## Post-Mortem
+
+V1.05 delivered a Chrome extension-based recipe import system across 5 issues and 5 PRs over two days. The project introduced a new architectural layer (browser extension) while keeping scope controlled — the extension remained thin, delegating data handling to the existing frontend API layer. All PRs received reviews, no defects were found, and the only rework involved an E2E test that did not account for feature flag interaction with display formatting.
+
+### Timeline
+
+| When | Event |
+|------|-------|
+| 2026-03-11 21:41 UTC | Milestone created |
+| 2026-03-11 21:43–21:46 | Issues #246–#250 created |
+| 2026-03-11 22:51 | PR #253 opened for #246 (RECIPE_IMPORT feature flag); merged 22:59 |
+| 2026-03-11 23:17 | PR #256 opened for #247 (extension scaffold); merged 23:32 |
+| 2026-03-12 14:54 | PR #258 opened for #248 (content script extraction); merged 15:03 |
+| 2026-03-12 15:55 | PR #260 opened for #249 (popup and options); merged 16:04 |
+| 2026-03-12 18:46 | PR #264 opened for #250 (frontend import page); merged 19:51 |
+| 2026-03-12 19:51 | Issue #250 closed — all planned issues complete |
+
+All times are UTC. Cycle time is elapsed time, not active work time.
+
+### Impact
+
+| Metric | Value |
+|--------|-------|
+| Milestone duration | ~22h 9m |
+| Planned issues | 5 |
+| Follow-up issues | 1 (#266) |
+| Total PRs | 5 |
+| Issue cycle time (avg) | ~12h 9m |
+| PR cycle time (avg) | ~21m |
+| PRs with reviews | 5 of 5 (100%) |
+| Defects found in review | 0 |
+| Observations noted in reviews | 4 |
+| Scope changes | 0 |
+
+### What Went Well
+
+- **Extension-to-frontend data flow kept scope contained.** The URL fragment approach avoided CORS/CSRF complexity in the extension and reused the frontend's established API layer. No backend changes were required for the entire project.
+- **Disciplined issue sequencing.** Issues were executed in dependency order (feature flag → scaffold → content script → popup → import page), with each PR building on the previous. No merge conflicts or integration issues occurred.
+- **Comprehensive test coverage across all layers.** The project added 75 new tests: 50 extension content script tests, 10 extension popup tests, 11 frontend unit tests, and 4 E2E tests. Each layer was tested in isolation appropriate to its technology.
+- **All PRs received thorough reviews.** Every PR was reviewed with structured analysis covering scope, correctness, security, and test coverage. Reviews surfaced design observations (declarative vs. programmatic content script injection, `DEFAULT_URL` duplication) that were evaluated and accepted as appropriate trade-offs.
+- **Project decisions aligned with YAGNI.** Scoping to JSON-LD only, unpacked extension deployment, and declarative content script injection all avoided speculative complexity for a ~5-user application.
+
+### What Went Wrong
+
+Issue #250 E2E test initially asserted exact decimal values for ingredient amounts (e.g., `"0.5"`), but the `FRACTION_AMOUNTS` feature flag was enabled in the E2E environment, causing the UI to display `"1/2"` instead. The test failed not because of a defect in the import feature, but because it did not account for the state of an unrelated feature flag. The fix used regex assertions to accept either format, but the root cause — tests implicitly depending on default feature flag state — remains unaddressed as a convention.
+
+| Issue | Contributing Factors | Category |
+|-------|---------------------|----------|
+| #250 E2E test broke due to `FRACTION_AMOUNTS` flag state | E2E test did not explicitly set feature flag state; test environment had flag enabled from a prior test suite; no convention requiring tests to declare their feature flag dependencies | Process |
+
+### Recommendations
+
+Actionable improvements for future projects, highest priority first.
+
+| Priority | Recommendation | Issue |
+|----------|---------------|-------|
+| Medium | Establish a convention that E2E tests asserting on format-sensitive output should explicitly set relevant feature flags in `beforeAll` hooks using the `setFeatureFlag` helper, rather than relying on default flag state | [#266](https://github.com/travisfrels/skiploom/issues/266) |
