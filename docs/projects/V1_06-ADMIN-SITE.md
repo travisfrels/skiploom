@@ -81,6 +81,7 @@ Add a Thymeleaf-based admin site to the backend, proxied through the frontend fo
 - [#275 Create V1.06 Admin Site project](https://github.com/travisfrels/skiploom/pull/275)
 - [#281 Add admin landing page with proxy](https://github.com/travisfrels/skiploom/pull/281)
 - [#285 Add user enabled field with disabled account enforcement](https://github.com/travisfrels/skiploom/pull/285)
+- [#288 Add user management admin page](https://github.com/travisfrels/skiploom/pull/288)
 
 ### Design References
 

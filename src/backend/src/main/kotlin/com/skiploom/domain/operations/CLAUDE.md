@@ -7,7 +7,7 @@ Interfaces defining all the ways to fetch or atomically mutate entities.
 - **FeatureReader.kt**: Read operations for checking feature flag state (single flag and bulk fetch)
 - **RecipeReader.kt**: Read operations for fetching recipe data
 - **RecipeWriter.kt**: Write operations for mutating recipe data
-- **UserReader.kt**: Read operations for fetching user data
+- **UserReader.kt**: Read operations for fetching user data (findAll, findById, findByGoogleSubject)
 - **UserWriter.kt**: Write operations for mutating user data
 - **IdempotencyClaimReader.kt**: Read operations for looking up idempotency claims by key
 - **IdempotencyClaimWriter.kt**: Write operations for persisting idempotency claims
