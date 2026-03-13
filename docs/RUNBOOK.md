@@ -57,7 +57,7 @@ The script rebuilds and restarts the production containers, then verifies all se
 Feature flags are managed through the Togglz admin console.
 
 - **URL**: [Development Togglz Admin Console](http://localhost:8080/togglz-console/), [Staging Togglz Admin Console](http://localhost:8081/togglz-console/), [Production Togglz Admin Console](http://localhost:8082/togglz-console/)
-- **Access**: Requires OAuth2 authentication — any authenticated user can manage flags
+- **Access**: Requires an authenticated OAuth2 session. Authenticate by signing in through the frontend first (e.g., [Development Frontend](http://localhost:5173), [Staging Frontend](http://localhost:5174), [Production Frontend](http://localhost:5175)), then navigate to the Togglz console URL on the corresponding backend port.
 - **Capabilities**: View all defined flags, enable/disable flags, and configure activation strategies
 - **Persistence**: Flag state is stored in the `togglz` table in PostgreSQL. Changes take effect immediately.
 
