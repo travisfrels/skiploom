@@ -23,6 +23,7 @@ test.describe('Fraction Amounts', () => {
             })
             await test.step('type invalid characters and verify they are stripped', async () => {
                 const amountInput = page.getByPlaceholder('Amt')
+                await expect(amountInput).toHaveAttribute('type', 'text')
                 await amountInput.fill('1abc2')
                 await expect(amountInput).toHaveValue('12')
             })
