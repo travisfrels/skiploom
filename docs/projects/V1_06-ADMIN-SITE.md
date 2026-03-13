@@ -76,6 +76,8 @@ Add a Thymeleaf-based admin site to the backend, proxied through the frontend fo
 
 ### Pull Requests
 
+- [#275 Create V1.06 Admin Site project](https://github.com/travisfrels/skiploom/pull/275)
+
 ### Design References
 
 - [Spring Boot Thymeleaf documentation](https://docs.spring.io/spring-boot/reference/web/servlet.html#web.servlet.spring-mvc.template-engines)
