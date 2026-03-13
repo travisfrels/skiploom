@@ -170,6 +170,35 @@ test.describe('Shopping List CRUD', () => {
         })
     })
 
+    test.describe('Remove Items', () => {
+        let listId: string
+
+        test.beforeEach(async ({ page }) => { listId = await createTestShoppingList(page.context(), TEST_LIST_WITH_ITEMS) })
+        test.afterEach(async ({ page }) => { await deleteTestShoppingList(page.context(), listId) })
+
+        test('removes an item inline and verifies persistence after reload', async ({ page }) => {
+            await test.step('navigate to the shopping list detail page', async () => {
+                await page.goto(`/shopping-lists/${listId}`)
+            })
+            await test.step('verify both items are visible', async () => {
+                await expect(page.getByText('Milk')).toBeVisible()
+                await expect(page.getByText('Bread')).toBeVisible()
+            })
+            await test.step('remove the first item', async () => {
+                await page.getByRole('button', { name: 'Remove Milk' }).click()
+            })
+            await test.step('verify the item is removed', async () => {
+                await expect(page.getByText('Milk')).not.toBeVisible()
+                await expect(page.getByText('Bread')).toBeVisible()
+            })
+            await test.step('reload the page and verify persistence', async () => {
+                await page.reload()
+                await expect(page.getByText('Milk')).not.toBeVisible()
+                await expect(page.getByText('Bread')).toBeVisible()
+            })
+        })
+    })
+
     test.describe('Edit', () => {
         let listId: string
 
