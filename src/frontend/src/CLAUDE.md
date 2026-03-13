@@ -4,14 +4,14 @@ The source code for the frontend UX of skiploom.
 
 ## Directory Structure
 
-- `api/`: Backend API client
-- `components/`: React components
-- `hooks/`: Custom React hooks
-- `operations/`: Orchestration of API calls and state mutations
-- `store/`: Redux store, actions, and reducers
-- `test/`: Unit test configuration
-- `types/`: TypeScript interfaces
-- `utils/`: Pure utility functions
+- `api/`: Backend API client. Consult for API function signatures, base URL configuration, and error handling conventions.
+- `components/`: React components. Consult for rendering patterns, form handling, and component structure.
+- `hooks/`: Custom React hooks. Consult for state access patterns and reusable hook conventions.
+- `operations/`: Orchestration of API calls and state mutations. Consult for the command/query orchestration flow.
+- `store/`: Redux store, actions, and reducers. Consult for state shape, slice conventions, and action patterns.
+- `test/`: Unit test configuration.
+- `types/`: TypeScript interfaces.
+- `utils/`: Pure utility functions.
 
 ## Coding Standards
 

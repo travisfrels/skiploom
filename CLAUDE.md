@@ -4,10 +4,16 @@ Skiploom is a recipe management system.
 
 ## Directory Structure
 
-- `src/`: Source Code
-- `docs/`: Documentation
-- `infra/`: Infrastructure Initialization Files
-- `scripts/`: Scripts for automation and tooling
+- `src/`: Source code, organized by tier (backend API, frontend UX).
+- `docs/`: Documentation. Consult for operational procedures, architecture decisions, and project definitions. Check here before searching source code for operational or capability questions.
+- `infra/`: Infrastructure initialization files.
+- `scripts/`: Automation scripts for deployment, secrets management, and E2E testing.
+
+## Information Routing
+
+- **Operational questions** (service URLs, ports, admin consoles, deploy procedures): Consult `docs/RUNBOOK.md` before searching source code.
+- **Architecture and capability questions** (domain model, system design, API style, feature details): Consult `docs/ENG-DESIGN.md` and `docs/adrs/` before searching source code.
+- A negative source code search is not sufficient to assert something doesn't exist — consult authoritative documentation first.
 
 ## Source Control Standards
 

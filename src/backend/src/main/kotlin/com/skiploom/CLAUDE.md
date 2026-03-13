@@ -4,9 +4,9 @@ The skiploom application source files.
 
 ## Directory Structure
 
-- `application/`: Commands, queries, DTOs, validators, and application exceptions
-- `domain/`: Entities and domain operation interfaces
-- `infrastructure/`: Controllers, repository implementations, and configuration
+- `application/`: Commands, queries, DTOs, validators, and application exceptions. Consult for use case implementation patterns and DTO conventions.
+- `domain/`: Entities and domain operation interfaces. Consult for domain model structure and operation contracts. No dependencies on application or infrastructure layers.
+- `infrastructure/`: Controllers, repository implementations, and configuration. Consult for REST endpoint mappings, persistence implementations, and Spring configuration.
 
 ## Coding Standards
 
