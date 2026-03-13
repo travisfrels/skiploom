@@ -4,8 +4,8 @@ Skiploom source code is split into directories by tier is stored within this dir
 
 ## Directory Structure
 
-- `backend/`: Backend API source code
-- `frontend/`: Frontend UX source code
+- `backend/`: Kotlin/Spring REST API (CQRS, Clean Architecture).
+- `frontend/`: React/TypeScript SPA (FLUX pattern, Redux, Vite, Tailwind).
 
 ## High-Level Architecture
 
