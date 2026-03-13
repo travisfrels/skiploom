@@ -151,6 +151,22 @@ describe('ShoppingListDetail', () => {
     });
   });
 
+  it('renders remove button for each item', async () => {
+    renderWithProviders(
+      <Routes>
+        <Route path="/shopping-lists/:id" element={<ShoppingListDetail />} />
+      </Routes>,
+      {
+        initialEntries: ['/shopping-lists/1'],
+        preloadedState: { shoppingList: { lists: { '1': testList }, currentListId: '1', listsLoaded: true } },
+      }
+    );
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: 'Remove Milk' })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'Remove Eggs' })).toBeInTheDocument();
+    });
+  });
+
   it('applies dark mode classes to list detail', async () => {
     renderWithProviders(
       <Routes>
