@@ -48,6 +48,7 @@ class SecurityConfig {
                     .requestMatchers("/api/health").permitAll()
                     .requestMatchers("/api/**").authenticated()
                     .requestMatchers("/togglz-console/**").authenticated()
+                    .requestMatchers("/admin/account-disabled").permitAll()
                     .requestMatchers("/admin/**").authenticated()
                     .anyRequest().permitAll()
             }

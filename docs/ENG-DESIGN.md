@@ -45,6 +45,14 @@ Enum: `MAIN`, `SIDE`, `DESSERT`, `APPETIZER`, `SOUP`, `SALAD`, `BREAKFAST`, `SNA
 - `ingredients`: Ingredient[] (min 1, contiguous order starting at 1)
 - `steps`: Step[] (min 1, contiguous order starting at 1)
 
+#### User
+
+- `id`: UUID
+- `googleSubject`: string (required, unique — Google OAuth2 subject identifier)
+- `email`: string (required)
+- `displayName`: string (required)
+- `enabled`: boolean (required, default `true` — disabled users are rejected during authentication)
+
 ### System Architecture
 
 Three-tier application with clear separation of concerns.
@@ -184,6 +192,16 @@ Tables map directly to the domain model.
 | `recipe_id` | UUID | PK, FK → recipe |
 | `order_index` | number | PK, contiguous starting at 1 |
 | `instruction` | string | NOT NULL |
+
+**user**
+
+| Column | Type | Constraints |
+|--------|------|-------------|
+| `id` | UUID | PK |
+| `google_subject` | string | NOT NULL, UNIQUE |
+| `email` | string | NOT NULL |
+| `display_name` | string | NOT NULL |
+| `enabled` | boolean | NOT NULL, DEFAULT TRUE |
 
 `ingredient` and `step` use composite primary keys on `(recipe_id, order_index)`. These columns already uniquely identify each row — an ingredient or step is defined by its recipe and its position within that recipe. Surrogate IDs are unnecessary because no other tables reference these rows by foreign key.
 

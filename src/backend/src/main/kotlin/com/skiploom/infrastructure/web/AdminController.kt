@@ -12,4 +12,9 @@ class AdminController {
     fun index(): String {
         return "admin/index"
     }
+
+    @GetMapping("/account-disabled")
+    fun accountDisabled(): String {
+        return "admin/account-disabled"
+    }
 }

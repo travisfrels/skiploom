@@ -6,5 +6,6 @@ data class User(
     val id: UUID,
     val googleSubject: String,
     val email: String,
-    val displayName: String
+    val displayName: String,
+    val enabled: Boolean = true
 )

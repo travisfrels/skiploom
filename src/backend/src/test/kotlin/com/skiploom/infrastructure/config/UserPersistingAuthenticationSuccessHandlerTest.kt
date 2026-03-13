@@ -132,4 +132,60 @@ class UserPersistingAuthenticationSuccessHandlerTest {
 
         verify { delegate.onAuthenticationSuccess(request, response, authentication) }
     }
+
+    @Test
+    fun `redirects to account-disabled page when existing user is disabled`() {
+        val disabledUser = User(
+            id = UUID.fromString("00000000-0000-0000-0000-000000000001"),
+            googleSubject = "google-sub-123",
+            email = "test@example.com",
+            displayName = "Test User",
+            enabled = false
+        )
+        val authentication = mockAuthentication()
+        every { userReader.findByGoogleSubject("google-sub-123") } returns disabledUser
+
+        val savedUserSlot = slot<User>()
+        every { userWriter.save(capture(savedUserSlot)) } answers { savedUserSlot.captured }
+
+        val mockRequest = MockHttpServletRequest()
+        val mockResponse = MockHttpServletResponse()
+
+        handler.onAuthenticationSuccess(mockRequest, mockResponse, authentication)
+
+        assertEquals("/admin/account-disabled", mockResponse.redirectedUrl)
+        verify(exactly = 0) { delegate.onAuthenticationSuccess(any(), any(), any()) }
+    }
+
+    @Test
+    fun `does not redirect when existing user is enabled`() {
+        val enabledUser = User(
+            id = UUID.fromString("00000000-0000-0000-0000-000000000001"),
+            googleSubject = "google-sub-123",
+            email = "test@example.com",
+            displayName = "Test User",
+            enabled = true
+        )
+        val authentication = mockAuthentication()
+        every { userReader.findByGoogleSubject("google-sub-123") } returns enabledUser
+        every { userWriter.save(any()) } answers { firstArg() }
+
+        handler.onAuthenticationSuccess(request, response, authentication)
+
+        verify { delegate.onAuthenticationSuccess(request, response, authentication) }
+    }
+
+    @Test
+    fun `new user defaults to enabled and delegates`() {
+        val authentication = mockAuthentication()
+        every { userReader.findByGoogleSubject("google-sub-123") } returns null
+
+        val savedUserSlot = slot<User>()
+        every { userWriter.save(capture(savedUserSlot)) } answers { savedUserSlot.captured }
+
+        handler.onAuthenticationSuccess(request, response, authentication)
+
+        assertEquals(true, savedUserSlot.captured.enabled)
+        verify { delegate.onAuthenticationSuccess(request, response, authentication) }
+    }
 }

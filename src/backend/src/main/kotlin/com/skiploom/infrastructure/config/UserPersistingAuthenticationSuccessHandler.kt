@@ -27,7 +27,7 @@ class UserPersistingAuthenticationSuccessHandler(
         val displayName = oidcUser.fullName
 
         val existingUser = userReader.findByGoogleSubject(googleSubject)
-        if (existingUser != null) {
+        val user = if (existingUser != null) {
             userWriter.save(existingUser.copy(email = email, displayName = displayName))
         } else {
             userWriter.save(User(
@@ -36,6 +36,11 @@ class UserPersistingAuthenticationSuccessHandler(
                 email = email,
                 displayName = displayName
             ))
+        }
+
+        if (!user.enabled) {
+            response.sendRedirect("/admin/account-disabled")
+            return
         }
 
         delegate.onAuthenticationSuccess(request, response, authentication)
