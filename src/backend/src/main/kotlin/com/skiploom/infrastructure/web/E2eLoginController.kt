@@ -35,7 +35,8 @@ class E2eLoginController(
             id = TEST_USER_ID,
             googleSubject = TEST_SUBJECT,
             email = TEST_EMAIL,
-            displayName = TEST_DISPLAY_NAME
+            displayName = TEST_DISPLAY_NAME,
+            enabled = true
         ))
 
         val now = Instant.now()

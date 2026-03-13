@@ -10,6 +10,7 @@ Core business objects with unique identities, defined as Kotlin data classes.
 - **MealType.kt**: Meal type enum (BREAKFAST, BRUNCH, LUNCH, DINNER, SNACK)
 - **MealPlanEntry.kt**: Meal plan entry entity connecting a user, date, meal type, and recipe or ad-hoc title
 - **ShoppingList.kt**: Shopping list aggregate (`ShoppingList`, `ShoppingListItem`) for user-owned shopping lists with ordered, checkable items
+- **User.kt**: User entity with `enabled` boolean (default `true`) for account activation state
 
 ## Conventions
 

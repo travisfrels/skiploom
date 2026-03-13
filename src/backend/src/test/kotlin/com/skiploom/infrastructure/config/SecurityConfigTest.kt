@@ -138,4 +138,10 @@ class SecurityConfigTest {
         )
             .andExpect(status().isNotFound)
     }
+
+    @Test
+    fun `unauthenticated GET to admin account-disabled is permitted`() {
+        mockMvc.perform(get("/admin/account-disabled"))
+            .andExpect(status().isOk)
+    }
 }
