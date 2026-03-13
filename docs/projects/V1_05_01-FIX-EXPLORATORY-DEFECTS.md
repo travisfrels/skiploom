@@ -68,6 +68,8 @@ Fix each defect with the simplest change that follows existing patterns, and inc
 
 ### Pull Requests
 
+- [#282 Restrict fraction amount input to valid characters](https://github.com/travisfrels/skiploom/pull/282)
+
 ### Design References
 
 (none — implementation follows established codebase patterns)
