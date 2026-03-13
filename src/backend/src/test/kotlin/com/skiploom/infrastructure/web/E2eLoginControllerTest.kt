@@ -3,6 +3,7 @@ package com.skiploom.infrastructure.web
 import com.skiploom.TestcontainersConfiguration
 import com.skiploom.domain.entities.User
 import com.skiploom.domain.operations.UserWriter
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
@@ -31,6 +32,17 @@ class E2eLoginControllerTest {
 
     @Autowired
     private lateinit var userWriter: UserWriter
+
+    @AfterEach
+    fun ensureTestUserEnabled() {
+        userWriter.save(User(
+            id = E2eLoginController.TEST_USER_ID,
+            googleSubject = E2eLoginController.TEST_SUBJECT,
+            email = E2eLoginController.TEST_EMAIL,
+            displayName = E2eLoginController.TEST_DISPLAY_NAME,
+            enabled = true
+        ))
+    }
 
     @Test
     fun `POST api e2e login returns 200`() {
@@ -80,14 +92,5 @@ class E2eLoginControllerTest {
 
         val session = result.request.getSession(false)
         assertNull(session?.getAttribute("SPRING_SECURITY_CONTEXT"), "Expected no security context for disabled user")
-
-        // Re-enable user for other tests
-        userWriter.save(User(
-            id = E2eLoginController.TEST_USER_ID,
-            googleSubject = E2eLoginController.TEST_SUBJECT,
-            email = E2eLoginController.TEST_EMAIL,
-            displayName = E2eLoginController.TEST_DISPLAY_NAME,
-            enabled = true
-        ))
     }
 }
