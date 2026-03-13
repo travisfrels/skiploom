@@ -16,6 +16,25 @@ test.describe('Fraction Amounts', () => {
         await context.close()
     })
 
+    test.describe('Fraction input character filtering', () => {
+        test('rejects invalid characters in fraction amount field', async ({ page }) => {
+            await test.step('navigate to the new recipe form', async () => {
+                await page.goto('/recipes/new')
+            })
+            await test.step('type invalid characters and verify they are stripped', async () => {
+                const amountInput = page.getByPlaceholder('Amt')
+                await amountInput.fill('1abc2')
+                await expect(amountInput).toHaveValue('12')
+            })
+            await test.step('clear and type valid fraction input', async () => {
+                const amountInput = page.getByPlaceholder('Amt')
+                await amountInput.clear()
+                await amountInput.fill('1 1/2')
+                await expect(amountInput).toHaveValue('1 1/2')
+            })
+        })
+    })
+
     test.describe('Recipe with fraction input', () => {
         let createdId: string
 
