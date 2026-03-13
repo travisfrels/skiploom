@@ -17,7 +17,7 @@ React functional components with hooks.
 - **MealPlanning.tsx**: Weekly meal calendar view with day columns and meal type rows
 - **ShoppingLists.tsx**: Shopping list index page, loads lists on mount
 - **ShoppingListCard.tsx**: Single shopping list preview card
-- **ShoppingListDetail.tsx**: Full shopping list view with item checkboxes, inline add-item, edit/delete actions
+- **ShoppingListDetail.tsx**: Full shopping list view with item checkboxes, inline add/remove item, edit/delete actions
 - **ShoppingListForm.tsx**: Create/edit shopping list form with item management (edit mode)
 
 ## Conventions
