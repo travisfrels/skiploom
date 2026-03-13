@@ -4,7 +4,7 @@ Pure utility functions with no framework dependencies.
 
 ## Contents
 
-- **fractions.ts**: Converts between decimal numbers and fraction strings for ingredient amounts.
+- **fractions.ts**: Converts between decimal numbers and fraction strings for ingredient amounts. Filters fraction input to valid characters.
 - **recipeImport.ts**: Decodes base64-encoded JSON recipe data from URL fragment for Chrome extension import flow.
 - **weekDates.ts**: Week start calculation and ISO date formatting for meal planning calendar.
 
