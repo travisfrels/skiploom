@@ -22,4 +22,11 @@ class AdminControllerTest {
             .andExpect(status().isOk)
             .andExpect(view().name("admin/index"))
     }
+
+    @Test
+    fun `account disabled page returns view`() {
+        mockMvc.perform(get("/admin/account-disabled"))
+            .andExpect(status().isOk)
+            .andExpect(view().name("admin/account-disabled"))
+    }
 }

@@ -17,19 +17,24 @@ class UserEntity(
     var email: String = "",
 
     @Column(name = "display_name", nullable = false)
-    var displayName: String = ""
+    var displayName: String = "",
+
+    @Column(name = "enabled", nullable = false)
+    var enabled: Boolean = true
 )
 
 fun UserEntity.toDomain() = User(
     id = id,
     googleSubject = googleSubject,
     email = email,
-    displayName = displayName
+    displayName = displayName,
+    enabled = enabled
 )
 
 fun User.toEntity() = UserEntity(
     id = id,
     googleSubject = googleSubject,
     email = email,
-    displayName = displayName
+    displayName = displayName,
+    enabled = enabled
 )
