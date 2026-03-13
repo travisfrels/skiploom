@@ -4,6 +4,7 @@ Unit tests for web layer components (`/main/**/infrastructure/web/`) verifying d
 
 ## Contents
 
+- **AdminControllerTest.kt**: Tests for `AdminController` (admin landing page view via MockMvc)
 - **E2eFeatureFlagControllerTest.kt**: Tests for `E2eFeatureFlagController` (feature flag toggling via MockMvc)
 - **E2eLoginControllerTest.kt**: Tests for `E2eLoginController` (E2E login endpoint via MockMvc)
 - **FeatureFlagQueryControllerTest.kt**: Tests for `FeatureFlagQueryController` (fetch feature flags via MockMvc)
