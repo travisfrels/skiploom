@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../store/hooks';
 import { getWeekStart, formatDateISO } from '../utils/weekDates';
 import type { MealType } from '../types';
@@ -33,6 +34,7 @@ function formatWeekRange(weekStart: Date): string {
 }
 
 function MealPlanning() {
+  const navigate = useNavigate();
   const [weekStart, setWeekStart] = useState(() => getWeekStart(new Date()));
   const entries = useAppSelector((state) => state.mealPlan.entries);
   const loading = useAppSelector((state) => state.mealPlan.loading);
@@ -171,6 +173,7 @@ function MealPlanning() {
                           ))
                         ) : (
                           <button
+                            onClick={() => navigate(`/meal-planning/new?date=${day.iso}&mealType=${mealType}`)}
                             className="w-full h-8 flex items-center justify-center text-slate-400 dark:text-slate-500 hover:text-blue-500 dark:hover:text-blue-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded transition-colors cursor-pointer"
                             aria-label={`Add meal for ${day.label} ${MEAL_TYPE_LABELS[mealType]}`}
                           >

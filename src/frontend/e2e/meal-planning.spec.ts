@@ -122,6 +122,32 @@ test.describe('Meal Planning Calendar', () => {
         })
     })
 
+    test('navigates to entry form with pre-filled fields when clicking add button', async ({ page }) => {
+        const today = new Date()
+        const weekStart = getWeekStart(today)
+        const tuesdayDate = new Date(weekStart)
+        tuesdayDate.setDate(weekStart.getDate() + 1)
+        const tuesdayISO = formatDateISO(tuesdayDate)
+
+        await test.step('navigate to meal planning page', async () => {
+            await page.goto('/meal-planning')
+        })
+
+        await test.step('click add button for Tuesday Lunch', async () => {
+            const cell = page.getByTestId(`cell-${tuesdayISO}-LUNCH`)
+            await cell.getByRole('button', { name: /Add meal/i }).click()
+        })
+
+        await test.step('verify navigation to entry form with correct query params', async () => {
+            await page.waitForURL(`**/meal-planning/new?date=${tuesdayISO}&mealType=LUNCH`)
+        })
+
+        await test.step('verify form fields are pre-filled', async () => {
+            await expect(page.getByLabel('Date *')).toHaveValue(tuesdayISO)
+            await expect(page.getByLabel('Meal Type *')).toHaveValue('LUNCH')
+        })
+    })
+
     test('navigates between weeks', async ({ page }) => {
         await test.step('navigate to meal planning page', async () => {
             await page.goto('/meal-planning')
