@@ -4,6 +4,7 @@
 |--------|--------|
 | Draft | 2026-03-13 |
 | Active | 2026-03-13 |
+| Done | 2026-03-14 |
 
 ## Context
 
@@ -66,12 +67,70 @@ Fix each defect with the simplest change that follows existing patterns, and inc
 
 ### Follow-Up Issues
 
+- [#290 E2E fraction-amounts character filtering test fails due to race condition](https://github.com/travisfrels/skiploom/issues/290)
+- [#292 Establish E2E test pattern for feature-flag-dependent input state](https://github.com/travisfrels/skiploom/issues/292)
+- [#293 Require local E2E test execution before committing E2E tests](https://github.com/travisfrels/skiploom/issues/293)
+
 ### Pull Requests
 
 - [#282 Restrict fraction amount input to valid characters](https://github.com/travisfrels/skiploom/pull/282)
 - [#284 Wire meal planning add buttons to entry form](https://github.com/travisfrels/skiploom/pull/284)
 - [#286 Add inline item removal to shopping list detail page](https://github.com/travisfrels/skiploom/pull/286)
+- [#294 Post-mortem V1.05.01 Fix Exploratory Defects](https://github.com/travisfrels/skiploom/pull/294)
 
 ### Design References
 
 (none — implementation follows established codebase patterns)
+
+## Post-Mortem
+
+V1.05.01 was a tightly scoped defect-fix project that addressed three usability issues found during exploratory testing. All three fixes were completed and merged within a single working session (~4 hours), following existing codebase patterns with no architectural changes. One follow-up defect (#290) was discovered in the E2E test suite introduced by the project.
+
+### Timeline
+
+| When | Event |
+|------|-------|
+| 2026-03-13 15:43 | Milestone created; all three issues (#277, #278, #279) filed within 1 minute |
+| 2026-03-13 16:21–16:30 | PR #282 (fraction input filtering) opened, reviewed, merged |
+| 2026-03-13 18:48–19:02 | PR #284 (meal planning buttons) opened, reviewed, merged |
+| 2026-03-13 19:31–19:56 | PR #286 (shopping list removal) opened, reviewed, merged |
+| 2026-03-13 20:18–20:29 | Follow-up defect #290 filed and fixed (E2E test race condition in fraction-amounts) |
+
+### Impact
+
+| Metric | #277 | #278 | #279 |
+|--------|------|------|------|
+| Issue cycle time (created → closed) | ~45 min | ~3h 18m | ~4h 12m |
+| PR cycle time (opened → merged) | ~9 min | ~15 min | ~25 min |
+| PR review iterations | 1 | 1 | 1 |
+
+- **Milestone duration**: ~4h 13m (15:43 → 19:56, all three project issues closed). Including the follow-up defect fix (#290), ~4h 46m.
+- **Scope changes**: None. All three issues were implemented as originally specified.
+- **Follow-up defects**: 1 (#290 — E2E test race condition in fraction-amounts character filtering test).
+
+Note: Cycle time is elapsed time, not active work time. Issues were worked sequentially, so #278 and #279 cycle times include wait time while earlier issues were in progress.
+
+### What Went Well
+
+- **Tight scoping**: The project definition prescribed specific implementation approaches (regex pattern, `onChange` filtering, no confirmation dialog, existing SVG reuse), which eliminated decision overhead during implementation. All three PRs implemented exactly what was specified.
+- **Pattern reuse**: Each fix followed established codebase patterns — `useNavigate` for navigation (#278), `handleToggleItem` pattern for `handleRemoveItem` (#279), utility co-location for `filterFractionInput` (#277). No new abstractions were introduced.
+- **Fast PR cycle times**: All three PRs were reviewed and merged in under 25 minutes each, with single review iterations. The implementation summaries were thorough and aligned with PR review expectations.
+- **V1.02 post-mortem recommendation followed**: The project structure (3 separate issues, each with its own E2E test) followed recommendation #213 from the V1.02 post-mortem, demonstrating that post-mortem outputs are being applied.
+
+### What Went Wrong
+
+The project surfaced one process gap in E2E testing practices.
+
+| Issue | Contributing Factors | Category |
+|-------|---------------------|----------|
+| E2E test race condition (#290) | The fraction-amounts test filled an input before the `FRACTION_AMOUNTS` feature flag loaded asynchronously, causing the input to still be `type="number"`. A wait-for-attribute pattern existed in the same file but was not applied consistently. | Testing — feature flag timing |
+| E2E test not run locally (#286) | The shopping list removal E2E test was committed without local execution — the Docker Compose e2e stack was not running. The implementation summary noted this as a blocker. | Process — development workflow |
+
+### Recommendations
+
+Actionable improvements for future projects, highest priority first.
+
+| Priority | Recommendation | Issue |
+|----------|---------------|-------|
+| Medium | Document a convention for waiting on feature-flag-dependent UI state transitions before interacting with affected elements in E2E tests | [#292](https://github.com/travisfrels/skiploom/issues/292) |
+| Low | Reinforce the convention that E2E tests must be run locally before committing; consider tooling to make this harder to skip | [#293](https://github.com/travisfrels/skiploom/issues/293) |
