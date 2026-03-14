@@ -34,6 +34,12 @@ test.describe('Admin', () => {
             await expect(page.locator('body')).toContainText('Togglz')
         })
 
+        await test.step('verify back to admin link', async () => {
+            const link = page.getByRole('link', { name: 'Back to Admin' })
+            await expect(link).toBeVisible()
+            await expect(link).toHaveAttribute('href', '/admin/')
+        })
+
         await test.step('toggle a feature flag and restore', async () => {
             const editLink = page.locator('a[href*="edit"]').first()
             await editLink.click()
