@@ -72,6 +72,7 @@ Fix each defect with the simplest change that follows existing patterns, and inc
 - [#282 Restrict fraction amount input to valid characters](https://github.com/travisfrels/skiploom/pull/282)
 - [#284 Wire meal planning add buttons to entry form](https://github.com/travisfrels/skiploom/pull/284)
 - [#286 Add inline item removal to shopping list detail page](https://github.com/travisfrels/skiploom/pull/286)
+- [#294 Post-mortem V1.05.01 Fix Exploratory Defects](https://github.com/travisfrels/skiploom/pull/294)
 
 ### Design References
 
