@@ -67,6 +67,10 @@ Fix each defect with the simplest change that follows existing patterns, and inc
 
 ### Follow-Up Issues
 
+- [#290 E2E fraction-amounts character filtering test fails due to race condition](https://github.com/travisfrels/skiploom/issues/290)
+- [#292 Establish E2E test pattern for feature-flag-dependent input state](https://github.com/travisfrels/skiploom/issues/292)
+- [#293 Require local E2E test execution before committing E2E tests](https://github.com/travisfrels/skiploom/issues/293)
+
 ### Pull Requests
 
 - [#282 Restrict fraction amount input to valid characters](https://github.com/travisfrels/skiploom/pull/282)
